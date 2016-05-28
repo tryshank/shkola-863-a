@@ -5,6 +5,7 @@ var additionalPlugins = isHot ? ['react-hmre'] : [];
 var path = require("path");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
+
 module.exports = {
     context: __dirname + '/src',
     entry: './js/shkola.js',
@@ -29,7 +30,12 @@ module.exports = {
                     'plugins': ['transform-runtime'],
                     'presets': ['es2015', 'stage-0', 'react'].concat(additionalPlugins)
                 }
+            },
+            {
+                test: /\.less$/,
+                loader: "style!css!less"
             }
         ],
     }
+
 }
