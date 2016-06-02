@@ -1,13 +1,9 @@
 import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 
-//require('font-awesome-webpack');
-
+require('font-awesome/less/font-awesome.less');
 require ('../less/variables.less');
 require ('../less/freelancer.less');
-
-//require ('../font-awesome/less/font-awesome.less');
-//require("font-awesome-webpack");
 
 import HeaderView from './view/HeaderView';
 import PortfolioView from './view/PortfolioView';
@@ -28,8 +24,6 @@ class App extends Component {
                 <FooterView />
             </div>
         </div>;
-        // <body id="page-top" className="index">123
-        // </body>
     }
 }
 
