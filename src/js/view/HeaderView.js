@@ -6,7 +6,7 @@ export default class HeaderViewView extends Component {
             <div className="container">
                 <div className="row">
                     <div className="col-lg-12">
-                        <img className="img-responsive" src="img/profile.png" alt="" />
+                        <img className="img-responsive" src="src/img/profile.png" alt="" />
                             <div className="intro-text">
                                 <span className="name">Start Bootstrap</span>
                                 <hr className="star-light" />
