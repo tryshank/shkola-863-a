@@ -5,6 +5,7 @@ require('font-awesome/less/font-awesome.less');
 require ('../less/variables.less');
 require ('../less/freelancer.less');
 
+import NavigationView from './view/NavigationView';
 import HeaderView from './view/HeaderView';
 import PortfolioView from './view/PortfolioView';
 import AboutView from './view/AboutView';
@@ -14,9 +15,41 @@ import PortfolioModalView from './view/PortfolioModalView';
 
 
 
+var PortfolioModals = [
+    {
+        id: 1,
+        divId: 'portfolioModal1',
+        image: 'src/img/portfolio/cabin.png'
+    }, {
+        id: 2,
+        divId: 'portfolioModal2',
+        image: 'src/img/portfolio/cake.png'
+    }, {
+        id: 3,
+        divId: 'portfolioModal3',
+        image: 'src/img/portfolio/circus.png'
+    }, {
+        id: 4,
+        divId: 'portfolioModal4',
+        image: 'src/img/portfolio/game.png'
+    }, {
+        id: 5,
+        divId: 'portfolioModal5',
+        image: 'src/img/portfolio/safe.png'
+    }, {
+        id: 6,
+        divId: 'portfolioModal6',
+        image: 'src/img/portfolio/submarine.png'
+    }
+];
+
+
 class App extends Component {
+
+    
     render() {
         return <div>
+            {/* <NavigationView /> */}
             <HeaderView />
             <PortfolioView />
             <AboutView />

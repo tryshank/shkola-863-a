@@ -1,4 +1,5 @@
 import React,{Component} from 'react';
+
 export default class AboutViewView extends Component {
 
     render () { return <section className="success" id="about">
