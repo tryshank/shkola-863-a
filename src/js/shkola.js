@@ -14,8 +14,7 @@ import FooterView from './view/FooterView';
 import PortfolioModalView from './view/PortfolioModalView';
 
 
-
-var PortfolioModals = [
+var portfolioDataJSON = [
     {
         id: 1,
         divId: 'portfolioModal1',
@@ -46,8 +45,12 @@ var PortfolioModals = [
 
 class App extends Component {
 
-    
     render() {
+
+        var portfolioDataModals = portfolioDataJSON.map(data =>
+            <PortfolioModalView key={data.id} context={data}/>
+        );
+
         return <div>
             {/* <NavigationView /> */}
             <HeaderView />
@@ -64,7 +67,7 @@ class App extends Component {
             </div>
 
             /* Portfolio Modals */
-            <PortfolioModalView/>
+            {portfolioDataModals}
 
         </div>;
     }
