@@ -12,7 +12,7 @@ require('../less/variables.less');
 require('../less/freelancer.less');
 
 
-var portfolioDataJSON = [
+var portfolioData = [
     {
         id: 1,
         divId: 'portfolioModal1',
@@ -45,14 +45,16 @@ class App extends Component {
 
     render() {
 
-        var portfolioDataModals = portfolioDataJSON.map(data =>
+        const portfolioDataModals = portfolioData.map(data =>
             <PortfolioModalView key={data.id} context={data}/>
         );
 
         return <div>
             {/* <NavigationView /> */}
             <HeaderView />
-            <PortfolioView />
+
+            <PortfolioView items={portfolioData}/>
+
             <AboutView />
             <ContactView />
             <FooterView />
