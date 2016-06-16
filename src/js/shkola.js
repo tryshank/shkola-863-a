@@ -6,6 +6,7 @@ import AboutView from "./view/AboutView";
 import ContactView from "./view/ContactsView";
 import FooterView from "./view/FooterView";
 import PortfolioModalView from "./view/PortfolioModalView";
+import NavigationView from "./view/NavigationView";
 
 require('font-awesome/less/font-awesome.less');
 require('../less/variables.less');
@@ -50,7 +51,7 @@ class App extends Component {
         );
 
         return <div>
-            {/* <NavigationView /> */}
+            <NavigationView />
             <HeaderView />
 
             <PortfolioView items={portfolioData}/>

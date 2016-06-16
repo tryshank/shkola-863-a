@@ -4,7 +4,6 @@ export default class NavigationViewView extends Component {
 
     render() {
         return <div className="container">
-            {/*-- Brand and toggle get grouped for better mobile display --*/}
             <div className="navbar-header page-scroll">
                 <button type="button" className="navbar-toggle" data-toggle="collapse"
                         data-target="#bs-example-navbar-collapse-1">
@@ -15,7 +14,6 @@ export default class NavigationViewView extends Component {
                 </button>
                 <a className="navbar-brand" href="#page-top">Start Bootstrap</a>
             </div>
-            {/* -- Collect the nav links, forms, and other content for toggling --*/}
             <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul className="nav navbar-nav navbar-right">
                     <li className="hidden">
@@ -32,10 +30,7 @@ export default class NavigationViewView extends Component {
                     </li>
                 </ul>
             </div>
-            {/*-- /.navbar-collapse --*/}
-        </div>
-        {/*!--` /.container-fluid --*/
-        }
+        </div>;
     }
 
 }
