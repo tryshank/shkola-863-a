@@ -27,7 +27,7 @@ export default class PortfolioViewView extends Component {
                         <hr className="star-primary"/>
                     </div>
                 </div>
-                <div class="row">
+                <div className="row">
                     {this.props.items.map(function (itemData) {
                         return <PortfolioItemViewView key={itemData.id} itemData={itemData}/>;
                     })};

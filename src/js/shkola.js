@@ -7,10 +7,48 @@ import ContactView from "./view/ContactsView";
 import FooterView from "./view/FooterView";
 import PortfolioModalView from "./view/PortfolioModalView";
 import NavigationView from "./view/NavigationView";
+import Classie from "classie";
 
 require('font-awesome/less/font-awesome.less');
 require('../less/variables.less');
 require('../less/freelancer.less');
+require('../js/cbpAnimatedHeader.js');
+
+var cbpAnimatedHeader = (function() {
+
+    var docElem = document.documentElement,
+        header = document.querySelector( '.navbar-fixed-top' ),
+        didScroll = false,
+        changeHeaderOn = 300;
+
+    function init() {
+        window.addEventListener( 'scroll', function( event ) {
+            if( !didScroll ) {
+                didScroll = true;
+                setTimeout( scrollPage, 250 );
+            }
+        }, false );
+    }
+
+    function scrollPage() {
+        var sy = scrollY();
+        var header = document.querySelector( '.navbar-fixed-top' );
+        if ( sy >= changeHeaderOn ) {
+            Classie.add( header, 'navbar-shrink' );
+        }
+        else {
+            Classie.remove( header, 'navbar-shrink' );
+        }
+        didScroll = false;
+    }
+
+    function scrollY() {
+        return window.pageYOffset || docElem.scrollTop;
+    }
+
+    init();
+
+})();
 
 
 var portfolioData = [
@@ -45,13 +83,8 @@ var portfolioData = [
 class App extends Component {
 
     render() {
-
-        const portfolioDataModals = portfolioData.map(data =>
-            <PortfolioModalView key={data.id} context={data}/>
-        );
-
         return <div>
-            <NavigationView />
+            <NavigationView /> 
             <HeaderView />
 
             <PortfolioView items={portfolioData}/>
@@ -60,17 +93,22 @@ class App extends Component {
             <ContactView />
             <FooterView />
 
-            /* Scroll to Top Button (Only visible on small and extra-small screen sizes) */
+            {/* Scroll to Top Button (Only visible on small and extra-small screen sizes) */}
             <div className="scroll-top page-scroll visible-xs visible-sm">
                 <a className="btn btn-primary" href="#page-top">
                     <i className="fa fa-chevron-up"></i>
                 </a>
             </div>
 
-            /* Portfolio Modals */
+            {/* Portfolio Modals */}
             {portfolioDataModals}
 
         </div>;
+
+
+        const portfolioDataModals = portfolioData.map(data =>
+            <PortfolioModalView key={data.id} context={data}/>
+        );
     }
 }
 
