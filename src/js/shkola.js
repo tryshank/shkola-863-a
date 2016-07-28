@@ -83,8 +83,14 @@ var portfolioData = [
 class App extends Component {
 
     render() {
-        return <div>
-            <NavigationView /> 
+
+        const portfolioDataModals = portfolioData.map(data =>
+            <PortfolioModalView key={data.id} context={data}/>
+        );
+
+        return (<div>
+
+            <NavigationView />
             <HeaderView />
 
             <PortfolioView items={portfolioData}/>
@@ -103,12 +109,8 @@ class App extends Component {
             {/* Portfolio Modals */}
             {portfolioDataModals}
 
-        </div>;
+        </div>);
 
-
-        const portfolioDataModals = portfolioData.map(data =>
-            <PortfolioModalView key={data.id} context={data}/>
-        );
     }
 }
 

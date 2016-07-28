@@ -30,7 +30,7 @@ export default class PortfolioViewView extends Component {
                 <div className="row">
                     {this.props.items.map(function (itemData) {
                         return <PortfolioItemViewView key={itemData.id} itemData={itemData}/>;
-                    })};
+                    })}
                 </div>
             </div>
         </section>);

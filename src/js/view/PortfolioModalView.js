@@ -36,8 +36,7 @@ export default class PortfolioModalViewView extends Component {
                                         </strong>
                                     </li>
                                 </ul>
-                                <button type="button" className="btn btn-default" data-dismiss="modal"><i
-                                    className="fa fa-times"></i> Close
+                                <button type="button" className="btn btn-default" data-dismiss="modal"><i className="fa fa-times"></i> Close
                                 </button>
                             </div>
                         </div>
