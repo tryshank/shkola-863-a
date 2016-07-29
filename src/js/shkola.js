@@ -1,12 +1,12 @@
 import React, {Component} from "react";
 import ReactDOM from "react-dom";
 import HeaderView from "./view/HeaderView";
-import PortfolioView from "./view/PortfolioView";
 import AboutView from "./view/AboutView";
 import ContactView from "./view/ContactsView";
 import FooterView from "./view/FooterView";
-import PortfolioModalView from "./view/PortfolioModalView";
 import NavigationView from "./view/NavigationView";
+import PortfolioView from "./view/PortfolioView";
+import PortfolioModalView from "./view/PortfolioModalView";
 import Classie from "classie";
 
 require('font-awesome/less/font-awesome.less');
@@ -51,40 +51,44 @@ var cbpAnimatedHeader = (function() {
 })();
 
 
-var portfolioData = [
-    {
-        id: 1,
-        divId: 'portfolioModal1',
-        image: 'src/img/portfolio/cabin.png'
-    }, {
-        id: 2,
-        divId: 'portfolioModal2',
-        image: 'src/img/portfolio/cake.png'
-    }, {
-        id: 3,
-        divId: 'portfolioModal3',
-        image: 'src/img/portfolio/circus.png'
-    }, {
-        id: 4,
-        divId: 'portfolioModal4',
-        image: 'src/img/portfolio/game.png'
-    }, {
-        id: 5,
-        divId: 'portfolioModal5',
-        image: 'src/img/portfolio/safe.png'
-    }, {
-        id: 6,
-        divId: 'portfolioModal6',
-        image: 'src/img/portfolio/submarine.png'
-    }
-];
-
+const defaultProps = {
+    portfolioData: 'Hello World',
+};
 
 class App extends Component {
 
+     componentWillMount() {
+         this.setState({
+             portfolioData: []
+         });
+     }
+
+     componentDidMount() {
+
+         const component = this;
+
+         fetch('http://localhost:3000/json/').then((response) => {
+             if (response.ok) {
+                 response.json().then((json) => {
+                     component.setState({
+                         portfolioData: json
+                     });
+                 });
+             } else {
+                 console.log('Network response was not ok.');
+             }
+         })
+             .catch(function (error) {
+                 console.error('There has been a problem with your fetch operation: ' + error.message);
+             });
+
+    }
+
+
+
     render() {
 
-        const portfolioDataModals = portfolioData.map(data =>
+        const portfolioDataModals = this.state.portfolioData.map(data =>
             <PortfolioModalView key={data.id} context={data}/>
         );
 
@@ -93,7 +97,7 @@ class App extends Component {
             <NavigationView />
             <HeaderView />
 
-            <PortfolioView items={portfolioData}/>
+            <PortfolioView items={this.state.portfolioData} />
 
             <AboutView />
             <ContactView />
@@ -106,12 +110,12 @@ class App extends Component {
                 </a>
             </div>
 
-            {/* Portfolio Modals */}
             {portfolioDataModals}
 
         </div>);
 
     }
 }
+
 
 ReactDOM.render(<App/>, document.getElementById('root'));
