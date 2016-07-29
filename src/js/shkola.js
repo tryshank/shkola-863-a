@@ -14,30 +14,30 @@ require('../less/variables.less');
 require('../less/freelancer.less');
 require('../js/cbpAnimatedHeader.js');
 
-var cbpAnimatedHeader = (function() {
+var cbpAnimatedHeader = (function () {
 
     var docElem = document.documentElement,
-        header = document.querySelector( '.navbar-fixed-top' ),
+        header = document.querySelector('.navbar-fixed-top'),
         didScroll = false,
         changeHeaderOn = 300;
 
     function init() {
-        window.addEventListener( 'scroll', function( event ) {
-            if( !didScroll ) {
+        window.addEventListener('scroll', function (event) {
+            if (!didScroll) {
                 didScroll = true;
-                setTimeout( scrollPage, 250 );
+                setTimeout(scrollPage, 250);
             }
-        }, false );
+        }, false);
     }
 
     function scrollPage() {
         var sy = scrollY();
-        var header = document.querySelector( '.navbar-fixed-top' );
-        if ( sy >= changeHeaderOn ) {
-            Classie.add( header, 'navbar-shrink' );
+        var header = document.querySelector('.navbar-fixed-top');
+        if (sy >= changeHeaderOn) {
+            Classie.add(header, 'navbar-shrink');
         }
         else {
-            Classie.remove( header, 'navbar-shrink' );
+            Classie.remove(header, 'navbar-shrink');
         }
         didScroll = false;
     }
@@ -51,39 +51,32 @@ var cbpAnimatedHeader = (function() {
 })();
 
 
-const defaultProps = {
-    portfolioData: 'Hello World',
-};
-
 class App extends Component {
 
-     componentWillMount() {
-         this.setState({
-             portfolioData: []
-         });
-     }
-
-     componentDidMount() {
-
-         const component = this;
-
-         fetch('http://localhost:3000/json/').then((response) => {
-             if (response.ok) {
-                 response.json().then((json) => {
-                     component.setState({
-                         portfolioData: json
-                     });
-                 });
-             } else {
-                 console.log('Network response was not ok.');
-             }
-         })
-             .catch(function (error) {
-                 console.error('There has been a problem with your fetch operation: ' + error.message);
-             });
-
+    componentWillMount() {
+        this.setState({
+            portfolioData: []
+        });
     }
 
+    componentDidMount() {
+
+        fetch('http://localhost:3000/json/').then((response) => {
+            if (response.ok) {
+                response.json().then((json) => {
+                    this.setState({
+                        portfolioData: json
+                    });
+                });
+            } else {
+                console.log('Network response was not ok.');
+            }
+        })
+            .catch(function (error) {
+                console.error('There has been a problem with your fetch operation: ' + error.message);
+            });
+
+    }
 
 
     render() {
@@ -97,7 +90,7 @@ class App extends Component {
             <NavigationView />
             <HeaderView />
 
-            <PortfolioView items={this.state.portfolioData} />
+            <PortfolioView items={this.state.portfolioData}/>
 
             <AboutView />
             <ContactView />
