@@ -1,6 +1,9 @@
-var express = require('express');
-var app = express();
+let express = require('express');
+let app = express();
+let mongoose = require('mongoose');
+let portfolioData;
 
+/*
 let portfolioData = [
     {
         id: 1,
@@ -64,17 +67,45 @@ let portfolioData = [
         link: 'http://startbootstrap.com'
     }
 ];
+*/
 
-
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
-    next();
+const schema = new mongoose.Schema({
+    id: {type: String, unique: true, index: true},
+    divId: String,
+    image: String,
+    title: String,
+    content: String,
+    client: String,
+    date: String,
+    service: String,
+    link: String
 });
 
-app.get('/json', function (req, res) {
-    console.log('json');
-    res.json(portfolioData);
+let Model = mongoose.model('Portfolio',schema,'portfolio');
+
+mongoose.connect('mongodb://localhost/shkola');
+let db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+    console.log('connected to DB');
+});
+
+Model.find(function (err, docs) {
+    if (err) return console.error(err);
+    portfolioData = docs;
+
+    app.use(function (req, res, next) {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+        next();
+    });
+
+    app.get('/json', function (req, res) {
+        console.log('json');
+        res.json(portfolioData);
+    });
+
 });
 
 app.listen(3000, function () {

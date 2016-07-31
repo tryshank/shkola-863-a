@@ -54,13 +54,16 @@ var cbpAnimatedHeader = (function () {
 class App extends Component {
 
     componentWillMount() {
+
         this.setState({
             portfolioData: []
         });
+
     }
 
     componentDidMount() {
 
+        console.log('fetch data');
         fetch('http://localhost:3000/json/').then((response) => {
             if (response.ok) {
                 response.json().then((json) => {
