@@ -5,8 +5,8 @@ import AboutView from "./view/AboutView";
 import ContactView from "./view/ContactsView";
 import FooterView from "./view/FooterView";
 import NavigationView from "./view/NavigationView";
-import PortfolioView from "./view/PortfolioView";
-import PortfolioModalView from "./view/PortfolioModalView";
+import CoursesView from "./view/CoursesView";
+import CourseModalView from "./view/CourseModalView";
 import Classie from "classie";
 
 require('font-awesome/less/font-awesome.less');
@@ -56,17 +56,17 @@ class App extends Component {
 
     componentWillMount() {
         this.setState({
-            portfolioData: []
+            coursesData: []
         });
     }
 
     componentDidMount() {
         console.log('fetch data');
-        fetch('http://localhost:3000/portfolio/').then((response) => {
+        fetch('http://localhost:3000/courses/').then((response) => {
             if (response.ok) {
                 response.json().then((json) => {
                     this.setState({
-                        portfolioData: json
+                        coursesData: json
                     });
                 });
             } else {
@@ -81,8 +81,8 @@ class App extends Component {
 
     render() {
 
-        const portfolioDataModals = this.state.portfolioData.map(data =>
-            <PortfolioModalView key={data.id} context={data}/>
+        const coursesDataModals = this.state.coursesData.map(data =>
+            <CourseModalView key={data.id} context={data}/>
         );
 
         return (<div>
@@ -90,7 +90,7 @@ class App extends Component {
             <NavigationView />
             <HeaderView />
 
-            <PortfolioView items={this.state.portfolioData}/>
+            <CoursesView items={this.state.coursesData}/>
 
             <AboutView />
             <ContactView />
@@ -103,7 +103,7 @@ class App extends Component {
                 </a>
             </div>
 
-            {portfolioDataModals}
+            {coursesDataModals}
 
         </div>);
 

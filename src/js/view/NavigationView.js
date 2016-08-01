@@ -21,7 +21,7 @@ export default class NavigationViewView extends Component {
                             <a href="#page-top"></a>
                         </li>
                         <li className="page-scroll">
-                            <a href="#portfolio">Portfolio</a>
+                            <a href="#courses">Courses</a>
                         </li>
                         <li className="page-scroll">
                             <a href="#about">About</a>

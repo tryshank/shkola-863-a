@@ -1,7 +1,7 @@
 let express = require('express');
 let app = express();
 let mongoose = require('mongoose');
-let portfolioData;
+let coursesData;
 
 const schema = new mongoose.Schema({
     id: {type: String, unique: true, index: true},
@@ -15,7 +15,7 @@ const schema = new mongoose.Schema({
     link: String
 });
 
-let Model = mongoose.model('Portfolio',schema,'portfolio');
+let Model = mongoose.model('Courses',schema,'courses');
 
 mongoose.connect('mongodb://localhost/shkola');
 let db = mongoose.connection;
@@ -31,12 +31,12 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.get('/portfolio', function (req, res) {
+app.get('/courses', function (req, res) {
     Model.find(function (err, docs) {
         if (err) return console.error(err);
-        portfolioData = docs;
-        console.log('portfolio json');
-        res.json(portfolioData);
+        coursesData = docs;
+        console.log('courses json');
+        res.json(coursesData);
     });
 });
 

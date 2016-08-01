@@ -1,8 +1,8 @@
 import React, {Component} from "react";
-export default class PortfolioModalViewView extends Component {
+export default class CourseModalViewView extends Component {
 
     render() {
-        return <div className="portfolio-modal modal fade" id={this.props.context.divId} tabindex="-1" role="dialog"
+        return <div className="course-modal modal fade" id={this.props.context.divId} tabindex="-1" role="dialog"
                     aria-hidden="true">
             <div className="modal-content">
                 <div className="close-modal" data-dismiss="modal">
@@ -17,7 +17,7 @@ export default class PortfolioModalViewView extends Component {
                             <div className="modal-body">
                                 <h2>{this.props.context.title}</h2>
                                 <hr className="star-primary"/>
-                                <img src={this.props.context.image} className="img-responsive img-centered" alt=""/>
+                                <img src={"src/img/courses/"+this.props.context.image} className="img-responsive img-centered" alt=""/>
                                 <p dangerouslySetInnerHTML={ { __html: this.props.context.content} }></p>
                                 <ul className="list-inline item-details">
                                     <li>Client:
