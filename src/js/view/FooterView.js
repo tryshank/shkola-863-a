@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-export default class FooterViewView extends Component {
+export default class FooterView extends Component {
 
     render() {
         return <footer className="text-center">

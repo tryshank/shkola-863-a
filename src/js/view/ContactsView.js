@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-export default class ContactsViewView extends Component {
+export default class ContactsView extends Component {
 
     render() {
         //<!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->

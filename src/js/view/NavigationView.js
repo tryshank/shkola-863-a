@@ -1,6 +1,7 @@
 import React, {Component} from "react";
+import { Router, Route, Link } from 'react-router'
 
-export default class NavigationViewView extends Component {
+export default class NavigationView extends Component {
 
     render() {
         return <nav className="navbar navbar-default navbar-fixed-top">
@@ -21,13 +22,13 @@ export default class NavigationViewView extends Component {
                             <a href="#page-top"></a>
                         </li>
                         <li className="page-scroll">
-                            <a href="#courses">Courses</a>
+                            <Link to="/courses">Courses</Link>
                         </li>
                         <li className="page-scroll">
-                            <a href="#about">About</a>
+                            <Link to="/about">About</Link>
                         </li>
                         <li className="page-scroll">
-                            <a href="#contact">Contact</a>
+                            <Link to="/contact">Contact</Link>
                         </li>
                     </ul>
                 </div>

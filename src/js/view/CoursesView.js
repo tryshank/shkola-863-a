@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 
-export default class CourseItemViewView extends Component {
+export default class CourseItemView extends Component {
 
     render() {
         const itemData = this.props.itemData;
@@ -17,7 +17,7 @@ export default class CourseItemViewView extends Component {
     }
 }
 
-export default class CoursesViewView extends Component {
+export default class CoursesView extends Component {
     render() {
         return (<section id="courses">
             <div className="container">
@@ -29,7 +29,7 @@ export default class CoursesViewView extends Component {
                 </div>
                 <div className="row">
                     {this.props.items.map(function (itemData) {
-                        return <CourseItemViewView key={itemData.id} itemData={itemData}/>;
+                        return <CourseItemView key={itemData.id} itemData={itemData}/>;
                     })}
                 </div>
             </div>

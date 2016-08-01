@@ -1,11 +1,14 @@
-import React, {Component} from "react";
-import ReactDOM from "react-dom";
+import React, {Component} from "react"
+import ReactDOM from "react-dom"
+import { Router, Route, Link, browserHistory } from 'react-router'
+
 import HeaderView from "./view/HeaderView";
 import AboutView from "./view/AboutView";
 import ContactView from "./view/ContactsView";
 import FooterView from "./view/FooterView";
 import NavigationView from "./view/NavigationView";
 import CoursesView from "./view/CoursesView";
+import CourseItemView from "./view/CoursesView";
 import CourseModalView from "./view/CourseModalView";
 import Classie from "classie";
 
@@ -62,7 +65,7 @@ class App extends Component {
 
     componentDidMount() {
         console.log('fetch data');
-        fetch('http://localhost:3000/courses/').then((response) => {
+        fetch('http://localhost:3000/courses-json/').then((response) => {
             if (response.ok) {
                 response.json().then((json) => {
                     this.setState({
@@ -81,7 +84,7 @@ class App extends Component {
 
     render() {
 
-        const coursesDataModals = this.state.coursesData.map(data =>
+        const coursesModalViews = this.state.coursesData.map(data => 
             <CourseModalView key={data.id} context={data}/>
         );
 
@@ -89,9 +92,7 @@ class App extends Component {
 
             <NavigationView />
             <HeaderView />
-
-            <CoursesView items={this.state.coursesData}/>
-
+            <CourseItemView items={this.state.coursesData} />
             <AboutView />
             <ContactView />
             <FooterView />
@@ -103,12 +104,22 @@ class App extends Component {
                 </a>
             </div>
 
-            {coursesDataModals}
-
+            {coursesModalViews}
+            
         </div>);
 
     }
 }
 
 
-ReactDOM.render(<App/>, document.getElementById('root'));
+ReactDOM.render((
+    <Router history={browserHistory}>
+        <Route path="/" component={App}>
+            {/* 
+            <Route path="about" component={AboutView}/>
+            <Route path="contact" component={ContactView}/>
+            <Route path="courses" component={CoursesView}/>
+             */}
+        </Route>
+    </Router>
+), document.getElementById('root'));

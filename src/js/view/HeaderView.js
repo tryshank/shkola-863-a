@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-export default class HeaderViewView extends Component {
+export default class HeaderView extends Component {
 
     render() {
         //return null;

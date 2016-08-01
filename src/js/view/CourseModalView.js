@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-export default class CourseModalViewView extends Component {
+export default class CourseModalView extends Component {
 
     render() {
         return <div className="course-modal modal fade" id={this.props.context.divId} tabindex="-1" role="dialog"

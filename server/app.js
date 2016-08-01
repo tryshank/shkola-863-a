@@ -25,18 +25,20 @@ db.once('open', function() {
     console.log('connected to DB');
 });
 
+
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
+    res.header('Access-Control-Allow-Methods', 'GET');
     next();
 });
 
-app.get('/courses', function (req, res) {
+app.get('/courses-json', function (req, res) {
     Model.find(function (err, docs) {
         if (err) return console.error(err);
         coursesData = docs;
         console.log('courses json');
         res.json(coursesData);
+        res.end();
     });
 });
 
