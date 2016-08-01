@@ -52,19 +52,17 @@ var cbpAnimatedHeader = (function () {
 
 
 class App extends Component {
+    
 
     componentWillMount() {
-
         this.setState({
             portfolioData: []
         });
-
     }
 
     componentDidMount() {
-
         console.log('fetch data');
-        fetch('http://localhost:3000/json/').then((response) => {
+        fetch('http://localhost:3000/portfolio/').then((response) => {
             if (response.ok) {
                 response.json().then((json) => {
                     this.setState({
@@ -78,7 +76,6 @@ class App extends Component {
             .catch(function (error) {
                 console.error('There has been a problem with your fetch operation: ' + error.message);
             });
-
     }
 
 
