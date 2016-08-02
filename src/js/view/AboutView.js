@@ -1,14 +1,14 @@
-import React, {Component} from "react";
+import React, { Component } from 'react';
 
 export default class AboutView extends Component {
 
-    render() {
-        return <section className="success" id="about">
+  render() {
+    return (<section className="success" id="about">
             <div className="container">
                 <div className="row">
                     <div className="col-lg-12 text-center">
                         <h2>About</h2>
-                        <hr className="star-light"/>
+                        <hr className="star-light" />
                     </div>
                 </div>
                 <div className="row">
@@ -29,7 +29,7 @@ export default class AboutView extends Component {
                     </div>
                 </div>
             </div>
-        </section>;
-    }
+        </section>);
+  }
 
 }

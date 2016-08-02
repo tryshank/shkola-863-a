@@ -16,7 +16,7 @@
     "url": "https://github.com/vaukalak/shkola-863-a/issues"
   },
   "scripts": {
-    "lint": " eslint src/"
+    "lint": "eslint src/"
   },
   "homepage": "https://github.com/vaukalak/shkola-863-a#readme",
   "devDependencies": {

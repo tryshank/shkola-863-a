@@ -1,14 +1,15 @@
-import React, {Component} from "react";
-import { Router, Route, Link } from 'react-router'
+import React, { Component } from 'react';
+import { Router, Route, Link } from 'react-router';
 
 export default class NavigationView extends Component {
 
-    render() {
-        return <nav className="navbar navbar-default navbar-fixed-top">
+  render() {
+    return (<nav className="navbar navbar-default navbar-fixed-top">
             <div className="container">
                 <div className="navbar-header page-scroll">
                     <button type="button" className="navbar-toggle" data-toggle="collapse"
-                            data-target="#bs-example-navbar-collapse-1">
+                      data-target="#bs-example-navbar-collapse-1"
+                    >
                         <span className="sr-only">Toggle navigation</span>
                         <span className="icon-bar"></span>
                         <span className="icon-bar"></span>
@@ -33,7 +34,7 @@ export default class NavigationView extends Component {
                     </ul>
                 </div>
             </div>
-        </nav>;
-    }
+        </nav>);
+  }
 
 }

@@ -1,18 +1,18 @@
-import React, {Component} from "react"
-import ReactDOM from "react-dom"
-import { Router, Route, Link, browserHistory } from 'react-router'
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import { Router, Route, Link, browserHistory } from 'react-router';
 
-import HeaderView from "./view/HeaderView";
-import AboutView from "./view/AboutView";
-import ContactView from "./view/ContactsView";
-import FooterView from "./view/FooterView";
-import NavigationView from "./view/NavigationView";
-import CoursesView from "./view/CoursesView";
-import CourseItemView from "./view/CoursesView";
-import CourseModalView from "./view/CourseModalView";
-import HowToFindView from "./view/HowToFindView";
+import HeaderView from './view/HeaderView';
+import AboutView from './view/AboutView';
+import ContactView from './view/ContactsView';
+import FooterView from './view/FooterView';
+import NavigationView from './view/NavigationView';
+import CoursesView from './view/CoursesView';
+import CourseItemView from './view/CoursesView';
+import CourseModalView from './view/CourseModalView';
+import HowToFindView from './view/HowToFindView';
 
-import Classie from "classie";
+import Classie from 'classie';
 
 require('font-awesome/less/font-awesome.less');
 require('../less/variables.less');
@@ -22,80 +22,77 @@ require('../js/cbpAnimatedHeader.js');
 /*
 <script src="https://maps.googleapis.com/maps/api/js"></script>
 */
-require('https://maps.googleapis.com/maps/api/js');
+//require('https://maps.googleapis.com/maps/api/js');
 
-var cbpAnimatedHeader = (function () {
+const cbpAnimatedHeader = (function () {
+  let docElem = document.documentElement,
+    header = document.querySelector('.navbar-fixed-top'),
+    didScroll = false,
+    changeHeaderOn = 300;
 
-    var docElem = document.documentElement,
-        header = document.querySelector('.navbar-fixed-top'),
-        didScroll = false,
-        changeHeaderOn = 300;
+  function init() {
+    window.addEventListener('scroll', function (event) {
+      if (!didScroll) {
+        didScroll = true;
+        setTimeout(scrollPage, 250);
+      }
+    }, false);
+  }
 
-    function init() {
-        window.addEventListener('scroll', function (event) {
-            if (!didScroll) {
-                didScroll = true;
-                setTimeout(scrollPage, 250);
-            }
-        }, false);
+  function scrollPage() {
+    const sy = scrollY();
+    const header = document.querySelector('.navbar-fixed-top');
+    if (sy >= changeHeaderOn) {
+      Classie.add(header, 'navbar-shrink');
     }
-
-    function scrollPage() {
-        var sy = scrollY();
-        var header = document.querySelector('.navbar-fixed-top');
-        if (sy >= changeHeaderOn) {
-            Classie.add(header, 'navbar-shrink');
-        }
-        else {
-            Classie.remove(header, 'navbar-shrink');
-        }
-        didScroll = false;
+    else {
+      Classie.remove(header, 'navbar-shrink');
     }
+    didScroll = false;
+  }
 
-    function scrollY() {
-        return window.pageYOffset || docElem.scrollTop;
-    }
+  function scrollY() {
+    return window.pageYOffset || docElem.scrollTop;
+  }
 
-    init();
-
+  init();
 })();
 
 
 class App extends Component {
-    
 
-    componentWillMount() {
-        this.setState({
-            coursesData: []
+
+  componentWillMount() {
+    this.setState({
+      coursesData: [],
+    });
+  }
+
+  componentDidMount() {
+    console.log('fetch data');
+    fetch('http://localhost:3000/courses-json/').then((response) => {
+      if (response.ok) {
+        response.json().then((json) => {
+          this.setState({
+            coursesData: json,
+          });
         });
-    }
-
-    componentDidMount() {
-        console.log('fetch data');
-        fetch('http://localhost:3000/courses-json/').then((response) => {
-            if (response.ok) {
-                response.json().then((json) => {
-                    this.setState({
-                        coursesData: json
-                    });
-                });
-            } else {
-                console.log('Network response was not ok.');
-            }
-        })
+      } else {
+        console.log('Network response was not ok.');
+      }
+    })
             .catch(function (error) {
-                console.error('There has been a problem with your fetch operation: ' + error.message);
+              console.error('There has been a problem with your fetch operation: ' + error.message);
             });
-    }
+  }
 
 
-    render() {
-
-        const coursesModalViews = this.state.coursesData.map(data => 
-            <CourseModalView key={data.id} context={data}/>
+  render() {
+    const coursesModalViews = this.state.coursesData.map(data =>
+            <CourseModalView key={data.id} context={data} />
         );
 
-        return (<div>
+    return (<div>
 
             <NavigationView />
             <HeaderView />
@@ -113,10 +110,9 @@ class App extends Component {
             </div>
 
             {coursesModalViews}
-            
-        </div>);
 
-    }
+        </div>);
+  }
 }
 
 

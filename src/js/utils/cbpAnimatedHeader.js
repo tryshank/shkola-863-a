@@ -4,41 +4,39 @@
  *
  * Licensed under the MIT license.
  * http://www.opensource.org/licenses/mit-license.php
- * 
+ *
  * Copyright 2013, Codrops
  * http://www.codrops.com
  */
-export default (function() {
+export default (function () {
+	                  let docElem = document.documentElement,
+		                    header = document.querySelector('.navbar-fixed-top'),
+		                    didScroll = false,
+		                    changeHeaderOn = 300;
 
-	var docElem = document.documentElement,
-		header = document.querySelector( '.navbar-fixed-top' ),
-		didScroll = false,
-		changeHeaderOn = 300;
-
-	function init() {
-		window.addEventListener( 'scroll', function( event ) {
-			if( !didScroll ) {
-				didScroll = true;
-				setTimeout( scrollPage, 250 );
+	                    function init() {
+		                    window.addEventListener('scroll', function (event) {
+			                    if (!didScroll) {
+				                    didScroll = true;
+				                    setTimeout(scrollPage, 250);
 			}
-		}, false );
+		}, false);
 	}
 
-	function scrollPage() {
-		var sy = scrollY();
-		if ( sy >= changeHeaderOn ) {
-			classie.add( header, 'navbar-shrink' );
+	                    function scrollPage() {
+		                const sy = scrollY();
+		                    if (sy >= changeHeaderOn) {
+			                    classie.add(header, 'navbar-shrink');
 		}
-		else {
-			classie.remove( header, 'navbar-shrink' );
+		                    else {
+			                    classie.remove(header, 'navbar-shrink');
 		}
-		didScroll = false;
+		                    didScroll = false;
 	}
 
-	function scrollY() {
-		return window.pageYOffset || docElem.scrollTop;
+	                    function scrollY() {
+		                    return window.pageYOffset || docElem.scrollTop;
 	}
 
-	init();
-
+	                    init();
 })();
