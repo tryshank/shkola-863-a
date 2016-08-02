@@ -2,7 +2,6 @@ import React, {Component} from "react";
 export default class HeaderView extends Component {
 
     render() {
-        //return null;
         return (<header>
             <div className="container">
                 <div className="row">

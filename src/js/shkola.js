@@ -10,12 +10,19 @@ import NavigationView from "./view/NavigationView";
 import CoursesView from "./view/CoursesView";
 import CourseItemView from "./view/CoursesView";
 import CourseModalView from "./view/CourseModalView";
+import HowToFindView from "./view/HowToFindView";
+
 import Classie from "classie";
 
 require('font-awesome/less/font-awesome.less');
 require('../less/variables.less');
 require('../less/freelancer.less');
 require('../js/cbpAnimatedHeader.js');
+
+/*
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+*/
+require('https://maps.googleapis.com/maps/api/js');
 
 var cbpAnimatedHeader = (function () {
 
@@ -94,6 +101,7 @@ class App extends Component {
             <HeaderView />
             <CourseItemView items={this.state.coursesData} />
             <AboutView />
+            <HowToFindView />
             <ContactView />
             <FooterView />
 
@@ -115,7 +123,7 @@ class App extends Component {
 ReactDOM.render((
     <Router history={browserHistory}>
         <Route path="/" component={App}>
-            {/* 
+            {/*
             <Route path="about" component={AboutView}/>
             <Route path="contact" component={ContactView}/>
             <Route path="courses" component={CoursesView}/>
