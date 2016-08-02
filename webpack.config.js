@@ -5,10 +5,11 @@ var additionalPlugins = isHot ? ['react-hmre'] : [];
 var path = require("path");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
-
 module.exports = {
     context: __dirname + '/src',
-    entry: './js/shkola.js',
+    entry: ['./js/shkola.js',
+        'webpack/hot/dev-server'
+    ],
 
     output: {
         filename: 'bundle.js',
