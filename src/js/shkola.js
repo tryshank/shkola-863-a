@@ -9,6 +9,9 @@ import NavigationView from './view/NavigationView';
 import CoursesView from './view/CoursesView';
 import CourseModalView from './view/CourseModalView';
 import HowToFindView from './view/HowToFindView';
+
+import GoogleMapView from './view/GoogleMapView';
+
 import Classie from 'classie';
 
 require('font-awesome/less/font-awesome.less');
@@ -56,7 +59,6 @@ require('../js/cbpAnimatedHeader.js');
 
 class App extends Component {
 
-
   componentWillMount() {
     this.setState({
       coursesData: [],
@@ -90,6 +92,9 @@ class App extends Component {
       />
     );
 
+    const initialCenter = { lng: 27.537461, lat: 53.891295 };
+    const zoom = 17;
+
     return (<div>
 
       <NavigationView />
@@ -97,8 +102,9 @@ class App extends Component {
       <CoursesView
         items={this.state.coursesData}
       />
+
       <AboutView />
-      <HowToFindView />
+      <HowToFindView zoom={zoom} initialCenter={initialCenter} />
       <ContactView />
       <FooterView />
 
