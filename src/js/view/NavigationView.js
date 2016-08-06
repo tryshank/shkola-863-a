@@ -31,13 +31,13 @@ const NavigationView = () =>
             <a href="#page-top"></a>
           </li>
           <li className="page-scroll">
-            <Link to="/courses">Courses</Link>
+            <a href="#courses">Courses</a>
           </li>
           <li className="page-scroll">
-            <Link to="/about">About</Link>
+            <a href="#about">About</a>
           </li>
           <li className="page-scroll">
-            <Link to="/contact">Contact</Link>
+            <a href="#contact">Contact</a>
           </li>
         </ul>
       </div>

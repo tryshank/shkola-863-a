@@ -9,34 +9,35 @@
  * http://www.codrops.com
  */
 export default (function () {
-	                  let docElem = document.documentElement,
-		                    header = document.querySelector('.navbar-fixed-top'),
-		                    didScroll = false,
-		                    changeHeaderOn = 300;
+  const docElem = document.documentElement,
+    changeHeaderOn = 300;
+  let didScroll = false;
 
-	                    function init() {
-		                    window.addEventListener('scroll', function (event) {
-			                    if (!didScroll) {
-				                    didScroll = true;
-				                    setTimeout(scrollPage, 250);
-			}
-		}, false);
-	}
+  function init() {
+    window.addEventListener('scroll', function (event) {
+      if (!didScroll) {
+        didScroll = true;
+        setTimeout(scrollPage, 250);
+      }
+    }, false);
+  }
 
-	                    function scrollPage() {
-		                const sy = scrollY();
-		                    if (sy >= changeHeaderOn) {
-			                    classie.add(header, 'navbar-shrink');
-		}
-		                    else {
-			                    classie.remove(header, 'navbar-shrink');
-		}
-		                    didScroll = false;
-	}
+  function scrollPage() {
+    const sy = scrollY();
+    const header = document.querySelector('.navbar-fixed-top');
+    if (sy >= changeHeaderOn) {
+      classie.add(header, 'navbar-shrink');
+    }
+    else {
+      classie.remove(header, 'navbar-shrink');
+    }
+    didScroll = false;
+  }
 
-	                    function scrollY() {
-		                    return window.pageYOffset || docElem.scrollTop;
-	}
+  function scrollY() {
+    return window.pageYOffset || docElem.scrollTop;
+  }
 
-	                    init();
+  console.log('2');
+  init();
 })();

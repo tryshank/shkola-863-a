@@ -1,8 +1,8 @@
 import React from 'react';
 
-let GoogleMap = require('./GoogleMapView');
+import SimpleMapView from './SimpleMapView';
 
-const HowToFindView = ({ zoom, initialCenter }) =>
+const HowToFindView = ({ markers, zoom, initialCenter }) =>
 
   <section id="howtofind">
     <div className="container">
@@ -20,10 +20,13 @@ const HowToFindView = ({ zoom, initialCenter }) =>
         <div
           className="col-md-6 text-center"
         >
-          <GoogleMap
-            initialCenter={initialCenter}
-            zoom={zoom}
-          />
+          <div className="GMap">
+            <SimpleMapView
+              markers={markers}
+              initialCenter={initialCenter}
+              zoom={zoom}
+            />
+          </div>
         </div>
         <div className="col-md-6">
           <div className="how-to-find-description">
@@ -39,8 +42,9 @@ const HowToFindView = ({ zoom, initialCenter }) =>
   </section>;
 
 HowToFindView.propTypes = {
-  zoom: React.PropTypes.number,
-  initialCenter: React.PropTypes.object,
+  markers: React.PropTypes.array.isRequired,
+  zoom: React.PropTypes.number.isRequired,
+  initialCenter: React.PropTypes.object.isRequired,
 };
 
 export default HowToFindView;
