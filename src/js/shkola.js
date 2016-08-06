@@ -25,7 +25,6 @@ const marker = [{
 
 (() => {
   const docElem = document.documentElement;
-  const header = document.querySelector('.navbar-fixed-top');
   const changeHeaderOn = 300;
   let didScroll = false;
 
@@ -35,6 +34,7 @@ const marker = [{
 
   function scrollPage() {
     const sy = scrollY();
+    const header = document.querySelector('.navbar-fixed-top');
     if (sy >= changeHeaderOn) {
       Classie.add(header, 'navbar-shrink');
     } else {
@@ -52,8 +52,7 @@ const marker = [{
     }, false);
   }
 
-  console.log('z');
-  //init();
+  init();
 })();
 
 
