@@ -9,7 +9,7 @@ const CourseItemView = ({ itemData }) =>
     >
       <div className="caption">
         <div className="caption-content">
-          <i className="fa fa-search-plus fa-3x"></i>
+          <i className="fa fa-search-plus fa-3x"/>
         </div>
       </div>
       <img
@@ -25,31 +25,42 @@ CourseItemView.propTypes = {
 };
 
 
-const CoursesView = ({ items }) =>
+class CoursesView extends React.Component {
 
-  <section id="courses">
-    <div className="container">
-      <div className="row">
-        <div className="col-lg-12 text-center">
-          <h2>Courses</h2>
-          <hr
-            className="star-primary"
-          />
+  componentDidMount() {
+    console.log('CoursesView componentDidMount');
+    this.props.getCoursesDispatcher();
+  }
+
+  render() {
+    return (
+      <section id="courses">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12 text-center">
+              <h2>Courses</h2>
+              <hr
+                className="star-primary"
+              />
+            </div>
+          </div>
+          <div className="row"> {
+            this.props.items.map((itemData) =>
+              <CourseItemView
+                key={itemData.id}
+                itemData={itemData}
+              />)
+          }
+          </div>
         </div>
-      </div>
-      <div className="row">
-        {items.map((itemData) =>
-          <CourseItemView
-            key={itemData.id}
-            itemData={itemData}
-          />
-        )}
-      </div>
-    </div>
-  </section>;
+      </section>
+    );
+  }
+}
 
 CoursesView.propTypes = {
   items: React.PropTypes.array.isRequired,
+  getCoursesDispatcher: React.PropTypes.func,
 };
 
 export default CoursesView;

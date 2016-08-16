@@ -16,41 +16,31 @@ const FooterView = () =>
                 <a
                   href="#"
                   className="btn-social btn-outline"
-                ><i
-                  className="fa fa-fw fa-facebook"
-                ></i></a>
+                ><i className="fa fa-fw fa-facebook" /></a>
               </li>
               <li>
                 <a
                   href="#"
                   className="btn-social btn-outline"
-                ><i
-                  className="fa fa-fw fa-google-plus"
-                ></i></a>
+                ><i className="fa fa-fw fa-google-plus" /></a>
               </li>
               <li>
                 <a
                   href="#"
                   className="btn-social btn-outline"
-                ><i
-                  className="fa fa-fw fa-twitter"
-                ></i></a>
+                ><i className="fa fa-fw fa-twitter" /></a>
               </li>
               <li>
                 <a
                   href="#"
                   className="btn-social btn-outline"
-                ><i
-                  className="fa fa-fw fa-linkedin"
-                ></i></a>
+                ><i className="fa fa-fw fa-linkedin" /></a>
               </li>
               <li>
                 <a
                   href="#"
                   className="btn-social btn-outline"
-                ><i
-                  className="fa fa-fw fa-dribbble"
-                ></i></a>
+                ><i className="fa fa-fw fa-dribbble" /></a>
               </li>
             </ul>
           </div>

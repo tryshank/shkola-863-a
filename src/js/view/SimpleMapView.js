@@ -18,7 +18,8 @@ const SimpleMap = props => (
   <div className="GMap-canvas">
     <GoogleMapLoader
       containerElement={
-        <div id="Gmap-div"
+        <div
+          id="Gmap-div"
           {...props.containerElementProps}
           style={{
             height: '300px',

@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Router, Route, browserHistory } from 'react-router';
 import HeaderView from './view/HeaderView';
 import AboutView from './view/AboutView';
 import ContactView from './view/ContactsView';
 import FooterView from './view/FooterView';
 import NavigationView from './view/NavigationView';
-import CoursesView from './view/CoursesView';
-import CourseModalView from './view/CourseModalView';
 import HowToFindView from './view/HowToFindView';
+import CoursesViewWrapper from './view/CoursesViewWrapper';
 import Classie from 'classie';
+import { Provider } from 'react-redux';
+import * as Redux from './view/Redux';
+// import { createAction } from 'redux-actions';
+// import * as WebAPI from './view/WebAPI';
 
 require('font-awesome/less/font-awesome.less');
 require('../less/variables.less');
 require('../less/freelancer.less');
 
+//
+
+// GOOGLE MAP
 const initialCenter = { lng: 27.537461, lat: 53.891295 };
 const zoom = 17;
 const marker = [{
@@ -58,80 +63,50 @@ const marker = [{
 
 class App extends Component {
 
-  componentWillMount() {
-    this.setState({
-      coursesData: [],
-    });
-  }
-
   componentDidMount() {
-    console.log('fetch data');
-    fetch('http://localhost:3000/courses-json/').then((response) => {
-      if (response.ok) {
-        response.json().then((json) => {
-          this.setState({
-            coursesData: json,
-          });
-        });
-      } else {
-        console.log('Network response was not ok.');
-      }
-    })
-      .catch((error) => {
-        console.error('There has been a problem with your fetch operation: ' & error.message);
-      });
+    console.log('App componentDidMount');
   }
 
   render() {
-    const coursesModalViews = this.state.coursesData.map(data =>
-      <CourseModalView
-        key={data.id}
-        context={data}
-      />
-    );
-
-    return (<div>
-      <NavigationView />
-      <HeaderView />
-      <CoursesView
-        items={this.state.coursesData}
-      />
-      <AboutView />
-      <HowToFindView
-        markers={marker} zoom={zoom} initialCenter={initialCenter}
-      />
-      <ContactView />
-      <FooterView />
-      {/* Scroll to Top Button (Only visible on small and extra-small screen sizes) */}
-      <div className="scroll-top page-scroll visible-xs visible-sm">
-        <a
-          className="btn btn-primary"
-          href="#page-top"
-        >
-          <i className="fa fa-chevron-up"></i>
-        </a>
+    console.log('App render');
+    return (
+      <div>
+        <NavigationView />
+        <HeaderView />
+        <CoursesViewWrapper />
+        <AboutView />
+        <HowToFindView
+          markers={marker}
+          zoom={zoom}
+          initialCenter={initialCenter}
+        />
+        <ContactView />
+        <FooterView />
+        {/* Scroll to Top Button (Only visible on small and extra-small screen sizes) */}
+        <div className="scroll-top page-scroll visible-xs visible-sm">
+          <a
+            className="btn btn-primary"
+            href="#page-top"
+          >
+            <i className="fa fa-chevron-up" />
+          </a>
+        </div>
+        {/*
+        {coursesData.map(data =>
+          <CourseModalView
+            key={data.id}
+            context={data}
+          />
+        )};
+        */}
       </div>
-      {coursesModalViews}
-    </div>);
+    );
   }
 }
 
-{/*
- <Router history={browserHistory}>
- <Route
- path="/"
- component={GoogleMapView}
- >
- {/*
- <Route path="about" component={AboutView}/>
- <Route path="contact" component={ContactView}/>
- <Route path="courses" component={CoursesView}/>
- * //}
- </Route>
- </Router>
- */}
-
-
 ReactDOM.render((
-  <App />
+  <Provider store={Redux.store}>
+    <App />
+  </Provider>
 ), document.getElementById('root'));
+
