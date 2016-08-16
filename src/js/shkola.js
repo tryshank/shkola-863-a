@@ -19,15 +19,6 @@ require('../less/freelancer.less');
 
 //
 
-// GOOGLE MAP
-const initialCenter = { lng: 27.537461, lat: 53.891295 };
-const zoom = 17;
-const marker = [{
-  position: initialCenter,
-  key: 'Imaguru',
-  defaultAnimation: 2,
-}];
-
 (() => {
   const docElem = document.documentElement;
   const changeHeaderOn = 300;
@@ -75,11 +66,7 @@ class App extends Component {
         <HeaderView />
         <CoursesViewWrapper />
         <AboutView />
-        <HowToFindView
-          markers={marker}
-          zoom={zoom}
-          initialCenter={initialCenter}
-        />
+        <HowToFindView />
         <ContactView />
         <FooterView />
         {/* Scroll to Top Button (Only visible on small and extra-small screen sizes) */}

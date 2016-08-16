@@ -2,7 +2,16 @@ import React from 'react';
 
 import SimpleMapView from './SimpleMapView';
 
-const HowToFindView = ({ markers, zoom, initialCenter }) =>
+// GOOGLE MAP
+const initialCenter = { lng: 27.537461, lat: 53.891295 };
+const zoom = 17;
+const marker = [{
+  position: initialCenter,
+  key: 'Imaguru',
+  defaultAnimation: 2,
+}];
+
+const HowToFindView = () =>
 
   <section id="howtofind">
     <div className="container">
@@ -22,7 +31,7 @@ const HowToFindView = ({ markers, zoom, initialCenter }) =>
         >
           <div className="GMap">
             <SimpleMapView
-              markers={markers}
+              markers={marker}
               initialCenter={initialCenter}
               zoom={zoom}
             />
