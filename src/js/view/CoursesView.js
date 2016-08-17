@@ -1,38 +1,76 @@
-import React, { Component } from 'react';
+import React from 'react';
+import * as WebAPI from './WebAPI';
+import { connect } from 'react-redux';
 
-export default class CourseItemView extends Component {
+const CourseItemView = ({ courseItem }) =>
+  <div className="col-sm-4 course-item">
+    <a
+      href={`#${courseItem.divId}`}
+      className="course-link"
+      data-toggle="modal"
+    >
+      <div className="caption">
+        <div className="caption-content">
+          <i className="fa fa-search-plus fa-3x"/>
+        </div>
+      </div>
+      <img
+        src={`src/img/courses/${courseItem.image}`}
+        className="img-responsive"
+        alt=""
+      />
+    </a>
+  </div>;
 
-  render() {
-    const itemData = this.props.itemData;
-    return (<div className="col-sm-4 course-item">
-            <a href={'#' + itemData.divId} className="course-link" data-toggle="modal">
-                <div className="caption">
-                    <div className="caption-content">
-                        <i className="fa fa-search-plus fa-3x"></i>
-                    </div>
-                </div>
-                <img src={'src/img/courses/' + itemData.image} className="img-responsive" alt="" />
-            </a>
-        </div>);
+CourseItemView.propTypes = {
+  courseItem: React.PropTypes.object.isRequired,
+};
+
+
+class CoursesView extends React.Component {
+
+  componentDidMount() {
+    console.log('CoursesView componentDidMount');
+    this.props.getCoursesDispatcher();
   }
-}
 
-export default class CoursesView extends Component {
   render() {
-    return (<section id="courses">
-            <div className="container">
-                <div className="row">
-                    <div className="col-lg-12 text-center">
-                        <h2>Courses</h2>
-                        <hr className="star-primary" />
-                    </div>
-                </div>
-                <div className="row">
-                    {this.props.items.map(function (itemData) {
-                      return <CourseItemView key={itemData.id} itemData={itemData} />;
-                    })}
-                </div>
+    return (
+      <section id="courses">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-12 text-center">
+              <h2>Courses</h2>
+              <hr
+                className="star-primary"
+              />
             </div>
-        </section>);
+          </div>
+          <div className="row"> {
+            this.props.coursesData.map((itemData) =>
+              <CourseItemView
+                key={itemData.id}
+                courseItem={itemData}
+              />)
+          }
+          </div>
+        </div>
+      </section>
+    );
   }
 }
+
+CoursesView.propTypes = {
+  coursesData: React.PropTypes.array.isRequired,
+  getCoursesDispatcher: React.PropTypes.func,
+};
+
+const mapStateToProps = (state) =>
+  ({ coursesData: state.coursesData });
+
+const mapDispatchToProps = (dispatch) =>
+  ({ getCoursesDispatcher: () => dispatch(WebAPI.requestCoursesAction()) });
+
+const CoursesViewWrapper = connect(mapStateToProps, mapDispatchToProps)(CoursesView);
+
+export default CoursesViewWrapper;
