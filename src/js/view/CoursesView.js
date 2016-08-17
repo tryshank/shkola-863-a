@@ -1,5 +1,5 @@
 import React from 'react';
-import * as WebAPI from './WebAPI';
+import * as Redux from './Redux';
 import { connect } from 'react-redux';
 
 const CourseItemView = ({ courseItem }) =>
@@ -69,7 +69,7 @@ const mapStateToProps = (state) =>
   ({ coursesData: state.coursesData });
 
 const mapDispatchToProps = (dispatch) =>
-  ({ getCoursesDispatcher: () => dispatch(WebAPI.requestCoursesAction()) });
+  ({ getCoursesDispatcher: () => dispatch(Redux.getCoursesAction()) });
 
 const CoursesViewWrapper = connect(mapStateToProps, mapDispatchToProps)(CoursesView);
 

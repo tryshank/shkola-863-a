@@ -1,24 +1,18 @@
 import { createStore, applyMiddleware } from 'redux';
 import promiseMiddleware from 'redux-promise';
+import { createAction } from 'redux-actions';
+import * as WebAPI from './WebAPI';
 
-export const ACTION_FETCH_SERVER_DATA = 'ACTION_FETCH_SERVER_DATA';
+export const ACTION_FETCH_COURSES_DATA = 'ACTION_FETCH_COURSES_DATA';
 
-export const getCoursesDataAction = (coursesData) => {
-  return {
-    type: ACTION_FETCH_SERVER_DATA,
-    coursesData,
-  };
-};
-
-export const fetchReducer = (state = { coursesData: [] }, action) => {
+export const coursesReducer = (state = { coursesData: [] }, action) => {
   switch (action.type) {
-    case ACTION_FETCH_SERVER_DATA:
+    case ACTION_FETCH_COURSES_DATA:
       {
         let newData = state;
-        const data = action.coursesData || action.payload;
-        if (Array.isArray(data)) {
+        if (Array.isArray(action.payload)) {
           newData = Object.assign({}, state, {
-            coursesData: Array.concat(state.coursesData, data),
+            coursesData: Array.concat(state.coursesData, action.payload),
           });
         } else {
           console.error('coursesData need to be Array');
@@ -30,4 +24,6 @@ export const fetchReducer = (state = { coursesData: [] }, action) => {
   }
 };
 
-export const store = createStore(fetchReducer, applyMiddleware(promiseMiddleware));
+export const store = createStore(coursesReducer, applyMiddleware(promiseMiddleware));
+
+export const getCoursesAction = createAction(ACTION_FETCH_COURSES_DATA, WebAPI.getCoursesData);
