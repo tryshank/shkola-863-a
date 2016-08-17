@@ -6,7 +6,8 @@ import ContactView from './view/ContactsView';
 import FooterView from './view/FooterView';
 import NavigationView from './view/NavigationView';
 import HowToFindView from './view/HowToFindView';
-import CoursesViewWrapper from './view/CoursesViewWrapper';
+import CoursesViewWrapper from './view/CoursesView';
+import CoursesModalViewWrapper from './view/CoursesModalView';
 import Classie from 'classie';
 import { Provider } from 'react-redux';
 import * as Redux from './view/Redux';
@@ -78,14 +79,7 @@ class App extends Component {
             <i className="fa fa-chevron-up" />
           </a>
         </div>
-        {/*
-        {coursesData.map(data =>
-          <CourseModalView
-            key={data.id}
-            context={data}
-          />
-        )};
-        */}
+        <CoursesModalViewWrapper />
       </div>
     );
   }

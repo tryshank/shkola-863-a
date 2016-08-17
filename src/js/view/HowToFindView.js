@@ -50,10 +50,4 @@ const HowToFindView = () =>
     </div>
   </section>;
 
-HowToFindView.propTypes = {
-  markers: React.PropTypes.array.isRequired,
-  zoom: React.PropTypes.number.isRequired,
-  initialCenter: React.PropTypes.object.isRequired,
-};
-
 export default HowToFindView;

@@ -1,9 +1,11 @@
 import React from 'react';
+import * as WebAPI from './WebAPI';
+import { connect } from 'react-redux';
 
-const CourseItemView = ({ itemData }) =>
+const CourseItemView = ({ courseItem }) =>
   <div className="col-sm-4 course-item">
     <a
-      href={`#${itemData.divId}`}
+      href={`#${courseItem.divId}`}
       className="course-link"
       data-toggle="modal"
     >
@@ -13,7 +15,7 @@ const CourseItemView = ({ itemData }) =>
         </div>
       </div>
       <img
-        src={`src/img/courses/${itemData.image}`}
+        src={`src/img/courses/${courseItem.image}`}
         className="img-responsive"
         alt=""
       />
@@ -21,7 +23,7 @@ const CourseItemView = ({ itemData }) =>
   </div>;
 
 CourseItemView.propTypes = {
-  itemData: React.PropTypes.object.isRequired,
+  courseItem: React.PropTypes.object.isRequired,
 };
 
 
@@ -45,10 +47,10 @@ class CoursesView extends React.Component {
             </div>
           </div>
           <div className="row"> {
-            this.props.items.map((itemData) =>
+            this.props.coursesData.map((itemData) =>
               <CourseItemView
                 key={itemData.id}
-                itemData={itemData}
+                courseItem={itemData}
               />)
           }
           </div>
@@ -59,8 +61,16 @@ class CoursesView extends React.Component {
 }
 
 CoursesView.propTypes = {
-  items: React.PropTypes.array.isRequired,
+  coursesData: React.PropTypes.array.isRequired,
   getCoursesDispatcher: React.PropTypes.func,
 };
 
-export default CoursesView;
+const mapStateToProps = (state) =>
+  ({ coursesData: state.coursesData });
+
+const mapDispatchToProps = (dispatch) =>
+  ({ getCoursesDispatcher: () => dispatch(WebAPI.requestCoursesAction()) });
+
+const CoursesViewWrapper = connect(mapStateToProps, mapDispatchToProps)(CoursesView);
+
+export default CoursesViewWrapper;
