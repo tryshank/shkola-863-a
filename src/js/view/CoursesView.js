@@ -49,7 +49,7 @@ class CoursesView extends React.Component {
           <div className="row"> {
             this.props.coursesData.map((itemData) =>
               <CourseItemView
-                key={itemData.id}
+                key={itemData.divId}
                 courseItem={itemData}
               />)
           }

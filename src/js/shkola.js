@@ -11,8 +11,8 @@ import CoursesModalViewWrapper from './view/CoursesModalView';
 import Classie from 'classie';
 import { Provider } from 'react-redux';
 import * as Redux from './view/Redux';
-// import { createAction } from 'redux-actions';
-// import * as WebAPI from './view/WebAPI';
+import { Router, Route, Link, hashHistory } from 'react-router';
+
 
 require('font-awesome/less/font-awesome.less');
 require('../less/variables.less');
@@ -85,9 +85,52 @@ class App extends Component {
   }
 }
 
+const Admin = () =>
+  <div>Hello</div>;
+
 ReactDOM.render((
   <Provider store={Redux.store}>
-    <App />
+    <Router history={hashHistory}>
+      <Route path="/" component={App} />
+      <Route path="/admin" component={Admin} />
+    </Router>
   </Provider>
 ), document.getElementById('root'));
 
+
+
+/*
+let courseItem = {
+  divId : "courseModal8",
+  image : "submarine.png",
+  title : "Project Title",
+  content : "7a",
+  client : "Start Bootstrap",
+  date : "April 2014",
+  service : "Web Development",
+  link : "http://startbootstrap.com"
+};
+
+
+//const blob = new Blob([JSON.stringify(courseItem)], { type : 'application/json' });
+
+if (1 === 1) {
+
+  let headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+
+  const init = { method: 'post', headers, body: JSON.stringify(courseItem) };
+  console.log(init);
+
+  let itemId;
+  itemId = '57baa95c23e389e11108383f'; // incorrect
+  itemId = '57baa95c23e389e11108383d'; // correct
+
+  const request = new Request('http://localhost:3000/courses-post/' + (init.method === 'post' ? '' : itemId), init);
+  console.log(request);
+
+  console.log('fetch...');
+  console.log(fetch(request));
+
+}
+  */

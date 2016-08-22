@@ -5,7 +5,7 @@ const CoursesModalView = ({ coursesData }) =>
   <div> {
     coursesData.map((courseItem) =>
       <div
-        key={courseItem.id}
+        key={courseItem.divId}
         className="course-modal modal fade"
         id={courseItem.divId}
         tabIndex="-1"
