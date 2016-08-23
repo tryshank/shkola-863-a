@@ -1,17 +1,17 @@
 import React from 'react';
-import * as WebAPI from './WebAPI';
+import * as Redux from './Redux';
 import { connect } from 'react-redux';
 
 const CourseItemView = ({ courseItem }) =>
   <div className="col-sm-4 course-item">
     <a
-      href={`#${courseItem.divId}`}
+      href={`#${courseItem._id}`}
       className="course-link"
       data-toggle="modal"
     >
       <div className="caption">
         <div className="caption-content">
-          <i className="fa fa-search-plus fa-3x"/>
+          <i className="fa fa-search-plus fa-3x" />
         </div>
       </div>
       <img
@@ -49,7 +49,7 @@ class CoursesView extends React.Component {
           <div className="row"> {
             this.props.coursesData.map((itemData) =>
               <CourseItemView
-                key={itemData.id}
+                key={itemData._id}
                 courseItem={itemData}
               />)
           }
@@ -69,7 +69,7 @@ const mapStateToProps = (state) =>
   ({ coursesData: state.coursesData });
 
 const mapDispatchToProps = (dispatch) =>
-  ({ getCoursesDispatcher: () => dispatch(WebAPI.requestCoursesAction()) });
+  ({ getCoursesDispatcher: () => dispatch(Redux.getCoursesAction()) });
 
 const CoursesViewWrapper = connect(mapStateToProps, mapDispatchToProps)(CoursesView);
 

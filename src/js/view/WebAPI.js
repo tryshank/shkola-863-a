@@ -1,7 +1,4 @@
-import * as Redux from './Redux';
-import { createAction } from 'redux-actions';
-
-const requestServerData = () =>
+export const getCoursesData = () =>
   fetch('http://localhost:3000/courses-json/').then((response) => {
     if (response.ok) {
       return response.json();
@@ -14,5 +11,3 @@ const requestServerData = () =>
       'There has been a problem with your fetch operation: ' & (error.message || 'unknown')
     );
   });
-
-export const requestCoursesAction = createAction(Redux.ACTION_FETCH_SERVER_DATA, requestServerData);

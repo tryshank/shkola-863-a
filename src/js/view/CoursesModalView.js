@@ -5,9 +5,9 @@ const CoursesModalView = ({ coursesData }) =>
   <div> {
     coursesData.map((courseItem) =>
       <div
-        key={courseItem.id}
+        key={courseItem._id}
         className="course-modal modal fade"
-        id={courseItem.divId}
+        id={courseItem._id}
         tabIndex="-1"
         role="dialog"
         aria-hidden="true"

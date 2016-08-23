@@ -8,15 +8,19 @@ import NavigationView from './view/NavigationView';
 import HowToFindView from './view/HowToFindView';
 import CoursesViewWrapper from './view/CoursesView';
 import CoursesModalViewWrapper from './view/CoursesModalView';
+import AdminMainView from './view/AdminMainView';
 import Classie from 'classie';
 import { Provider } from 'react-redux';
 import * as Redux from './view/Redux';
-// import { createAction } from 'redux-actions';
-// import * as WebAPI from './view/WebAPI';
+import { Router, Route, Link, hashHistory } from 'react-router';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 require('font-awesome/less/font-awesome.less');
 require('../less/variables.less');
 require('../less/freelancer.less');
+
+injectTapEventPlugin();
 
 //
 
@@ -85,9 +89,51 @@ class App extends Component {
   }
 }
 
+
 ReactDOM.render((
   <Provider store={Redux.store}>
-    <App />
+    <Router history={hashHistory}>
+      <Route path="/" component={App} />
+      <MuiThemeProvider>
+        <Route path="/admin" component={AdminMainView} />
+      </MuiThemeProvider>
+    </Router>
   </Provider>
 ), document.getElementById('root'));
 
+
+
+/*
+let courseItem = {
+  image : "submarine.png",
+  title : "Project Title",
+  content : "7a",
+  client : "Start Bootstrap",
+  date : "April 2014",
+  service : "Web Development",
+  link : "http://startbootstrap.com"
+};
+
+
+//const blob = new Blob([JSON.stringify(courseItem)], { type : 'application/json' });
+
+if (1 === 1) {
+
+  let headers = new Headers();
+  headers.append('Content-Type', 'application/json');
+
+  const init = { method: 'post', headers, body: JSON.stringify(courseItem) };
+  console.log(init);
+
+  let itemId;
+  itemId = '57baa95c23e389e11108383f'; // incorrect
+  itemId = '57baa95c23e389e11108383d'; // correct
+
+  const request = new Request('http://localhost:3000/courses-post/' + (init.method === 'post' ? '' : itemId), init);
+  console.log(request);
+
+  console.log('fetch...');
+  console.log(fetch(request));
+
+}
+  */
