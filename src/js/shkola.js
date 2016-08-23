@@ -8,15 +8,19 @@ import NavigationView from './view/NavigationView';
 import HowToFindView from './view/HowToFindView';
 import CoursesViewWrapper from './view/CoursesView';
 import CoursesModalViewWrapper from './view/CoursesModalView';
+import AdminMainView from './view/AdminMainView';
 import Classie from 'classie';
 import { Provider } from 'react-redux';
 import * as Redux from './view/Redux';
 import { Router, Route, Link, hashHistory } from 'react-router';
-
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
 require('font-awesome/less/font-awesome.less');
 require('../less/variables.less');
 require('../less/freelancer.less');
+
+injectTapEventPlugin();
 
 //
 
@@ -85,14 +89,14 @@ class App extends Component {
   }
 }
 
-const Admin = () =>
-  <div>Hello</div>;
 
 ReactDOM.render((
   <Provider store={Redux.store}>
     <Router history={hashHistory}>
       <Route path="/" component={App} />
-      <Route path="/admin" component={Admin} />
+      <MuiThemeProvider>
+        <Route path="/admin" component={AdminMainView} />
+      </MuiThemeProvider>
     </Router>
   </Provider>
 ), document.getElementById('root'));
