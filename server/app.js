@@ -17,7 +17,6 @@ const send500 = (res, err) => {
 };
 
 let schema = new mongoose.Schema({
-  divId: {type: String, unique: false},
   image: String,
   title: String,
   content: String,
@@ -116,7 +115,6 @@ app.put('/courses-post/:id', (req, res) => {
         send500(res, err);
       } else {
         if (doc) {
-          doc.divId = req.body.divId;
           doc.image = req.body.image;
           doc.title = req.body.title;
           doc.content = req.body.content;

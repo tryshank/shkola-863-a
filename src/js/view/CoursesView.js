@@ -5,13 +5,13 @@ import { connect } from 'react-redux';
 const CourseItemView = ({ courseItem }) =>
   <div className="col-sm-4 course-item">
     <a
-      href={`#${courseItem.divId}`}
+      href={`#${courseItem._id}`}
       className="course-link"
       data-toggle="modal"
     >
       <div className="caption">
         <div className="caption-content">
-          <i className="fa fa-search-plus fa-3x"/>
+          <i className="fa fa-search-plus fa-3x" />
         </div>
       </div>
       <img
@@ -49,7 +49,7 @@ class CoursesView extends React.Component {
           <div className="row"> {
             this.props.coursesData.map((itemData) =>
               <CourseItemView
-                key={itemData.divId}
+                key={itemData._id}
                 courseItem={itemData}
               />)
           }

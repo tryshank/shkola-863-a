@@ -105,7 +105,6 @@ ReactDOM.render((
 
 /*
 let courseItem = {
-  divId : "courseModal8",
   image : "submarine.png",
   title : "Project Title",
   content : "7a",
