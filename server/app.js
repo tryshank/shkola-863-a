@@ -1,8 +1,6 @@
 let express = require('express');
 let app = express();
 let mongoose = require('mongoose');
-let coursesData;
-let isConnected;
 mongoose.Promise = global.Promise;
 
 const send404 = (res) => {
@@ -39,7 +37,6 @@ let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
   console.log('connected to DB');
-  isConnected = true;
 });
 
 
