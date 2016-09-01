@@ -8,12 +8,11 @@ import NavigationView from './view/NavigationView';
 import HowToFindView from './view/HowToFindView';
 import CoursesViewWrapper from './view/CoursesView';
 import CoursesModalViewWrapper from './view/CoursesModalView';
-import AdminMainView from './view/AdminMainView';
+import AdminMainWrapper from './view/AdminMainWrapper';
 import Classie from 'classie';
 import { Provider } from 'react-redux';
 import * as Redux from './view/Redux';
 import { Router, Route, Link, hashHistory } from 'react-router';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 require('font-awesome/less/font-awesome.less');
@@ -94,9 +93,7 @@ ReactDOM.render((
   <Provider store={Redux.store}>
     <Router history={hashHistory}>
       <Route path="/" component={App} />
-      <MuiThemeProvider>
-        <Route path="/admin" component={AdminMainView} />
-      </MuiThemeProvider>
+      <Route path="/admin" component={AdminMainWrapper} />
     </Router>
   </Provider>
 ), document.getElementById('root'));
