@@ -11,6 +11,7 @@ export const ACTION_COURSE_DELETE = 'ACTION_COURSE_DELETE';
 export const ACTION_COURSE_SAVE = 'ACTION_COURSE_SAVE';
 
 const activeCourseId = (state = null, action) => {
+  console.log('activeCourseId', action);
   switch (action.type) {
     case ACTION_SET_ACTIVE_COURSE_ID:
       {
@@ -27,6 +28,8 @@ const activeCourseId = (state = null, action) => {
 
 
 const coursesData = (state = [], action) => {
+  console.log('coursesData ', action);
+  console.log('state ', state);
   switch (action.type) {
     case ACTION_FETCH_COURSES_DATA:
       {
@@ -41,15 +44,32 @@ const coursesData = (state = [], action) => {
     case ACTION_COURSE_SAVE:
       {
         let newData = state;
-        if (action.payload.courseItem._id) {
-          // TODO: rename active course title in courses list
+        let courseIndex = null;
+        if ((action.payload.courseItem) && (action.payload.result)) {
+          // TODO: refactor when courseItem will contains list ordering
+          for (let i = 0; i < state.length; i++) {
+            if (state[i]._id === action.payload.courseItem._id) {
+              courseIndex = i;
+              break;
+            }
+          }
+          console.log('courseIndex ',courseIndex);
+          if (courseIndex || courseIndex === 0) {
+            newData = [].concat(state.slice(0, courseIndex),
+              action.payload.courseItem, state.slice(courseIndex + 1));
+            console.log('newDat', newData);
+          }
         }
         return newData;
       }
     case ACTION_COURSE_DELETE:
       {
-        // TODO: remove deleted item from list, update activeCourseId
-        return state;
+        let newData = state;
+        if ((action.payload.id) && (action.payload.result)) {
+          newData = state.filter(courseItem => courseItem._id !== action.payload.id);
+          console.log('after deleting ', newData);
+        }
+        return newData;
       }
     default:
       return state;

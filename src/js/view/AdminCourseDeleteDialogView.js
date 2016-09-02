@@ -16,6 +16,10 @@ class AdminCourseDeleteDialog extends React.Component {
     this.state = nextProps.dialogState;
   }
 
+  handleClose = () => {
+    this.setState = { open: false };
+  };
+
   render() {
     return (
       <div>
@@ -23,7 +27,7 @@ class AdminCourseDeleteDialog extends React.Component {
           actions={this.state.actions}
           modal={false}
           open={this.state.open}
-          onRequestClose={this.state.actions.length ? this.state.actions[this.state.actions.length--] : null}
+          onRequestClose={this.handleClose}
         >
           {this.state.text}
         </Dialog>

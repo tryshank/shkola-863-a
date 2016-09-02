@@ -8,6 +8,8 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 
+import * as AdminCourseDeleteDialogView  from './AdminCourseDeleteDialogView';
+
 const style = {
   display: 'block',
   margin: '3px',
@@ -21,24 +23,25 @@ const editor = {
   width: 'auto',
 };
 
+const initialState = {
+  activeCourseId: null,
+  activeCourse: {
+    _id: null,
+    title: null,
+    image: null,
+    content: null,
+    client: null,
+    date: null,
+    service: null,
+    link: null,
+  },
+};
 
 class AdminCourseItemEditorView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      activeCourseId: null,
-      activeCourse: {
-        _id: null,
-        title: null,
-        image: null,
-        content: null,
-        client: null,
-        date: null,
-        service: null,
-        link: null,
-      },
-    };
+    this.state = initialState;
     this.txtFieldChange = this.txtFieldChange.bind(this);
   }
 
@@ -62,7 +65,7 @@ class AdminCourseItemEditorView extends Component {
     });
   };
 
-  dialogHandleConfirm = () => {
+  dialogHandleDeleteConfirm = () => {
     this.props.actions.closeDeleteDialog();
     console.log(this.props.actions.deleteCourse(this.props.activeCourse._id));
     // TODO: remove course from list and update activeCourseId
@@ -85,7 +88,7 @@ class AdminCourseItemEditorView extends Component {
           <FlatButton
             label="Confirm"
             secondary
-            onTouchTap={this.dialogHandleConfirm}
+            onTouchTap={this.dialogHandleDeleteConfirm}
           />,
           <FlatButton
             label="Discard"
@@ -110,22 +113,22 @@ class AdminCourseItemEditorView extends Component {
                      floatingLabelText="Title"
                      floatingLabelFixed={true}
           />
-          <TextField value={this.state.activeCourse.image || ''}
-                     id="txtImage"
-                     onChange={this.txtFieldChange}
-                     fullWidth={true}
-                     floatingLabelText="Image file name"
-                     floatingLabelFixed={true}
-          />
           <TextField value={this.state.activeCourse.content || ''}
                      id="txtContent"
                      onChange={this.txtFieldChange}
                      fullWidth={true}
                      floatingLabelText="Content"
                      floatingLabelFixed={true}
-                     rows={1}
-                     rowsMax={3}
+                     rows={3}
+                     rowsMax={6}
                      multiLine={true}
+          />
+          <TextField value={this.state.activeCourse.image || ''}
+                     id="txtImage"
+                     onChange={this.txtFieldChange}
+                     fullWidth={true}
+                     floatingLabelText="Image file name"
+                     floatingLabelFixed={true}
           />
           <TextField value={this.state.activeCourse.client || ''}
                      id="txtClient"
@@ -173,13 +176,14 @@ class AdminCourseItemEditorView extends Component {
 }
 
 
-const mapStateToProps = (state) =>
-  ({
+const mapStateToProps = (state) => {
+  console.log('editor map2props ',state);
+  return ({
     activeCourseId: state.activeCourseId,
-    activeCourse: state.coursesData.filter((courseItem) => {
-      return (courseItem._id === state.activeCourseId);
-    })[0],
+    activeCourse: state.activeCourseId ? state.coursesData.filter(courseItem =>
+      courseItem._id === state.activeCourseId)[0] : initialState.activeCourse,
   });
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
