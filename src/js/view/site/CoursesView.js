@@ -1,5 +1,5 @@
 import React from 'react';
-import * as Redux from './Redux';
+import * as Redux from '../common/Redux';
 import { connect } from 'react-redux';
 
 const CourseItemView = ({ courseItem }) =>

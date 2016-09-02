@@ -1,6 +1,6 @@
 import React from 'react';
 import AdminMainView from './AdminMainView';
-import * as Redux from './Redux';
+import * as Redux from '../common/Redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import * as Redux from './Redux';
+import * as Redux from '../common/Redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 

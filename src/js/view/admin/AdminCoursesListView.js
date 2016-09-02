@@ -1,5 +1,5 @@
 import React from 'react';
-import * as Redux from './Redux';
+import * as Redux from '../common/Redux';
 import { bindActionCreators } from 'redux';
 import { List, ListItem } from 'material-ui/List';
 import { connect } from 'react-redux';
