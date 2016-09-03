@@ -3,6 +3,7 @@ import * as Redux from '../common/Redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
@@ -45,12 +46,7 @@ class AdminCourseItemEditorView extends Component {
     this.txtFieldChange = this.txtFieldChange.bind(this);
   }
 
-  componentDidMount() {
-    console.log('admin editor mount');
-  }
-
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps', nextProps);
     this.state = {
       ...this.state, activeCourse: nextProps.activeCourse, activeCourseId: nextProps.activeCourseId,
     };
@@ -67,8 +63,7 @@ class AdminCourseItemEditorView extends Component {
 
   dialogHandleDeleteConfirm = () => {
     this.props.actions.closeDeleteDialog();
-    console.log(this.props.actions.deleteCourse(this.props.activeCourse._id));
-    // TODO: remove course from list and update activeCourseId
+    this.props.actions.deleteCourse(this.props.activeCourse._id);
   };
 
   dialogHandleClose = () => {
@@ -76,125 +71,143 @@ class AdminCourseItemEditorView extends Component {
   };
 
   saveClick = () => {
-    console.log('saveCourse ', this.props.actions.saveCourse(this.state.activeCourse));
+    if (this.props.activeCourseId) {
+      this.props.actions.saveCourse(this.state.activeCourse);
+    } else {
+      this.props.actions.createCourse(this.state.activeCourse);
+    }
   };
 
   deleteClick = () => {
-    console.log('delete');
-    this.props.actions.openDeleteDialog(
-      {
-        text: 'Are you sure delete selected course?',
-        actions: [
-          <FlatButton
-            label="Confirm"
-            secondary
-            onTouchTap={this.dialogHandleDeleteConfirm}
-          />,
-          <FlatButton
-            label="Discard"
-            primary
-            onTouchTap={this.dialogHandleClose}
-          />],
-      }
-    );
-  }
+    this.props.actions.openDeleteDialog({
+      text: 'Are you sure delete selected course?',
+      actions: [
+        <FlatButton
+          label="Confirm"
+          secondary
+          onTouchTap={this.dialogHandleDeleteConfirm}
+        />,
+        <FlatButton
+          label="Discard"
+          primary
+          onTouchTap={this.dialogHandleClose}
+        />],
+    });
+  };
 
   render() {
     return (
-      <Paper
-        rounded={false}
-        style={editor}
-      >
-        <div>
-          <TextField value={this.state.activeCourse.title || ''}
-                     id="txtTitle"
-                     onChange={this.txtFieldChange}
-                     fullWidth={true}
-                     floatingLabelText="Title"
-                     floatingLabelFixed={true}
-          />
-          <TextField value={this.state.activeCourse.content || ''}
-                     id="txtContent"
-                     onChange={this.txtFieldChange}
-                     fullWidth={true}
-                     floatingLabelText="Content"
-                     floatingLabelFixed={true}
-                     rows={3}
-                     rowsMax={6}
-                     multiLine={true}
-          />
-          <TextField value={this.state.activeCourse.image || ''}
-                     id="txtImage"
-                     onChange={this.txtFieldChange}
-                     fullWidth={true}
-                     floatingLabelText="Image file name"
-                     floatingLabelFixed={true}
-          />
-          <TextField value={this.state.activeCourse.client || ''}
-                     id="txtClient"
-                     onChange={this.txtFieldChange}
-                     fullWidth={true}
-                     floatingLabelText="Client"
-                     floatingLabelFixed={true}
-          />
-          <TextField value={this.state.activeCourse.date || ''}
-                     id="txtDate"
-                     onChange={this.txtFieldChange}
-                     fullWidth={true}
-                     floatingLabelText="Date"
-                     floatingLabelFixed={true}
-          />
-          <TextField value={this.state.activeCourse.service || ''}
-                     id="txtService"
-                     onChange={this.txtFieldChange}
-                     fullWidth={true}
-                     floatingLabelText="Service"
-                     floatingLabelFixed={true}
-          />
-          <TextField value={this.state.activeCourse.link || ''}
-                     id="txtLink"
-                     onChange={this.txtFieldChange}
-                     fullWidth={true}
-                     floatingLabelText="Link"
-                     floatingLabelFixed={true}
-          />
-        </div>
-        <div>
-          <RaisedButton label="Save"
-                        primary
-                        onTouchTap={() => this.saveClick()}
-          />
-          <RaisedButton label="Delete"
-                        secondary
-                        style={{ margin: 12 }}
-                        onTouchTap={() => this.deleteClick()}
-          />
-        </div>
-      </Paper>
+      <MuiThemeProvider>
+        <Paper
+          rounded={false}
+          style={editor}
+        >
+          <div>
+            <TextField
+              value={this.state.activeCourse.title || ''}
+              id="txtTitle"
+              onChange={this.txtFieldChange}
+              fullWidth
+              floatingLabelText="Title"
+              floatingLabelFixed
+            />
+            <TextField
+              value={this.state.activeCourse.content || ''}
+              id="txtContent"
+              onChange={this.txtFieldChange}
+              fullWidth
+              floatingLabelText="Content"
+              floatingLabelFixed
+              rows={3}
+              rowsMax={6}
+              multiLine
+            />
+            <TextField
+              value={this.state.activeCourse.image || ''}
+              id="txtImage"
+              onChange={this.txtFieldChange}
+              fullWidth
+              floatingLabelText="Image file name"
+              floatingLabelFixed
+            />
+            <TextField
+              value={this.state.activeCourse.client || ''}
+              id="txtClient"
+              onChange={this.txtFieldChange}
+              fullWidth
+              floatingLabelText="Client"
+              floatingLabelFixed
+            />
+            <TextField
+              value={this.state.activeCourse.date || ''}
+              id="txtDate"
+              onChange={this.txtFieldChange}
+              fullWidth
+              floatingLabelText="Date"
+              floatingLabelFixed
+            />
+            <TextField
+              value={this.state.activeCourse.service || ''}
+              id="txtService"
+              onChange={this.txtFieldChange}
+              fullWidth
+              floatingLabelText="Service"
+              floatingLabelFixed
+            />
+            <TextField
+              value={this.state.activeCourse.link || ''}
+              id="txtLink"
+              onChange={this.txtFieldChange}
+              fullWidth
+              floatingLabelText="Link"
+              floatingLabelFixed
+            />
+          </div>
+          <div>
+            <RaisedButton
+              label={this.state.activeCourseId ? 'Save' : 'Add'}
+              primary
+              onTouchTap={() => this.saveClick()}
+            />
+            <RaisedButton
+              label={this.state.activeCourseId ? 'Delete' : 'Cancel'}
+              secondary
+              style={{ margin: 12 }}
+              onTouchTap={() => this.deleteClick()}
+            />
+          </div>
+        </Paper>
+      </MuiThemeProvider>
     );
   }
 }
 
 
-const mapStateToProps = (state) => {
-  console.log('editor map2props ',state);
-  return ({
+AdminCourseItemEditorView.propTypes = {
+  actions: React.PropTypes.shape ({
+    openDeleteDialog: React.PropTypes.func.isRequired,
+    closeDeleteDialog: React.PropTypes.func.isRequired,
+  }),
+  activeCourseId: React.PropTypes.string,
+};
+
+const mapStateToProps = (state) =>
+  ({
     activeCourseId: state.activeCourseId,
     activeCourse: state.activeCourseId ? state.coursesData.filter(courseItem =>
       courseItem._id === state.activeCourseId)[0] : initialState.activeCourse,
   });
-};
 
-const mapDispatchToProps = (dispatch) => {
-  return {
+const mapDispatchToProps = (dispatch) =>
+  ({
     actions: {
-      openDeleteDialog: bindActionCreators(Redux.openDeleteDialog, dispatch),
-      closeDeleteDialog: bindActionCreators(Redux.closeDeleteDialog, dispatch),
-      saveCourse: bindActionCreators(Redux.saveCourse, dispatch),
-      deleteCourse: bindActionCreators(Redux.deleteCourse, dispatch),
+      openDeleteDialog: bindActionCreators(Redux.openDeleteDialogAction, dispatch),
+      closeDeleteDialog: bindActionCreators(Redux.closeDeleteDialogAction, dispatch),
+      createCourse: bindActionCreators(Redux.createCourseAction, dispatch),
+      saveCourse: bindActionCreators(Redux.saveCourseAction, dispatch),
+      deleteCourse: bindActionCreators(Redux.deleteCourseAction, dispatch),
     },
-  };
-};
+  });
 
 const AdminCourseItemEditorViewWrapper =
   connect(mapStateToProps, mapDispatchToProps)(AdminCourseItemEditorView);

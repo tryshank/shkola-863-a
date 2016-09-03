@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 class AdminMainViewWrapper extends React.Component {
 
   componentDidMount() {
-    console.log('AdminMainViewWrapper mount');
     this.props.actions.getCoursesDispatcher();
   }
 
@@ -15,6 +14,12 @@ class AdminMainViewWrapper extends React.Component {
     <AdminMainView />;
 
 }
+
+AdminMainViewWrapper.propTypes = {
+  actions: React.PropTypes.shape({
+    getCoursesDispatcher: React.PropTypes.func,
+  }),
+};
 
 const mapStateToProps = (state) =>
   ({ coursesData: state.coursesData });
