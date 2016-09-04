@@ -1,19 +1,18 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import HeaderView from './view/HeaderView';
-import AboutView from './view/AboutView';
-import ContactView from './view/ContactsView';
-import FooterView from './view/FooterView';
-import NavigationView from './view/NavigationView';
-import HowToFindView from './view/HowToFindView';
-import CoursesViewWrapper from './view/CoursesView';
-import CoursesModalViewWrapper from './view/CoursesModalView';
-import AdminMainView from './view/AdminMainView';
+import HeaderView from './view/site/HeaderView';
+import AboutView from './view/site/AboutView';
+import ContactView from './view/site/ContactsView';
+import FooterView from './view/site/FooterView';
+import NavigationView from './view/site/NavigationView';
+import HowToFindView from './view/site/HowToFindView';
+import CoursesViewWrapper from './view/site/CoursesView';
+import CoursesModalViewWrapper from './view/site/CoursesModalView';
+import AdminMainWrapper from './view/admin/AdminMainWrapper';
 import Classie from 'classie';
 import { Provider } from 'react-redux';
-import * as Redux from './view/Redux';
+import * as Redux from './view/common/Redux';
 import { Router, Route, Link, hashHistory } from 'react-router';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 require('font-awesome/less/font-awesome.less');
@@ -94,9 +93,7 @@ ReactDOM.render((
   <Provider store={Redux.store}>
     <Router history={hashHistory}>
       <Route path="/" component={App} />
-      <MuiThemeProvider>
-        <Route path="/admin" component={AdminMainView} />
-      </MuiThemeProvider>
+      <Route path="/admin" component={AdminMainWrapper} />
     </Router>
   </Provider>
 ), document.getElementById('root'));

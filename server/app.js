@@ -9,7 +9,6 @@ const send404 = (res) => {
 };
 
 const send500 = (res, err) => {
-  console.log(err);
   if (!res.headersSent)
     res.status(500).send({err: err}).end();
 };
@@ -24,11 +23,12 @@ let schema = new mongoose.Schema({
   link: String
 });
 
-schema.statics.findById = function(cb) {
-  return this.find().sort('divId').limit(1).exec(cb);
+schema.statics.findById = function(_id, cb) {
+  return this.find('{_id}').sort('_id').limit(1).exec(cb);
 };
 
-var coursesModel = mongoose.model('courses', schema);
+
+const coursesModel = mongoose.model('courses', schema, 'courses');
 
 mongoose.connect('mongodb://localhost/shkola');
 let db = mongoose.connection;
@@ -69,10 +69,8 @@ app.listen(3000, function () {
 app.get('/courses-json', function (req, res) {
   coursesModel.find(function (err, docs) {
     if (err) {
-      res.status(500).send(err).end();
-      console.error(err);
+      send500(res,err);
     } else {
-      console.log('courses json');
       res.status(200).json(docs).end();
     }
   });
@@ -81,20 +79,15 @@ app.get('/courses-json', function (req, res) {
 
 // post/add-create
 app.post('/courses-post/', (req, res) => {
-  console.log('courses-post');
-
-  console.log(req.params);
-
-  let doc = new coursesModel(req.body);
-  delete doc.id;
-  console.log('add new');
-
+  let doc = req.body.data;
+  delete doc._id;
+  doc = new coursesModel(doc);
   doc.save((err, doc) => {
     if (err) {
       send500(res,err);
     } else {
       if(doc) {
-        res.status(200).send({ doc: doc }).end();
+        res.status(200).send({ data: doc }).end();
       } else {
         send500(res,'item didn\'t saved');
       }
@@ -105,66 +98,46 @@ app.post('/courses-post/', (req, res) => {
 
 // put-edit/update
 app.put('/courses-post/:id', (req, res) => {
-  console.log('courses-put');
   if (req.params.id) {
-    coursesModel.findById(req.params.id, (err, doc) => {
+    const courseItem = req.body.courseItem;
+    delete courseItem._id;
+    coursesModel.update({_id: req.params.id}, req.body.courseItem, (err) => {
       if (err) {
         send500(res, err);
       } else {
-        if (doc) {
-          doc.image = req.body.image;
-          doc.title = req.body.title;
-          doc.content = req.body.content;
-          doc.client = req.body.client;
-          doc.date = req.body.date;
-          doc.service = req.body.service;
-          doc.link = req.body.link;
-          doc.save((err) => {
-            if (err) {
-              send500(res, err);
-            } else {
-              console.log('saved');
-              res.status(200).end();
-            }
-          });
-        } else {
-          console.log('id "' + req.params.id + '" not found');
-          send404(res);
-        }
+        res.status(200).json({id: req.params.id, item: req.body.courseItem}).end();
       }
     });
+  } else {
+    send404(res);
   }
-
-  res.end();
 });
 
 
 // delete
 app.delete('/courses-post/:id', (req, res) => {
-  console.log('courses-put');
-
   if (req.params.id) {
     coursesModel.findById(req.params.id, (err, doc) => {
       if (err) {
         send500(res, err);
       } else {
         if (doc) {
-          doc.remove((err) => {
+          coursesModel.remove({_id: req.params.id}, (err) => {
             if (err) {
-              send500(res,err);
+              send500(res, err);
             } else {
-              console.log('deleted');
               res.status(200).end();
             }
           });
+          res.status(200).end();
         } else {
-          console.log('id "' + req.params.id + '" not found');
           send404(res);
         }
       }
     });
+  } else {
+    send404(res, 'No course id specified');
   }
-
 });
 
 
