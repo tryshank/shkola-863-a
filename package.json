@@ -4,7 +4,8 @@
   "description": "sajt shkoly",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint src/"
+    "lint": "eslint src/ server/",
+    "lint-fix": "eslint src/ server/ --fix"
   },
   "repository": {
     "type": "git",
