@@ -9,14 +9,6 @@ import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 
-import * as AdminCourseDeleteDialogView  from './AdminCourseDeleteDialogView';
-
-const style = {
-  display: 'block',
-  margin: '3px',
-  width: 'auto',
-};
-
 const editor = {
   display: 'block',
   margin: '3px',
@@ -184,11 +176,15 @@ class AdminCourseItemEditorView extends Component {
 
 
 AdminCourseItemEditorView.propTypes = {
-  actions: React.PropTypes.shape ({
+  actions: React.PropTypes.shape({
     openDeleteDialog: React.PropTypes.func.isRequired,
     closeDeleteDialog: React.PropTypes.func.isRequired,
+    createCourse: React.PropTypes.func.isRequired,
+    saveCourse: React.PropTypes.func.isRequired,
+    deleteCourse: React.PropTypes.func.isRequired,
   }),
   activeCourseId: React.PropTypes.string,
+  activeCourse: React.PropTypes.object,
 };
 
 const mapStateToProps = (state) =>
