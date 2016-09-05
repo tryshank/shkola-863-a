@@ -7,7 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 class AdminCoursesListView extends React.Component {
-  
+
   courseClick(id) {
     this.props.actions.onCourseListItemClick(id);
   }
@@ -54,14 +54,14 @@ AdminCoursesListView.propTypes = {
 const mapStateToProps = (state) =>
   ({ coursesData: state.coursesData });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
+const mapDispatchToProps = (dispatch) =>
+  ({
     actions: {
       onCourseListItemClick: bindActionCreators(Redux.setActiveCourseIdAction, dispatch),
       onNewCourseClick: bindActionCreators(Redux.addCourseAction, dispatch),
     },
-  };
-};
+  });
+
 
 const AdminCoursesListViewWrapper =
   connect(mapStateToProps, mapDispatchToProps)(AdminCoursesListView);

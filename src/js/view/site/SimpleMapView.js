@@ -47,6 +47,7 @@ SimpleMap.propTypes = {
   markers: React.PropTypes.array.isRequired,
   zoom: React.PropTypes.number.isRequired,
   initialCenter: React.PropTypes.object.isRequired,
+  containerElementProps: React.PropTypes.object,
 };
 
 export default SimpleMap;

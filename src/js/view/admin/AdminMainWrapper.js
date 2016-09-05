@@ -24,13 +24,12 @@ AdminMainViewWrapper.propTypes = {
 const mapStateToProps = (state) =>
   ({ coursesData: state.coursesData });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
+const mapDispatchToProps = (dispatch) =>
+  ({
     actions: {
       getCoursesDispatcher: bindActionCreators(Redux.getCoursesAction, dispatch),
     },
-  };
-};
+  });
 
 const AdminMainWrapper =
   connect(mapStateToProps, mapDispatchToProps)(AdminMainViewWrapper);
