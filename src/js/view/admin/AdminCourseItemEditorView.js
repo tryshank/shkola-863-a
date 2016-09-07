@@ -172,12 +172,16 @@ class AdminCourseItemEditorView extends Component {
                 </div>
               </div>
               <div className="col-sm-12 col-md-4">
-                <img
-                  src={this.state.activeCourse.image ?
-                  `server/img/${this.state.activeCourse.image}` : ''}
-                  style={{ height: '100px', display: 'inline-block',
-                           float: 'right', overflow: 'hide' }} alt=""
-                />
+                {this.state.activeCourse.image ?
+                  <img
+                    src={this.state.activeCourse.image ?
+                    `server/img/${this.state.activeCourse.image}` : ''}
+                    style={{ height: '100px', display: 'inline-block',
+                             float: 'none', overflow: 'hide',
+                             position: 'relative', left: '-20px', top: '5px' }}
+                    alt="preview"
+                  /> : null
+                }
               </div>
             </div>
             <div className="row">

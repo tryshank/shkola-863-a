@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 class AdminMainViewWrapper extends React.Component {
 
   componentDidMount() {
-    this.props.actions.getCoursesDispatcher();
+    this.props.actions.getCoursesDispatcher('server');
   }
 
   render = () =>

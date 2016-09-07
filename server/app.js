@@ -4,9 +4,22 @@ let mongoose = require('mongoose');
 let path = require('path');
 let formidable = require('formidable');
 let fs = require('fs');
-NODE_DEBUG=fs
+// NODE_DEBUG=fs
 
 mongoose.Promise = global.Promise;
+
+const imagesPath = path.join(__dirname, '/img');
+
+console.log('reading images in ',imagesPath, '...');
+
+files = fs.readdirSync(imagesPath);
+// filter directories, etc.
+const imageFiles = files.filter(file =>
+  fs.statSync(path.join(imagesPath, file)).isFile()
+);
+console.log('done')
+// console.log(imageFiles);
+
 
 const send404 = (res) => {
   if (!res.headersSent)
@@ -70,8 +83,8 @@ app.listen(3000, function () {
 });
 
 
-// read
-app.get('/courses-json', function (req, res) {
+// read courses at client
+app.get('/courses-client', function (req, res) {
   coursesModel.find(function (err, docs) {
     if (err) {
       send500(res,err);
@@ -79,8 +92,21 @@ app.get('/courses-json', function (req, res) {
       res.status(200).json(docs).end();
     }
   });
-
 });
+
+// read courses at server
+app.get('/courses-server', function (req, res) {
+  coursesModel.find(function (err, docs) {
+    if (err) {
+      send500(res,err);
+    } else {
+      res.status(200).json({docs, imageFiles}).end();
+    }
+  });
+});
+
+
+
 
 // post/add-create
 app.post('/courses-post/', (req, res) => {

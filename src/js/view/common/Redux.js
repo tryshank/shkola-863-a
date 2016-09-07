@@ -48,8 +48,8 @@ const coursesData = (state = [], action) => {
     case ACTION_FETCH_COURSES_DATA:
       {
         let newData = state;
-        if (Array.isArray(action.payload)) {
-          newData = action.payload;
+        if (Array.isArray(action.payload.docs)) {
+          newData = action.payload.docs;
         } else {
           console.error('response from DB need to be Array');
         }
@@ -119,7 +119,7 @@ const dialogState = (state = { open: false }, action) => {
   }
 };
 
-// TODO: combine with activeCourseId ?
+// TODO: combine with activeCourseId / imagesFiles ?
 const activeCourseImage = (state = null, action) => {
   switch (action.type) {
     case ACTION_IMAGE_UPLOAD:
@@ -128,6 +128,21 @@ const activeCourseImage = (state = null, action) => {
       }
     default:
       return null;
+  }
+};
+
+const imagesFiles = (state = [], action) => {
+  switch (action.type) {
+    case ACTION_FETCH_COURSES_DATA:
+      {
+        return action.payload.imagesFiles;
+      }
+    case ACTION_IMAGE_UPLOAD:
+      {
+        return action.payload.filename;
+      }
+    default:
+      return state;
   }
 };
 

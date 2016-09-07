@@ -32,7 +32,7 @@ class CoursesView extends React.Component {
 
   componentDidMount() {
     console.log('CoursesView componentDidMount');
-    this.props.getCoursesDispatcher();
+    this.props.getCoursesDispatcher('client');
   }
 
   render() {
@@ -70,7 +70,7 @@ const mapStateToProps = (state) =>
   ({ coursesData: state.coursesData });
 
 const mapDispatchToProps = (dispatch) =>
-  ({ getCoursesDispatcher: () => dispatch(Redux.getCoursesAction()) });
+  ({ getCoursesDispatcher: (type) => dispatch(Redux.getCoursesAction(type)) });
 
 const CoursesViewWrapper = connect(mapStateToProps, mapDispatchToProps)(CoursesView);
 

@@ -1,5 +1,6 @@
-export const getCoursesData = () =>
-  fetch('http://localhost:3000/courses-json/').then((response) => {
+export const getCoursesData = (type) =>
+  fetch(`http://localhost:3000/courses-${type}/`).then((response) => {
+    console.log(type);
     if (response.ok) {
       return response.json();
     }
