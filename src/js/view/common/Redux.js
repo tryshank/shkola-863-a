@@ -13,6 +13,7 @@ export const ACTION_COURSE_ADD = 'ACTION_COURSE_ADD';
 export const ACTION_COURSE_CREATE = 'ACTION_COURSE_CREATE';
 export const ACTION_COURSE_SAVE = 'ACTION_COURSE_SAVE';
 export const ACTION_COURSE_DELETE = 'ACTION_COURSE_DELETE';
+export const ACTION_IMAGE_UPLOAD = 'ACTION_IMAGE_UPLOAD';
 
 const activeCourseId = (state = null, action) => {
   console.log('activeCourseId', action);
@@ -118,10 +119,23 @@ const dialogState = (state = { open: false }, action) => {
   }
 };
 
+// TODO: combine with activeCourseId ?
+const activeCourseImage = (state = null, action) => {
+  switch (action.type) {
+    case ACTION_IMAGE_UPLOAD:
+      {
+        return action.payload.filename;
+      }
+    default:
+      return null;
+  }
+};
+
 
 const Reducers = combineReducers({
   coursesData,
   activeCourseId,
+  activeCourseImage,
   dialogState,
 });
 
@@ -135,3 +149,4 @@ export const deleteCourseAction = createAction(ACTION_COURSE_DELETE, WebAPI.dele
 export const setActiveCourseIdAction = createAction(ACTION_SET_ACTIVE_COURSE_ID);
 export const openDeleteDialogAction = createAction(ACTION_SHOW_DIALOG);
 export const closeDeleteDialogAction = createAction(ACTION_CLOSE_DIALOG);
+export const imageUploadAction = createAction(ACTION_IMAGE_UPLOAD, WebAPI.uploadImage);

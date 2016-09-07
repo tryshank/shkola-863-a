@@ -31,7 +31,8 @@ const CoursesModalView = ({ coursesData }) =>
                     className="star-primary"
                   />
                   <img
-                    src={`src/img/courses/${courseItem.image}`}
+                    // TODO: fix images path
+                    src={`server/img/${courseItem.image}`}
                     className="img-responsive img-centered"
                     alt=""
                   />
