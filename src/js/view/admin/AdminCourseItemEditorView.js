@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import * as Redux from '../common/Redux';
+// import * as WebAPI from '../common/WebAPI';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 
@@ -8,6 +10,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
+import Divider from 'material-ui/Divider';
 
 const editor = {
   display: 'block',
@@ -16,8 +19,10 @@ const editor = {
   width: 'auto',
 };
 
+
 const initialState = {
   activeCourseId: null,
+  activeCourseImage: null,
   activeCourse: {
     _id: null,
     title: null,
@@ -39,8 +44,12 @@ class AdminCourseItemEditorView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const activeCourse = nextProps.activeCourseImage ?
+      { ...nextProps.activeCourse, image: nextProps.activeCourseImage } : nextProps.activeCourse;
     this.state = {
-      ...this.state, activeCourse: nextProps.activeCourse, activeCourseId: nextProps.activeCourseId,
+      ...this.state,
+      activeCourse,
+      activeCourseId: nextProps.activeCourseId,
     };
   }
 
@@ -87,6 +96,24 @@ class AdminCourseItemEditorView extends Component {
     });
   };
 
+  uploadFileNameChange = (e) => {
+    e.preventDefault();
+    console.log('activeCourse._id: ', this.state.activeCourse._id);
+    console.log('activeCourseId: ', this.state.activeCourseId);
+    console.log(e.target.files[0]);
+    // WebAPI.uploadImage(e.target.files[0]);
+    this.props.actions.imageUpload(e.target.files[0]);
+  };
+
+  openFileDialog = () => {
+    /*
+       TODO: check this is best solution
+       https://github.com/callemall/material-ui/issues/647
+    */
+    const fileUploadDom = ReactDOM.findDOMNode(this.refs.fileUpload);
+    fileUploadDom.click();
+  };
+
   render() {
     return (
       <MuiThemeProvider>
@@ -114,46 +141,82 @@ class AdminCourseItemEditorView extends Component {
               rowsMax={6}
               multiLine
             />
-            <TextField
-              value={this.state.activeCourse.image || ''}
-              id="txtImage"
-              onChange={this.txtFieldChange}
-              fullWidth
-              floatingLabelText="Image file name"
-              floatingLabelFixed
-            />
-            <TextField
-              value={this.state.activeCourse.client || ''}
-              id="txtClient"
-              onChange={this.txtFieldChange}
-              fullWidth
-              floatingLabelText="Client"
-              floatingLabelFixed
-            />
-            <TextField
-              value={this.state.activeCourse.date || ''}
-              id="txtDate"
-              onChange={this.txtFieldChange}
-              fullWidth
-              floatingLabelText="Date"
-              floatingLabelFixed
-            />
-            <TextField
-              value={this.state.activeCourse.service || ''}
-              id="txtService"
-              onChange={this.txtFieldChange}
-              fullWidth
-              floatingLabelText="Service"
-              floatingLabelFixed
-            />
-            <TextField
-              value={this.state.activeCourse.link || ''}
-              id="txtLink"
-              onChange={this.txtFieldChange}
-              fullWidth
-              floatingLabelText="Link"
-              floatingLabelFixed
-            />
+            <div className="row">
+              <Divider />
+            </div>
+            <div className="row">
+              <div className="col-sm-12 col-md-8">
+                <div>
+                  <TextField
+                    value={this.state.activeCourse.image || ''}
+                    id="txtImage"
+                    fullWidth
+                    onChange={this.txtFieldChange}
+                    floatingLabelText="Image file name"
+                    floatingLabelFixed
+                    disabled
+                  />
+                </div>
+                <div>
+                  <FlatButton
+                    label="Upload image"
+                    onClick={this.openFileDialog}
+                    primary
+                  />
+                  <input
+                    ref="fileUpload"
+                    type="file"
+                    style={{ display: 'none' }}
+                    onChange={this.uploadFileNameChange}
+                  />
+                </div>
+              </div>
+              <div className="col-sm-12 col-md-4">
+                <img
+                  src={this.state.activeCourse.image ?
+                  `server/img/${this.state.activeCourse.image}` : ''}
+                  style={{ height: '100px', display: 'inline-block',
+                           float: 'right', overflow: 'hide' }} alt=""
+                />
+              </div>
+            </div>
+            <div className="row">
+              <Divider />
+            </div>
+            <div className="row">
+              <TextField
+                value={this.state.activeCourse.client || ''}
+                id="txtClient"
+                onChange={this.txtFieldChange}
+                fullWidth
+                floatingLabelText="Client"
+                floatingLabelFixed
+              />
+              <TextField
+                value={this.state.activeCourse.date || ''}
+                id="txtDate"
+                onChange={this.txtFieldChange}
+                fullWidth
+                floatingLabelText="Date"
+                floatingLabelFixed
+              />
+              <TextField
+                value={this.state.activeCourse.service || ''}
+                id="txtService"
+                onChange={this.txtFieldChange}
+                fullWidth
+                floatingLabelText="Service"
+                floatingLabelFixed
+              />
+              <TextField
+                value={this.state.activeCourse.link || ''}
+                id="txtLink"
+                onChange={this.txtFieldChange}
+                fullWidth
+                floatingLabelText="Link"
+                floatingLabelFixed
+              />
+            </div>
           </div>
           <div>
             <RaisedButton
@@ -167,6 +230,7 @@ class AdminCourseItemEditorView extends Component {
               style={{ margin: 12 }}
               onTouchTap={() => this.deleteClick()}
             />
+
           </div>
         </Paper>
       </MuiThemeProvider>
@@ -182,14 +246,17 @@ AdminCourseItemEditorView.propTypes = {
     createCourse: React.PropTypes.func.isRequired,
     saveCourse: React.PropTypes.func.isRequired,
     deleteCourse: React.PropTypes.func.isRequired,
+    imageUpload: React.PropTypes.func.isRequired,
   }),
   activeCourseId: React.PropTypes.string,
   activeCourse: React.PropTypes.object,
+  activeCourseImage: React.PropTypes.string,
 };
 
 const mapStateToProps = (state) =>
   ({
     activeCourseId: state.activeCourseId,
+    activeCourseImage: state.activeCourseImage,
     activeCourse: state.activeCourseId ? state.coursesData.filter(courseItem =>
       courseItem._id === state.activeCourseId)[0] : initialState.activeCourse,
   });
@@ -202,6 +269,7 @@ const mapDispatchToProps = (dispatch) =>
       createCourse: bindActionCreators(Redux.createCourseAction, dispatch),
       saveCourse: bindActionCreators(Redux.saveCourseAction, dispatch),
       deleteCourse: bindActionCreators(Redux.deleteCourseAction, dispatch),
+      imageUpload: bindActionCreators(Redux.imageUploadAction, dispatch),
     },
   });
 
