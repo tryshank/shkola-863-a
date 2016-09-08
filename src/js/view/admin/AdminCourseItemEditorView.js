@@ -141,7 +141,7 @@ class AdminCourseItemEditorView extends Component {
               rowsMax={6}
               multiLine
             />
-            <div className="row">
+            <div>
               <Divider />
             </div>
             <div className="row">
@@ -184,43 +184,42 @@ class AdminCourseItemEditorView extends Component {
                 }
               </div>
             </div>
-            <div className="row">
+            <div style={{ fontSize: '1px' }}>&nbsp;</div>
+            <div>
               <Divider />
             </div>
-            <div className="row">
-              <TextField
-                value={this.state.activeCourse.client || ''}
-                id="txtClient"
-                onChange={this.txtFieldChange}
-                fullWidth
-                floatingLabelText="Client"
-                floatingLabelFixed
-              />
-              <TextField
-                value={this.state.activeCourse.date || ''}
-                id="txtDate"
-                onChange={this.txtFieldChange}
-                fullWidth
-                floatingLabelText="Date"
-                floatingLabelFixed
-              />
-              <TextField
-                value={this.state.activeCourse.service || ''}
-                id="txtService"
-                onChange={this.txtFieldChange}
-                fullWidth
-                floatingLabelText="Service"
-                floatingLabelFixed
-              />
-              <TextField
-                value={this.state.activeCourse.link || ''}
-                id="txtLink"
-                onChange={this.txtFieldChange}
-                fullWidth
-                floatingLabelText="Link"
-                floatingLabelFixed
-              />
-            </div>
+            <TextField
+              value={this.state.activeCourse.client || ''}
+              id="txtClient"
+              onChange={this.txtFieldChange}
+              fullWidth
+              floatingLabelText="Client"
+              floatingLabelFixed
+            />
+            <TextField
+              value={this.state.activeCourse.date || ''}
+              id="txtDate"
+              onChange={this.txtFieldChange}
+              fullWidth
+              floatingLabelText="Date"
+              floatingLabelFixed
+            />
+            <TextField
+              value={this.state.activeCourse.service || ''}
+              id="txtService"
+              onChange={this.txtFieldChange}
+              fullWidth
+              floatingLabelText="Service"
+              floatingLabelFixed
+            />
+            <TextField
+              value={this.state.activeCourse.link || ''}
+              id="txtLink"
+              onChange={this.txtFieldChange}
+              fullWidth
+              floatingLabelText="Link"
+              floatingLabelFixed
+            />
           </div>
           <div>
             <RaisedButton
