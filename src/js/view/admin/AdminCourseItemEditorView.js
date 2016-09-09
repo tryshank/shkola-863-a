@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import * as Redux from '../common/Redux';
-// import * as WebAPI from '../common/WebAPI';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 const editor = {
   display: 'block',
@@ -23,6 +23,7 @@ const editor = {
 const initialState = {
   activeCourseId: null,
   activeCourseImage: null,
+  imagesFiles: [],
   activeCourse: {
     _id: null,
     title: null,
@@ -50,6 +51,7 @@ class AdminCourseItemEditorView extends Component {
       ...this.state,
       activeCourse,
       activeCourseId: nextProps.activeCourseId,
+      imagesFiles: nextProps.imagesFiles,
     };
   }
 
@@ -98,10 +100,6 @@ class AdminCourseItemEditorView extends Component {
 
   uploadFileNameChange = (e) => {
     e.preventDefault();
-    console.log('activeCourse._id: ', this.state.activeCourse._id);
-    console.log('activeCourseId: ', this.state.activeCourseId);
-    console.log(e.target.files[0]);
-    // WebAPI.uploadImage(e.target.files[0]);
     this.props.actions.imageUpload(e.target.files[0]);
   };
 
@@ -112,6 +110,14 @@ class AdminCourseItemEditorView extends Component {
     */
     const fileUploadDom = ReactDOM.findDOMNode(this.refs.fileUpload);
     fileUploadDom.click();
+  };
+
+  handleImageFileNameChanged = (event, index, value) => {
+    this.setState({
+      ...this.state, activeCourse: {
+        ...this.state.activeCourse, image: value,
+      },
+    });
   };
 
   render() {
@@ -141,21 +147,27 @@ class AdminCourseItemEditorView extends Component {
               rowsMax={6}
               multiLine
             />
-            <div className="row">
+            <div>
               <Divider />
             </div>
             <div className="row">
               <div className="col-sm-12 col-md-8">
                 <div>
-                  <TextField
+                  <SelectField
                     value={this.state.activeCourse.image || ''}
-                    id="txtImage"
-                    fullWidth
-                    onChange={this.txtFieldChange}
+                    onChange={this.handleImageFileNameChanged}
+                    maxHeight={200}
                     floatingLabelText="Image file name"
                     floatingLabelFixed
-                    disabled
-                  />
+                    fullWidth
+                  >
+                    {
+                      this.state.imagesFiles.length ?
+                        this.state.imagesFiles.map(item =>
+                          <MenuItem value={item} key={item} primaryText={item} />)
+                        : null
+                    }
+                  </SelectField>
                 </div>
                 <div>
                   <FlatButton
@@ -172,51 +184,54 @@ class AdminCourseItemEditorView extends Component {
                 </div>
               </div>
               <div className="col-sm-12 col-md-4">
-                <img
-                  src={this.state.activeCourse.image ?
-                  `server/img/${this.state.activeCourse.image}` : ''}
-                  style={{ height: '100px', display: 'inline-block',
-                           float: 'right', overflow: 'hide' }} alt=""
-                />
+                {this.state.activeCourse.image ?
+                  <img
+                    src={this.state.activeCourse.image ?
+                    `server/img/${this.state.activeCourse.image}` : ''}
+                    style={{ height: '100px', display: 'inline-block',
+                             float: 'none', overflow: 'hide',
+                             position: 'relative', left: '-20px', top: '5px' }}
+                    alt="preview"
+                  /> : null
+                }
               </div>
             </div>
-            <div className="row">
+            <div style={{ fontSize: '1px' }}>&nbsp;</div>
+            <div>
               <Divider />
             </div>
-            <div className="row">
-              <TextField
-                value={this.state.activeCourse.client || ''}
-                id="txtClient"
-                onChange={this.txtFieldChange}
-                fullWidth
-                floatingLabelText="Client"
-                floatingLabelFixed
-              />
-              <TextField
-                value={this.state.activeCourse.date || ''}
-                id="txtDate"
-                onChange={this.txtFieldChange}
-                fullWidth
-                floatingLabelText="Date"
-                floatingLabelFixed
-              />
-              <TextField
-                value={this.state.activeCourse.service || ''}
-                id="txtService"
-                onChange={this.txtFieldChange}
-                fullWidth
-                floatingLabelText="Service"
-                floatingLabelFixed
-              />
-              <TextField
-                value={this.state.activeCourse.link || ''}
-                id="txtLink"
-                onChange={this.txtFieldChange}
-                fullWidth
-                floatingLabelText="Link"
-                floatingLabelFixed
-              />
-            </div>
+            <TextField
+              value={this.state.activeCourse.client || ''}
+              id="txtClient"
+              onChange={this.txtFieldChange}
+              fullWidth
+              floatingLabelText="Client"
+              floatingLabelFixed
+            />
+            <TextField
+              value={this.state.activeCourse.date || ''}
+              id="txtDate"
+              onChange={this.txtFieldChange}
+              fullWidth
+              floatingLabelText="Date"
+              floatingLabelFixed
+            />
+            <TextField
+              value={this.state.activeCourse.service || ''}
+              id="txtService"
+              onChange={this.txtFieldChange}
+              fullWidth
+              floatingLabelText="Service"
+              floatingLabelFixed
+            />
+            <TextField
+              value={this.state.activeCourse.link || ''}
+              id="txtLink"
+              onChange={this.txtFieldChange}
+              fullWidth
+              floatingLabelText="Link"
+              floatingLabelFixed
+            />
           </div>
           <div>
             <RaisedButton
@@ -251,12 +266,14 @@ AdminCourseItemEditorView.propTypes = {
   activeCourseId: React.PropTypes.string,
   activeCourse: React.PropTypes.object,
   activeCourseImage: React.PropTypes.string,
+  imagesFiles: React.PropTypes.array,
 };
 
 const mapStateToProps = (state) =>
   ({
     activeCourseId: state.activeCourseId,
     activeCourseImage: state.activeCourseImage,
+    imagesFiles: state.imagesFiles,
     activeCourse: state.activeCourseId ? state.coursesData.filter(courseItem =>
       courseItem._id === state.activeCourseId)[0] : initialState.activeCourse,
   });
