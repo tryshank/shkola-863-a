@@ -1,6 +1,5 @@
 export const getCoursesData = (type) =>
   fetch(`http://localhost:3000/courses-${type}/`).then((response) => {
-    console.log(type);
     if (response.ok) {
       return response.json();
     }
@@ -20,7 +19,6 @@ export const createCourse = (courseItem) => {
   const init = { method: 'post', headers: setHeaders(),
     body: JSON.stringify({ data: courseItem }) };
   return fetch(new Request('http://localhost:3000/courses-post/', init)).then((res) => {
-    console.log('res ', res);
     if (res.status === 200) {
       return res.json();
     }
@@ -56,13 +54,9 @@ export const deleteCourse = (id) => {
 
 
 export const uploadImage = (file) => {
-  console.log('uploadImage', file);
   const formData = new FormData();
   formData.append('type', 'file');
   formData.append('file', file);
-  console.log(formData.getAll('file'));
-  console.log(formData.getAll('type'));
-
   return fetch('http://localhost:3000/image-upload', { method: 'POST', body: formData }).then(res => {
     if (res.ok) {
       return res.json();
