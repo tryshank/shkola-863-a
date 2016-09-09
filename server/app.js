@@ -14,7 +14,7 @@ console.log('reading images in ',imagesPath, '...');
 
 files = fs.readdirSync(imagesPath);
 // filter directories, etc.
-const imageFiles = files.filter(file =>
+const imagesFiles = files.filter(file =>
   fs.statSync(path.join(imagesPath, file)).isFile()
 );
 console.log('done')
@@ -89,7 +89,7 @@ app.get('/courses-client', function (req, res) {
     if (err) {
       send500(res,err);
     } else {
-      res.status(200).json(docs).end();
+      res.status(200).json({docs}).end();
     }
   });
 });
@@ -100,7 +100,7 @@ app.get('/courses-server', function (req, res) {
     if (err) {
       send500(res,err);
     } else {
-      res.status(200).json({docs, imageFiles}).end();
+      res.status(200).json({docs, imagesFiles}).end();
     }
   });
 });

@@ -135,11 +135,11 @@ const imagesFiles = (state = [], action) => {
   switch (action.type) {
     case ACTION_FETCH_COURSES_DATA:
       {
-        return action.payload.imagesFiles;
+        return action.payload.imagesFiles ? action.payload.imagesFiles : state;
       }
     case ACTION_IMAGE_UPLOAD:
       {
-        return action.payload.filename;
+        return [].concat(state).concat(action.payload.filename);
       }
     default:
       return state;
@@ -152,6 +152,7 @@ const Reducers = combineReducers({
   activeCourseId,
   activeCourseImage,
   dialogState,
+  imagesFiles,
 });
 
 export const store = createStore(Reducers, applyMiddleware(promiseMiddleware));

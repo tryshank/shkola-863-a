@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import * as Redux from '../common/Redux';
-// import * as WebAPI from '../common/WebAPI';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 const editor = {
   display: 'block',
@@ -23,6 +23,7 @@ const editor = {
 const initialState = {
   activeCourseId: null,
   activeCourseImage: null,
+  imagesFiles: [],
   activeCourse: {
     _id: null,
     title: null,
@@ -50,7 +51,9 @@ class AdminCourseItemEditorView extends Component {
       ...this.state,
       activeCourse,
       activeCourseId: nextProps.activeCourseId,
+      imagesFiles: nextProps.imagesFiles,
     };
+    console.log('componentWillReceiveProps', this.state);
   }
 
   txtFieldChange = (event) => {
@@ -98,10 +101,6 @@ class AdminCourseItemEditorView extends Component {
 
   uploadFileNameChange = (e) => {
     e.preventDefault();
-    console.log('activeCourse._id: ', this.state.activeCourse._id);
-    console.log('activeCourseId: ', this.state.activeCourseId);
-    console.log(e.target.files[0]);
-    // WebAPI.uploadImage(e.target.files[0]);
     this.props.actions.imageUpload(e.target.files[0]);
   };
 
@@ -114,7 +113,18 @@ class AdminCourseItemEditorView extends Component {
     fileUploadDom.click();
   };
 
+  handleImageFileNameChanged = (event, index, value) => {
+    console.log(event, index, value);
+    this.setState({
+      ...this.state, activeCourse: {
+        ...this.state.activeCourse, image: value,
+      },
+    });
+    // this.setState({value});
+  };
+
   render() {
+    console.log('render ', this.state);
     return (
       <MuiThemeProvider>
         <Paper
@@ -147,15 +157,21 @@ class AdminCourseItemEditorView extends Component {
             <div className="row">
               <div className="col-sm-12 col-md-8">
                 <div>
-                  <TextField
+                  <SelectField
                     value={this.state.activeCourse.image || ''}
-                    id="txtImage"
-                    fullWidth
-                    onChange={this.txtFieldChange}
+                    onChange={this.handleImageFileNameChanged}
+                    maxHeight={200}
                     floatingLabelText="Image file name"
                     floatingLabelFixed
-                    disabled
-                  />
+                    fullWidth
+                  >
+                    {
+                      this.state.imagesFiles.length ?
+                        this.state.imagesFiles.map(item =>
+                          <MenuItem value={item} key={item} primaryText={item} />)
+                        : null
+                    }
+                  </SelectField>
                 </div>
                 <div>
                   <FlatButton
@@ -254,12 +270,14 @@ AdminCourseItemEditorView.propTypes = {
   activeCourseId: React.PropTypes.string,
   activeCourse: React.PropTypes.object,
   activeCourseImage: React.PropTypes.string,
+  imagesFiles: React.PropTypes.array,
 };
 
 const mapStateToProps = (state) =>
   ({
     activeCourseId: state.activeCourseId,
     activeCourseImage: state.activeCourseImage,
+    imagesFiles: state.imagesFiles,
     activeCourse: state.activeCourseId ? state.coursesData.filter(courseItem =>
       courseItem._id === state.activeCourseId)[0] : initialState.activeCourse,
   });
