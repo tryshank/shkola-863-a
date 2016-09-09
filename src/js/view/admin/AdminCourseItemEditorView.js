@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import * as Redux from '../common/Redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
+import Divider from 'material-ui/Divider';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
 const editor = {
   display: 'block',
@@ -16,8 +19,11 @@ const editor = {
   width: 'auto',
 };
 
+
 const initialState = {
   activeCourseId: null,
+  activeCourseImage: null,
+  imagesFiles: [],
   activeCourse: {
     _id: null,
     title: null,
@@ -39,9 +45,15 @@ class AdminCourseItemEditorView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const activeCourse = nextProps.activeCourseImage ?
+      { ...nextProps.activeCourse, image: nextProps.activeCourseImage } : nextProps.activeCourse;
     this.state = {
-      ...this.state, activeCourse: nextProps.activeCourse, activeCourseId: nextProps.activeCourseId,
+      ...this.state,
+      activeCourse,
+      activeCourseId: nextProps.activeCourseId,
+      imagesFiles: nextProps.imagesFiles,
     };
+    console.log('componentWillReceiveProps', this.state);
   }
 
   txtFieldChange = (event) => {
@@ -87,7 +99,32 @@ class AdminCourseItemEditorView extends Component {
     });
   };
 
+  uploadFileNameChange = (e) => {
+    e.preventDefault();
+    this.props.actions.imageUpload(e.target.files[0]);
+  };
+
+  openFileDialog = () => {
+    /*
+       TODO: check this is best solution
+       https://github.com/callemall/material-ui/issues/647
+    */
+    const fileUploadDom = ReactDOM.findDOMNode(this.refs.fileUpload);
+    fileUploadDom.click();
+  };
+
+  handleImageFileNameChanged = (event, index, value) => {
+    console.log(event, index, value);
+    this.setState({
+      ...this.state, activeCourse: {
+        ...this.state.activeCourse, image: value,
+      },
+    });
+    // this.setState({value});
+  };
+
   render() {
+    console.log('render ', this.state);
     return (
       <MuiThemeProvider>
         <Paper
@@ -114,14 +151,59 @@ class AdminCourseItemEditorView extends Component {
               rowsMax={6}
               multiLine
             />
-            <TextField
-              value={this.state.activeCourse.image || ''}
-              id="txtImage"
-              onChange={this.txtFieldChange}
-              fullWidth
-              floatingLabelText="Image file name"
-              floatingLabelFixed
-            />
+            <div>
+              <Divider />
+            </div>
+            <div className="row">
+              <div className="col-sm-12 col-md-8">
+                <div>
+                  <SelectField
+                    value={this.state.activeCourse.image || ''}
+                    onChange={this.handleImageFileNameChanged}
+                    maxHeight={200}
+                    floatingLabelText="Image file name"
+                    floatingLabelFixed
+                    fullWidth
+                  >
+                    {
+                      this.state.imagesFiles.length ?
+                        this.state.imagesFiles.map(item =>
+                          <MenuItem value={item} key={item} primaryText={item} />)
+                        : null
+                    }
+                  </SelectField>
+                </div>
+                <div>
+                  <FlatButton
+                    label="Upload image"
+                    onClick={this.openFileDialog}
+                    primary
+                  />
+                  <input
+                    ref="fileUpload"
+                    type="file"
+                    style={{ display: 'none' }}
+                    onChange={this.uploadFileNameChange}
+                  />
+                </div>
+              </div>
+              <div className="col-sm-12 col-md-4">
+                {this.state.activeCourse.image ?
+                  <img
+                    src={this.state.activeCourse.image ?
+                    `server/img/${this.state.activeCourse.image}` : ''}
+                    style={{ height: '100px', display: 'inline-block',
+                             float: 'none', overflow: 'hide',
+                             position: 'relative', left: '-20px', top: '5px' }}
+                    alt="preview"
+                  /> : null
+                }
+              </div>
+            </div>
+            <div style={{ fontSize: '1px' }}>&nbsp;</div>
+            <div>
+              <Divider />
+            </div>
             <TextField
               value={this.state.activeCourse.client || ''}
               id="txtClient"
@@ -167,6 +249,7 @@ class AdminCourseItemEditorView extends Component {
               style={{ margin: 12 }}
               onTouchTap={() => this.deleteClick()}
             />
+
           </div>
         </Paper>
       </MuiThemeProvider>
@@ -182,14 +265,19 @@ AdminCourseItemEditorView.propTypes = {
     createCourse: React.PropTypes.func.isRequired,
     saveCourse: React.PropTypes.func.isRequired,
     deleteCourse: React.PropTypes.func.isRequired,
+    imageUpload: React.PropTypes.func.isRequired,
   }),
   activeCourseId: React.PropTypes.string,
   activeCourse: React.PropTypes.object,
+  activeCourseImage: React.PropTypes.string,
+  imagesFiles: React.PropTypes.array,
 };
 
 const mapStateToProps = (state) =>
   ({
     activeCourseId: state.activeCourseId,
+    activeCourseImage: state.activeCourseImage,
+    imagesFiles: state.imagesFiles,
     activeCourse: state.activeCourseId ? state.coursesData.filter(courseItem =>
       courseItem._id === state.activeCourseId)[0] : initialState.activeCourse,
   });
@@ -202,6 +290,7 @@ const mapDispatchToProps = (dispatch) =>
       createCourse: bindActionCreators(Redux.createCourseAction, dispatch),
       saveCourse: bindActionCreators(Redux.saveCourseAction, dispatch),
       deleteCourse: bindActionCreators(Redux.deleteCourseAction, dispatch),
+      imageUpload: bindActionCreators(Redux.imageUploadAction, dispatch),
     },
   });
 
