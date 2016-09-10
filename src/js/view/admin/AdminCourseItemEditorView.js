@@ -53,7 +53,6 @@ class AdminCourseItemEditorView extends Component {
       activeCourseId: nextProps.activeCourseId,
       imagesFiles: nextProps.imagesFiles,
     };
-    console.log('componentWillReceiveProps', this.state);
   }
 
   txtFieldChange = (event) => {
@@ -114,17 +113,14 @@ class AdminCourseItemEditorView extends Component {
   };
 
   handleImageFileNameChanged = (event, index, value) => {
-    console.log(event, index, value);
     this.setState({
       ...this.state, activeCourse: {
         ...this.state.activeCourse, image: value,
       },
     });
-    // this.setState({value});
   };
 
   render() {
-    console.log('render ', this.state);
     return (
       <MuiThemeProvider>
         <Paper

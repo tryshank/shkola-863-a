@@ -16,7 +16,6 @@ export const ACTION_COURSE_DELETE = 'ACTION_COURSE_DELETE';
 export const ACTION_IMAGE_UPLOAD = 'ACTION_IMAGE_UPLOAD';
 
 const activeCourseId = (state = null, action) => {
-  console.log('activeCourseId', action);
   switch (action.type) {
     case ACTION_SET_ACTIVE_COURSE_ID:
       {
@@ -42,8 +41,6 @@ const activeCourseId = (state = null, action) => {
 
 
 const coursesData = (state = [], action) => {
-  console.log('coursesData ', action);
-  console.log('state ', state);
   switch (action.type) {
     case ACTION_FETCH_COURSES_DATA:
       {
@@ -67,11 +64,9 @@ const coursesData = (state = [], action) => {
               break;
             }
           }
-          console.log('courseIndex ', courseIndex);
           if (courseIndex || courseIndex === 0) {
             newData = [].concat(state.slice(0, courseIndex),
               action.payload.courseItem, state.slice(courseIndex + 1));
-            console.log('newDat', newData);
           }
         }
         return newData;
@@ -81,7 +76,6 @@ const coursesData = (state = [], action) => {
         let newData = state;
         if ((action.payload.id) && (action.payload.result)) {
           newData = state.filter(courseItem => courseItem._id !== action.payload.id);
-          console.log('after deleting ', newData);
         }
         return newData;
       }
