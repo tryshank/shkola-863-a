@@ -23,9 +23,10 @@ injectTapEventPlugin();
 
 //
 
+/*
 (() => {
   const docElem = document.documentElement;
-  const changeHeaderOn = 300;
+  const changeHeaderOn = 5;
   let didScroll = false;
 
   function scrollY() {
@@ -54,7 +55,7 @@ injectTapEventPlugin();
 
   init();
 })();
-
+*/
 
 class App extends Component {
 
@@ -67,11 +68,9 @@ class App extends Component {
     return (
       <div>
         <NavigationView />
-        <HeaderView />
         <CoursesViewWrapper />
         <AboutView />
         <HowToFindView />
-        <ContactView />
         <FooterView />
         {/* Scroll to Top Button (Only visible on small and extra-small screen sizes) */}
         <div className="scroll-top page-scroll visible-xs visible-sm">
