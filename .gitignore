@@ -4,3 +4,4 @@ lib/
 .idea/
 npm-debug.log
 server/img/
+server/client/
