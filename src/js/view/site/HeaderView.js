@@ -6,7 +6,7 @@ const HeaderView = () =>
       <div className="row">
         <div className="col-lg-12">
           <img
-            src="src/img/profile.png"
+            src={require('../../../img/profile.png')}
             alt=""
           />
           <div className="intro-text">

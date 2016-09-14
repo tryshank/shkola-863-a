@@ -4,6 +4,7 @@ let mongoose = require('mongoose');
 let path = require('path');
 let formidable = require('formidable');
 let fs = require('fs');
+const morgan = require('morgan');
 const exphbs = require('express-handlebars');
 process.env.NODE_CONFIG_DIR='config';
 console.log(`RUNNING ON ENVIRONMENT: ${process.env.NODE_ENV}`);
@@ -61,6 +62,7 @@ db.once('open', function () {
 
 
 var bodyParser = require('body-parser');
+app.use(morgan('dev'));
 app.use(bodyParser.json());       // to support JSON-encoded bodies
 app.use(bodyParser.urlencoded({   // to support URL-encoded bodies
   extended: true

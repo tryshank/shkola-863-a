@@ -3,8 +3,7 @@ var isHot = myArgs.indexOf('--hot') !== -1;
 console.log('is hot: ' + isHot);
 var additionalPlugins = isHot ? [ 'react-hmre' ] : [];
 var path = require("path");
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
+var HandlebarsPlugin = require('handlebars-webpack-plugin');
 
 module.exports = [
   {
@@ -16,20 +15,15 @@ module.exports = [
 
     output: {
       filename: 'bundle.js',
+      publicPath: 'http://localhost:8080/assets/',
       path: __dirname + '/server/client'
     },
     plugins: [
-      new HtmlWebpackPlugin({
-        template: './index.hbs'
+      new HandlebarsPlugin({
+        entry: path.join(process.cwd(), "src", "index.hbs"),
+        output: path.join(process.cwd(), "server", "client", "index.html"),
+        data: { bundleHost: isHot ? 'http://localhost:8080/assets/' : ''},
       }),
-      //new HandlebarsPlugin({
-      //  entry: path.join(process.cwd(), "src", "index.hbs"),
-      //  output: path.join(process.cwd(), "server", "client", "index.html"),
-      //  data: { bundleHost: 'http://localhost:8080/'}
-      //})
-      //new CopyWebpackPlugin([
-      //  { from: './src/js/bootstrap.js', to: './server/client/bootstrap.js' }
-      //])
     ],
     module: {
       loaders: [
@@ -44,13 +38,18 @@ module.exports = [
           }
         },
         {
-          test: /\.less$/,
+          test: /\.(less|css)$/,
           loader: "style!css!less"
         },
         {
           test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
           loader: "url-loader?limit=10000&mimetype=application/font-woff"
         },
+        {
+          test: /\.(png|jpg|jpeg|gif|woff)$/,
+          loader: 'url-loader?limit=8192'
+        },
+        { test: /\.hbs$/, loader: "handlebars" },
         {test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader"}
       ]
     }
