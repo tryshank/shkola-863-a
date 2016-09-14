@@ -4,6 +4,10 @@ let mongoose = require('mongoose');
 let path = require('path');
 let formidable = require('formidable');
 let fs = require('fs');
+const exphbs = require('express-handlebars');
+process.env.NODE_CONFIG_DIR='config';
+console.log(`RUNNING ON ENVIRONMENT: ${process.env.NODE_ENV}`);
+const config = require('config');
 
 mongoose.Promise = global.Promise;
 
@@ -199,5 +203,7 @@ app.post('/image-upload/', function(req, res) {
   form.parse(req);
 
 });
+
+app.use(express.static(`${__dirname}/client`));
 
 console.log('---');

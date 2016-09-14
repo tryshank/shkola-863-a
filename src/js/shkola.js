@@ -18,6 +18,14 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 require('font-awesome/less/font-awesome.less');
 require('../less/variables.less');
 require('../less/freelancer.less');
+require('../less/shkola.less');
+require('../less/admin.less');
+require('bootstrap-less');
+require('bootstrap');
+require('./freelancer');
+require('./jqBootstrapValidation');
+require('./contact_me');
+
 
 injectTapEventPlugin();
 
