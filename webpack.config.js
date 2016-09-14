@@ -38,8 +38,8 @@ module.exports = [
           }
         },
         {
-          test: /\.(less|css)$/,
-          loader: "style!css!less"
+          test: /\.(less|css$)$/,
+          loader: "style!css!less-loader"
         },
         {
           test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,

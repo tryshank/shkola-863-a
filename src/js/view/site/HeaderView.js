@@ -1,4 +1,5 @@
 import React from 'react';
+const profileImage = require('../../../img/profile.png');
 
 const HeaderView = () =>
   <header>
@@ -6,7 +7,7 @@ const HeaderView = () =>
       <div className="row">
         <div className="col-lg-12">
           <img
-            src={require('../../../img/profile.png')}
+            src={profileImage}
             alt=""
           />
           <div className="intro-text">
