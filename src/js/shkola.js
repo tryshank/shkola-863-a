@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import HeaderView from './view/site/HeaderView';
+// import HeaderView from './view/site/HeaderView';
 import AboutView from './view/site/AboutView';
-import ContactView from './view/site/ContactsView';
+// import ContactView from './view/site/ContactsView';
 import FooterView from './view/site/FooterView';
 import NavigationView from './view/site/NavigationView';
 import HowToFindView from './view/site/HowToFindView';
 import CoursesViewWrapper from './view/site/CoursesView';
 import CoursesModalViewWrapper from './view/site/CoursesModalView';
 import AdminMainWrapper from './view/admin/AdminMainWrapper';
-import Classie from 'classie';
+// import Classie from 'classie';
 import { Provider } from 'react-redux';
 import * as Redux from './view/common/Redux';
 import { Router, Route, hashHistory } from 'react-router';
