@@ -2,7 +2,7 @@ import React from 'react';
 
 const NavigationView = () =>
 
-  <nav className="navbar navbar-default navbar-fixed-top">
+  <nav className="navbar navbar-default navbar-fixed-top navbar-custom">
     <div className="container">
       <div className="navbar-header page-scroll">
         <button

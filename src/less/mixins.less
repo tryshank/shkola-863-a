@@ -10,7 +10,7 @@
 	.open .dropdown-toggle& {
 		color: @color;
 		background-color: darken(@background, 10%);
-        border-color: darken(@border, 12%);
+		border-color: darken(@border, 12%);
 	}
 	&:active,
 	&.active,
@@ -34,4 +34,10 @@
 		color: @background;
 		background-color: @color;
 	}
+}
+
+.transition-all() {
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	transition: all 0.5s;
 }
