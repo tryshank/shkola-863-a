@@ -23,8 +23,9 @@ console.log('done');
 
 
 const send404 = (res) => {
-  if (!res.headersSent)
+  if (!res.headersSent) {
     res.status(404).send({ err: 'id not found' }).end();
+  }
 };
 
 const send500 = (res, err) => {
