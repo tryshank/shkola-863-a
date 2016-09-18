@@ -43,7 +43,7 @@ class CoursesView extends React.Component {
       <section id="courses">
         <div className="container">
           <div className="row">
-            <div className="text-center">
+            <div className="col-lg-12 text-center">
               <h2>Courses</h2>
               <hr
                 className="star-primary"
