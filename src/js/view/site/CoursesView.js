@@ -1,11 +1,12 @@
 import React from 'react';
 import * as Redux from '../common/Redux';
 import { connect } from 'react-redux';
+import { Link } from 'react-router';
 
 const CourseItemView = ({ courseItem }) =>
   <div className="col-sm-4 course-item">
-    <a
-      href={`#${courseItem._id}`}
+    <Link
+      to={`/${courseItem._id}`}
       className="course-link"
       data-toggle="modal"
     >
@@ -16,11 +17,11 @@ const CourseItemView = ({ courseItem }) =>
       </div>
       <img
         // TODO: fix images path
-        src={`server/img/${courseItem.image}`}
+        src={`/image/${courseItem.image}`}
         className="img-responsive"
         alt=""
       />
-    </a>
+    </Link>
   </div>;
 
 CourseItemView.propTypes = {
@@ -35,6 +36,8 @@ class CoursesView extends React.Component {
   }
 
   render() {
+    const { coursesData } = this.props;
+    console.log('coursesData: ', coursesData);
     return (
       <section id="courses">
         <div className="container">
