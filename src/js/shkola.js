@@ -51,39 +51,6 @@ require('./contact_me');
 })();
 
 
-class App extends Component {
-
-  componentDidMount() {
-    console.log('App componentDidMount');
-  }
-
-  render() {
-    console.log('App render');
-    return (
-      <div>
-        <NavigationView />
-        <HeaderView />
-        <CoursesViewWrapper />
-        <AboutView />
-        <HowToFindView />
-        <ContactView />
-        <FooterView />
-        {/* Scroll to Top Button (Only visible on small and extra-small screen sizes) */}
-        <div className="scroll-top page-scroll visible-xs visible-sm">
-          <a
-            className="btn btn-primary"
-            href="#page-top"
-          >
-            <i className="fa fa-chevron-up" />
-          </a>
-        </div>
-        <CoursesModalViewWrapper />
-      </div>
-    );
-  }
-}
-
-
 ReactDOM.render((
   <Provider store={Redux.store}>
     <Router history={browserHistory}>
