@@ -3,8 +3,8 @@ import React from 'react';
 import SimpleMapView from './SimpleMapView';
 
 // GOOGLE MAP
-const initialCenter = { lng: 27.537461, lat: 53.891295 };
-const zoom = 17;
+const initialCenter = { lng: 27.583746, lat: 53.916212 };
+const zoom = 16;
 const marker = [{
   position: initialCenter,
   key: 'Imaguru',
@@ -39,10 +39,11 @@ const HowToFindView = () =>
         </div>
         <div className="col-md-6">
           <div className="how-to-find-description">
-            <h4 className="service-heading">6 лютага а 12:00</h4>
+            <h4 className="service-heading">Shkola-A</h4>
             <span className="text-muted">
-              Бізнэс клуб IMAGURU, г. Мінск, вул. Фабрыцыуса 4, заля Nordic.<br />
-              <b>Калі ласка, <a href="#register">зарэгіструйцеся!</a></b>
+              г. Мінск, ст. метро пл. Я. Коласа.<br />
+              +375-29-9030310<br />
+              info@shkola-a.by
             </span>
           </div>
         </div>

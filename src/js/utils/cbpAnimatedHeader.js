@@ -10,7 +10,7 @@
  */
 export default (function () {
   const docElem = document.documentElement,
-    changeHeaderOn = 300;
+    changeHeaderOn = 5;
   let didScroll = false;
 
   function init() {

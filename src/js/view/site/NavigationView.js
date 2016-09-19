@@ -2,7 +2,7 @@ import React from 'react';
 
 const NavigationView = () =>
 
-  <nav className="navbar navbar-default navbar-fixed-top navbar-custom">
+  <nav className="navbar navbar-default navbar-fixed-top navbar-shrink">
     <div className="container">
       <div className="navbar-header page-scroll">
         <button
@@ -36,7 +36,7 @@ const NavigationView = () =>
             <a href="#about">About</a>
           </li>
           <li className="page-scroll">
-            <a href="#contact">Contact</a>
+            <a href="#howtofind">HowToFind</a>
           </li>
         </ul>
       </div>

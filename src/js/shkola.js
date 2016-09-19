@@ -20,7 +20,7 @@ require('./contact_me');
 
 (() => {
   const docElem = document.documentElement;
-  const changeHeaderOn = 300;
+  const changeHeaderOn = 5;
   let didScroll = false;
 
   function scrollY() {

@@ -7,40 +7,34 @@ const FooterView = () =>
         <div className="row">
           <div className="footer-col col-md-4">
             <h3>Location</h3>
-            <p>3481 Melrose Place<br />Beverly Hills, CA 90210</p>
+            <p>г. Мінск<br />ст. метро пл. Я. Коласа.</p>
           </div>
           <div className="footer-col col-md-4">
             <h3>Around the Web</h3>
             <ul className="list-inline">
               <li>
                 <a
-                  href="#"
+                  href="https://www.facebook.com/ShkolaA1/"
                   className="btn-social btn-outline"
                 ><i className="fa fa-fw fa-facebook" /></a>
               </li>
               <li>
                 <a
-                  href="#"
+                  href="https://vk.com/shkola_a1"
                   className="btn-social btn-outline"
-                ><i className="fa fa-fw fa-google-plus" /></a>
+                ><i className="fa fa-fw fa-vk" /></a>
+              </li>
+              <li>
+                <a
+                  href="mailto:info@shkola-a.by"
+                  className="btn-social btn-outline"
+                ><i className="fa fa-fw fa-envelope" /></a>
               </li>
               <li>
                 <a
                   href="#"
                   className="btn-social btn-outline"
-                ><i className="fa fa-fw fa-twitter" /></a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="btn-social btn-outline"
-                ><i className="fa fa-fw fa-linkedin" /></a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="btn-social btn-outline"
-                ><i className="fa fa-fw fa-dribbble" /></a>
+                ><i className="fa fa-fw fa-link" /></a>
               </li>
             </ul>
           </div>
