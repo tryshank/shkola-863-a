@@ -51,11 +51,12 @@ class CoursesView extends React.Component {
             </div>
           </div>
           <div className="row"> {
-            this.props.coursesData.map((itemData) =>
-              <CourseItemView
-                key={itemData._id}
-                courseItem={itemData}
-              />)
+            this.props.coursesData.map(itemData =>
+              (itemData.visible ?
+                <CourseItemView
+                  key={itemData._id}
+                  courseItem={itemData}
+                /> : null))
           }
           </div>
         </div>

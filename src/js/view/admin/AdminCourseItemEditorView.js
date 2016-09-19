@@ -127,14 +127,15 @@ class AdminCourseItemEditorView extends Component {
   };
 
   checkVisible = (e, checked) => {
-    console.log(e);
-    console.log(checked);
+    console.log('e: ', e);
+    console.log('checked: ', checked);
     this.setState({
-      ...this.state, activeCourse: {
+      ...this.state,
+      activeCourse: {
         ...this.state.activeCourse, visible: checked,
       },
     });
-  }
+  };
 
   render() {
     return (
