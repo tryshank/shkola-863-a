@@ -2,7 +2,7 @@ import React from 'react';
 
 const NavigationView = () =>
 
-  <nav className="navbar navbar-default navbar-fixed-top navbar-shrink">
+  <nav className="navbar navbar-default navbar-fixed-top navbar-custom affix">
     <div className="container">
       <div className="navbar-header page-scroll">
         <button
@@ -12,9 +12,9 @@ const NavigationView = () =>
           data-target="#bs-example-navbar-collapse-1"
         >
           <span className="sr-only">Toggle navigation</span>
-          <span className="icon-bar"></span>
-          <span className="icon-bar"></span>
-          <span className="icon-bar"></span>
+          <span className="icon-bar" />
+          <span className="icon-bar" />
+          <span className="icon-bar" />
         </button>
         <a
           className="navbar-brand"
