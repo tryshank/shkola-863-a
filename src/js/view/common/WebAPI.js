@@ -1,15 +1,18 @@
-export const getCoursesData = (type) =>
-  fetch(`http://localhost:3000/courses-${type}/`).then((response) => {
+export const getCoursesData = (type) => {
+  const init = { method: 'get', cache: 'no-store',
+    headers: { 'Cache-Control': 'no-cache' } };
+  return fetch(new Request(`http://localhost:3000/courses-${type}/`, init), init).then((response) => {
     if (response.ok) {
       return response.json();
     }
     throw new Error(response.status);
   })
-  .catch((error) => {
-    throw new Error(
-      'There has been a problem with fetch operation: ' & (error.message || 'unknown')
-    );
-  });
+    .catch((error) => {
+      throw new Error(
+        'There has been a problem with fetch operation: ' & (error.message || 'unknown')
+      );
+    });
+};
 
 
 const setHeaders = () =>
