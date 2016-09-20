@@ -42,6 +42,7 @@ const schema = new mongoose.Schema({
   date: String,
   service: String,
   link: String,
+  visible: Boolean,
 });
 
 schema.statics.findById = function (_id, cb) {

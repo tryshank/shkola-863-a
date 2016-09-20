@@ -11,6 +11,7 @@ import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import Checkbox from 'material-ui/Checkbox';
 
 const editor = {
   display: 'block',
@@ -19,6 +20,10 @@ const editor = {
   width: 'auto',
 };
 
+const checkbox = {
+  marginTop: 8,
+  marginBottom: 8,
+};
 
 const initialState = {
   activeCourseId: null,
@@ -33,6 +38,7 @@ const initialState = {
     date: null,
     service: null,
     link: null,
+    visible: false,
   },
 };
 
@@ -120,6 +126,15 @@ class AdminCourseItemEditorView extends Component {
     });
   };
 
+  checkVisible = (e, checked) => {
+    this.setState({
+      ...this.state,
+      activeCourse: {
+        ...this.state.activeCourse, visible: checked,
+      },
+    });
+  };
+
   render() {
     return (
       <MuiThemeProvider>
@@ -128,6 +143,12 @@ class AdminCourseItemEditorView extends Component {
           style={editor}
         >
           <div>
+            <Checkbox
+              label="Show course in courses list on the client page"
+              style={checkbox}
+              onCheck={this.checkVisible}
+              checked={this.state.activeCourse.visible}
+            />
             <TextField
               value={this.state.activeCourse.title || ''}
               id="txtTitle"
