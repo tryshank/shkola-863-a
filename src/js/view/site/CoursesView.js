@@ -37,7 +37,7 @@ class CoursesView extends React.Component {
   }
 
   render() {
-    const { coursesData } = this.props;
+    const coursesData = this.props.coursesData.filter(courseItem => courseItem.visible);
     console.log('coursesData: ', coursesData);
     return (
       <section id="courses">
@@ -51,12 +51,11 @@ class CoursesView extends React.Component {
             </div>
           </div>
           <div className="row"> {
-            this.props.coursesData.map(itemData =>
-              (itemData.visible ?
-                <CourseItemView
-                  key={itemData._id}
-                  courseItem={itemData}
-                /> : null))
+            coursesData.map(itemData =>
+              <CourseItemView
+                key={itemData._id}
+                courseItem={itemData}
+              />)
           }
           </div>
         </div>

@@ -41,7 +41,6 @@ const activeCourseId = (state = null, action) => {
 
 
 const coursesData = (state = [], action) => {
-  console.log(action);
   switch (action.type) {
     case ACTION_FETCH_COURSES_DATA:
       {

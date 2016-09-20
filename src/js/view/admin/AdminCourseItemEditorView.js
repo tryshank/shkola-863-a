@@ -38,7 +38,7 @@ const initialState = {
     date: null,
     service: null,
     link: null,
-    visible: null,
+    visible: false,
   },
 };
 
@@ -127,8 +127,6 @@ class AdminCourseItemEditorView extends Component {
   };
 
   checkVisible = (e, checked) => {
-    console.log('e: ', e);
-    console.log('checked: ', checked);
     this.setState({
       ...this.state,
       activeCourse: {
