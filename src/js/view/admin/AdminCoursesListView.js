@@ -1,6 +1,7 @@
 import React from 'react';
 import * as Redux from '../common/Redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router';
 import { List, ListItem } from 'material-ui/List';
 import { connect } from 'react-redux';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -30,7 +31,8 @@ class AdminCoursesListView extends React.Component {
                   <ListItem
                     key={course._id}
                     primaryText={course.title}
-                    onTouchTap={() => this.courseClick(course._id)}
+                    containerElement={<Link to={`/admin/${course._id}`} />}
+                    /* onTouchTap={() => this.courseClick(course._id)} */
                   />)
               }
             </List>

@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SiteApplication from './view/site/SiteApplication';
-import AdminMainWrapper from './view/admin/AdminMainWrapper';
+import AdminMainWrapper from './view/admin/AdminApplication';
+// import AdminApplication from './view/admin/AdminApplication';
 import Classie from 'classie';
 import { Provider } from 'react-redux';
 import * as Redux from './view/common/Redux';
@@ -54,7 +55,7 @@ require('./contact_me');
 ReactDOM.render((
   <Provider store={Redux.store}>
     <Router history={browserHistory}>
-      <Route path="/admin" component={AdminMainWrapper} />
+      <Route path="/admin(/:course)" component={AdminMainWrapper} />
       <Route path="/(:course)" component={SiteApplication} />
     </Router>
   </Provider>

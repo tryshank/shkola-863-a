@@ -42,6 +42,7 @@ const initialState = {
   },
 };
 
+
 class AdminCourseItemEditorView extends Component {
 
   constructor(props) {
@@ -147,10 +148,10 @@ class AdminCourseItemEditorView extends Component {
               label="Show course in courses list on the client page"
               style={checkbox}
               onCheck={this.checkVisible}
-              checked={this.state.activeCourse.visible}
+              checked={this.state.activeCourseId ? this.state.activeCourse.visible : false}
             />
             <TextField
-              value={this.state.activeCourse.title || ''}
+              value={this.state.activeCourseId ? this.state.activeCourse.title : ''}
               id="txtTitle"
               onChange={this.txtFieldChange}
               fullWidth
@@ -158,7 +159,7 @@ class AdminCourseItemEditorView extends Component {
               floatingLabelFixed
             />
             <TextField
-              value={this.state.activeCourse.content || ''}
+              value={this.state.activeCourseId ? this.state.activeCourse.content : ''}
               id="txtContent"
               onChange={this.txtFieldChange}
               fullWidth
@@ -175,7 +176,7 @@ class AdminCourseItemEditorView extends Component {
               <div className="col-sm-12 col-md-8">
                 <div>
                   <SelectField
-                    value={this.state.activeCourse.image || ''}
+                    value={this.state.activeCourseId ? this.state.activeCourse.image : ''}
                     onChange={this.handleImageFileNameChanged}
                     maxHeight={200}
                     floatingLabelText="Image file name"
@@ -205,7 +206,7 @@ class AdminCourseItemEditorView extends Component {
                 </div>
               </div>
               <div className="col-sm-12 col-md-4">
-                {this.state.activeCourse.image ?
+                {this.state.activeCourseId ?
                   <img
                     src={this.state.activeCourse.image ?
                     `/image/${this.state.activeCourse.image}` : ''}
@@ -222,7 +223,7 @@ class AdminCourseItemEditorView extends Component {
               <Divider />
             </div>
             <TextField
-              value={this.state.activeCourse.client || ''}
+              value={this.state.activeCourseId ? this.state.activeCourse.client : ''}
               id="txtClient"
               onChange={this.txtFieldChange}
               fullWidth
@@ -230,7 +231,7 @@ class AdminCourseItemEditorView extends Component {
               floatingLabelFixed
             />
             <TextField
-              value={this.state.activeCourse.date || ''}
+              value={this.state.activeCourseId ? this.state.activeCourse.date : ''}
               id="txtDate"
               onChange={this.txtFieldChange}
               fullWidth
@@ -238,7 +239,7 @@ class AdminCourseItemEditorView extends Component {
               floatingLabelFixed
             />
             <TextField
-              value={this.state.activeCourse.service || ''}
+              value={this.state.activeCourseId ? this.state.activeCourse.service : ''}
               id="txtService"
               onChange={this.txtFieldChange}
               fullWidth
@@ -246,7 +247,7 @@ class AdminCourseItemEditorView extends Component {
               floatingLabelFixed
             />
             <TextField
-              value={this.state.activeCourse.link || ''}
+              value={this.state.activeCourseId ? this.state.activeCourse.link : ''}
               id="txtLink"
               onChange={this.txtFieldChange}
               fullWidth
@@ -290,13 +291,13 @@ AdminCourseItemEditorView.propTypes = {
   imagesFiles: React.PropTypes.array,
 };
 
-const mapStateToProps = (state) =>
+const mapStateToProps = (state, ownProps) =>
   ({
-    activeCourseId: state.activeCourseId,
+    activeCourseId: ownProps.activeCourseId,
     activeCourseImage: state.activeCourseImage,
     imagesFiles: state.imagesFiles,
-    activeCourse: state.activeCourseId ? state.coursesData.filter(courseItem =>
-      courseItem._id === state.activeCourseId)[0] : initialState.activeCourse,
+    activeCourse: ownProps.activeCourseId ? state.coursesData.find(courseItem =>
+    courseItem._id === ownProps.activeCourseId) : initialState.activeCourse,
   });
 
 const mapDispatchToProps = (dispatch) =>
