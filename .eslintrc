@@ -11,7 +11,8 @@
   "rules": {
     "no-console": "off",
     "no-unused-vars": ["error", { "args": "none" }],
-    "no-underscore-dangle": ["error",{ "allow": ["_id"] }]
+    "no-underscore-dangle": ["error",{ "allow": ["_id"] }],
+    "new-cap": ["error", { "capIsNewExceptions": ["MakeSelectable"] }]
   },
   "ignorePath": ".eslintignore"
 }
