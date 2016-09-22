@@ -26,18 +26,18 @@ const checkbox = {
 };
 
 const initialState = {
-  activeCourseId: null,
+  activeCourseId: '0',
   activeCourseImage: null,
   imagesFiles: [],
   activeCourse: {
     _id: null,
-    title: null,
-    image: null,
-    content: null,
-    client: null,
-    date: null,
-    service: null,
-    link: null,
+    title: '',
+    image: '',
+    content: '',
+    client: '',
+    date: '',
+    service: '',
+    link: '',
     visible: false,
   },
 };
@@ -81,7 +81,7 @@ class AdminCourseItemEditorView extends Component {
   };
 
   saveClick = () => {
-    if (this.props.activeCourseId) {
+    if (this.props.activeCourseId !== '0') {
       this.props.actions.saveCourse(this.state.activeCourse);
     } else {
       this.props.actions.createCourse(this.state.activeCourse);
@@ -257,12 +257,12 @@ class AdminCourseItemEditorView extends Component {
           </div>
           <div>
             <RaisedButton
-              label={this.state.activeCourseId ? 'Save' : 'Add'}
+              label={this.state.activeCourseId !== '0' ? 'Save' : 'Add'}
               primary
               onTouchTap={() => this.saveClick()}
             />
             <RaisedButton
-              label={this.state.activeCourseId ? 'Delete' : 'Cancel'}
+              label={this.state.activeCourseId !== '0' ? 'Delete' : 'Cancel'}
               secondary
               style={{ margin: 12 }}
               onTouchTap={() => this.deleteClick()}
@@ -293,7 +293,7 @@ AdminCourseItemEditorView.propTypes = {
 
 const mapStateToProps = (state, ownProps) =>
   ({
-    activeCourseId: ownProps.activeCourseId,
+    activeCourseId: ownProps.activeCourseId ? ownProps.activeCourseId : '0',
     activeCourseImage: state.activeCourseImage,
     imagesFiles: state.imagesFiles,
     activeCourse: ownProps.activeCourseId ? state.coursesData.find(courseItem =>

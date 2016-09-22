@@ -26,7 +26,7 @@ class AdminApplication extends React.Component {
           <div className="row">
             <AdminCourseDeleteDialogWrapper />
             <div className="col-md-3">
-              <AdminCoursesListViewWrapper />
+              <AdminCoursesListViewWrapper activeCourseId={course} />
             </div>
             <div className="col-md-9">
               <AdminCourseItemEditorView activeCourseId={course} />
