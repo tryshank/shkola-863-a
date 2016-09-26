@@ -1,19 +1,33 @@
 const express = require('express');
 const app = express();
+
 const mongoose = require('mongoose');
 const path = require('path');
 const formidable = require('formidable');
 const fs = require('fs');
-const morgan = require('morgan');
-process.env.NODE_CONFIG_DIR = 'config';
-console.log(`RUNNING ON ENVIRONMENT: ${process.env.NODE_ENV}`);
 
-mongoose.Promise = global.Promise;
+const bodyParser = require('body-parser');
+
+const morgan = require('morgan');
+const flash = require('connect-flash');
+const cookieParser = require('cookie-parser');
+
+const schema = new mongoose.Schema({
+  image: String,
+  title: String,
+  content: String,
+  client: String,
+  date: String,
+  service: String,
+  link: String,
+  visible: Boolean,
+});
+
+const CoursesModel = mongoose.model('courses', schema, 'courses');
+
 
 const imagesPath = path.join(__dirname, '/img');
-
 console.log('reading images in ', imagesPath, '...');
-
 const files = fs.readdirSync(imagesPath);
 // filter directories, etc.
 const imagesFiles = files.filter(file =>
@@ -34,41 +48,11 @@ const send500 = (res, err) => {
   }
 };
 
-const schema = new mongoose.Schema({
-  image: String,
-  title: String,
-  content: String,
-  client: String,
-  date: String,
-  service: String,
-  link: String,
-  visible: Boolean,
-});
 
 schema.statics.findById = function (_id, cb) {
   return this.find('{_id}').sort('_id').limit(1).
   exec(cb);
 };
-
-
-const CoursesModel = mongoose.model('courses', schema, 'courses');
-
-mongoose.connect('mongodb://localhost/shkola');
-const db = mongoose.connection;
-
-
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', () => {
-  console.log('connected to DB');
-});
-
-
-const bodyParser = require('body-parser');
-app.use(morgan('dev'));
-app.use(bodyParser.json());       // to support JSON-encoded bodies
-app.use(bodyParser.urlencoded({   // to support URL-encoded bodies
-  extended: true,
-}));
 
 
 const sendHeaders = (res) => {
@@ -79,15 +63,6 @@ const sendHeaders = (res) => {
     'Access-Control-Request-Method, Access-Control-Request-Headers');
   res.header('Accept', 'application/json,image/jpeg,image/png,image/gif');
 };
-
-app.use((req, res, next) => {
-  sendHeaders(res);
-  next();
-});
-
-app.listen(3000, () => {
-  console.log('Listening on port 3000!');
-});
 
 
 // read courses at client
@@ -209,10 +184,50 @@ app.post('/image-upload/', (req, res) => {
   form.parse(req);
 });
 
+
+// AuthConfig
+const loginConfig = require('./auth/config/AuthConfig');
+loginConfig.configure(app);
+
+
+process.env.NODE_CONFIG_DIR = 'config';
+console.log(`RUNNING ON ENVIRONMENT: ${process.env.NODE_ENV}`);
+
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost/shkola');
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => {
+  console.log('connected to DB');
+});
+
+
+app.use(cookieParser());
+app.use(morgan('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(flash());
+
+
+// AuthRoute
+const AuthRoute = require('./auth/route/AuthRoute');
+app.use('/auth', AuthRoute);
+
+//
+
+app.use((req, res, next) => {
+  sendHeaders(res);
+  next();
+});
 app.use('/image', express.static('img'));
 app.use(express.static(`${__dirname}/client`));
+
 app.get('*', (req, res) => {
   res.sendFile(`${__dirname}/client/index.html`);
+});
+
+app.listen(3000, () => {
+  console.log('Listening on port 3000!');
 });
 
 console.log('---');
