@@ -2,11 +2,14 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import SiteApplication from './view/site/SiteApplication';
 import AdminMainWrapper from './view/admin/AdminApplication';
+import LoginView from './view/admin/LoginView';
 // import AdminApplication from './view/admin/AdminApplication';
 import Classie from 'classie';
 import { Provider } from 'react-redux';
 import * as Redux from './view/common/Redux';
 import { Router, Route, browserHistory } from 'react-router';
+import auth from './utils/auth/auth';
+
 require('../less/variables.less');
 require('../less/freelancer.less');
 require('bootstrap-less');
@@ -52,10 +55,24 @@ require('./contact_me');
 })();
 
 
+function requireAuth(nextState, replace, next) {
+  auth.ensureAuthenticated()
+    .then((res) => {
+      if (res.status === 401) {
+        replace({
+          pathname: '/admin/login',
+          state: { nextPathname: nextState.location.pathname },
+        });
+      }
+      next();
+    });
+}
+
 ReactDOM.render((
   <Provider store={Redux.store}>
     <Router history={browserHistory}>
-      <Route path="/admin(/:course)" component={AdminMainWrapper} />
+      <Route path="/admin/login" component={LoginView} />
+      <Route path="/admin(/:course)" component={AdminMainWrapper} onEnter={requireAuth} />
       <Route path="/(:course)" component={SiteApplication} />
     </Router>
   </Provider>

@@ -23,7 +23,7 @@ router.post('/register', (req, res) => {
           req,
           res,
           () => {
-            res.redirect('/');
+            res.redirect('/admin');
           }
         );
       }
