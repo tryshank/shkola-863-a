@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import * as Redux from '../common/Redux';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
@@ -60,6 +61,7 @@ class AdminCourseItemEditorView extends Component {
       activeCourseId: nextProps.activeCourseId,
       imagesFiles: nextProps.imagesFiles,
     };
+    console.log('AdminCourseItemEditorView componentWillReceiveProps state ', this.state);
   }
 
   txtFieldChange = (event) => {
@@ -72,8 +74,11 @@ class AdminCourseItemEditorView extends Component {
   };
 
   dialogHandleDeleteConfirm = () => {
+    const { router } = this.props;
     this.props.actions.closeDeleteDialog();
     this.props.actions.deleteCourse(this.props.activeCourse._id);
+    // TODO : check it works
+    router.replace('/admin');
   };
 
   dialogHandleClose = () => {
@@ -148,7 +153,8 @@ class AdminCourseItemEditorView extends Component {
               label="Show course in courses list on the client page"
               style={checkbox}
               onCheck={this.checkVisible}
-              checked={this.state.activeCourseId ? this.state.activeCourse.visible : false}
+              checked={(this.state.activeCourse && this.state.activeCourseId !== '0') ?
+              this.state.activeCourse.visible : false}
             />
             <TextField
               value={this.state.activeCourseId ? this.state.activeCourse.title : ''}
@@ -289,6 +295,7 @@ AdminCourseItemEditorView.propTypes = {
   activeCourse: React.PropTypes.object,
   activeCourseImage: React.PropTypes.string,
   imagesFiles: React.PropTypes.array,
+  router: React.PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state, ownProps) =>
@@ -315,4 +322,4 @@ const mapDispatchToProps = (dispatch) =>
 const AdminCourseItemEditorViewWrapper =
   connect(mapStateToProps, mapDispatchToProps)(AdminCourseItemEditorView);
 
-export default AdminCourseItemEditorViewWrapper;
+export default withRouter(AdminCourseItemEditorViewWrapper);

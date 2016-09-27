@@ -5,13 +5,8 @@ import { connect } from 'react-redux';
 import AdminCoursesListViewWrapper from './AdminCoursesListView';
 import AdminCourseItemEditorView from './AdminCourseItemEditorView';
 import AdminCourseDeleteDialogWrapper from './AdminCourseDeleteDialogView';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 
 class AdminApplication extends React.Component {
-
-  componentWillMount() {
-    injectTapEventPlugin();
-  }
 
   componentDidMount() {
     this.props.actions.getCoursesDispatcher('server');

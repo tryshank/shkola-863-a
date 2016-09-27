@@ -4,7 +4,7 @@ module.exports = {
       username,
       password,
     };
-    return fetch('/auth/login', {
+    return fetch('/api/auth/login', {
       method: 'POST',
       body: JSON.stringify(loginData),
       headers: new Headers({
@@ -15,6 +15,6 @@ module.exports = {
   },
 
   ensureAuthenticated() {
-    return fetch('/auth/isLoggedIn', { credentials: 'include' });
+    return fetch('/api/auth/isLoggedIn', { credentials: 'include' });
   },
 };

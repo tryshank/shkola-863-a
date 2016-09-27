@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import { withRouter, Link } from 'react-router';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { RaisedButton, TextField } from 'material-ui';
-import injectTapEventPlugin from 'react-tap-event-plugin';
 import { setIn } from '../../utils/immutable';
 import auth from '../../utils/auth/auth';
 
@@ -39,7 +38,6 @@ class LoginView extends React.Component {
   };
 
   componentWillMount() {
-    injectTapEventPlugin();
     this.setState({
       remindMode: false,
       nameOrEmail: '',
