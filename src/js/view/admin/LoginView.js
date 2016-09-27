@@ -1,8 +1,10 @@
 import React, { PropTypes } from 'react';
 import { withRouter, Link } from 'react-router';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { RaisedButton, TextField } from 'material-ui';
-import { setIn } from '/src/js/utils/immutable/index';
-import auth from '../auth/auth';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import { setIn } from '../../utils/immutable';
+import auth from '../../utils/auth/auth';
 
 const styles = {
   margin: { marginRight: 12 },
@@ -37,6 +39,7 @@ class LoginView extends React.Component {
   };
 
   componentWillMount() {
+    injectTapEventPlugin();
     this.setState({
       remindMode: false,
       nameOrEmail: '',
@@ -90,11 +93,13 @@ class LoginView extends React.Component {
     auth.login(email, pass)
       .then(
         () => {
-          // console.log('location ', location);
-          // if (location.state && location.state.nextPathname) {
-          //   router.replace(location.state.nextPathname);
-          // }
-          router.replace('/private');
+          console.log('location ', location);
+          /*
+          if (location.state && location.state.nextPathname) {
+            router.replace(location.state.nextPathname);
+          }
+          */
+          router.replace('/admin');
         },
         () => {
           router.replace('/');
@@ -150,13 +155,15 @@ class LoginView extends React.Component {
 
   render() {
     return (
-      <div>
-        <Link to="/">
-          <RaisedButton label="Вярнуцца" />
-        </Link>
-        <br />
-        {this.state.remindMode ? this.createRemindView() : this.createLoginView()}
-      </div>
+      <MuiThemeProvider>
+        <div>
+          <Link to="/">
+            <RaisedButton label="Вярнуцца" />
+          </Link>
+          <br />
+          {this.state.remindMode ? this.createRemindView() : this.createLoginView()}
+        </div>
+      </MuiThemeProvider>
     );
   }
 }
