@@ -32,12 +32,11 @@ CourseItemView.propTypes = {
 class CoursesView extends React.Component {
 
   componentDidMount() {
-    this.props.getCoursesDispatcher('client');
+    this.props.getCoursesDispatcher();
   }
 
   render() {
     const coursesData = this.props.coursesData.filter(courseItem => courseItem.visible);
-    console.log('coursesData: ', coursesData);
     return (
       <section id="courses">
         <div className="container">

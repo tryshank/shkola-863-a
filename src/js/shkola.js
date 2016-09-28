@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom';
 import SiteApplication from './view/site/SiteApplication';
 import AdminMainWrapper from './view/admin/AdminApplication';
 import LoginView from './view/admin/LoginView';
-// import AdminApplication from './view/admin/AdminApplication';
 import Classie from 'classie';
 import { Provider } from 'react-redux';
 import * as Redux from './view/common/Redux';
 import { Router, Route, browserHistory } from 'react-router';
 import auth from './utils/auth/auth';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 
 require('../less/variables.less');
 require('../less/freelancer.less');

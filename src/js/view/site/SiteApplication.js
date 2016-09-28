@@ -1,5 +1,4 @@
-import React, { Component, PropTypes } from 'react';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import React, { PropTypes } from 'react';
 import AboutView from './AboutView';
 import FooterView from './FooterView';
 import NavigationView from './NavigationView';
@@ -7,14 +6,9 @@ import HowToFindView from './HowToFindView';
 import CoursesViewWrapper from './CoursesView';
 import CourseModal from './CourseModal';
 
-class SiteApplication extends Component {
-
-  componentWillMount() {
-    injectTapEventPlugin();
-  }
-
-  render() {
-    const { params } = this.props;
+const SiteApplication = props => {
+  {
+    const { params } = props;
     const { course } = params;
     return (
       <div>
@@ -42,7 +36,7 @@ class SiteApplication extends Component {
       </div>
     );
   }
-}
+};
 
 SiteApplication.propTypes = {
   params: PropTypes.object.isRequired,
