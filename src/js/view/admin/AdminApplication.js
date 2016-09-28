@@ -9,7 +9,8 @@ import AdminCourseDeleteDialogWrapper from './AdminCourseDeleteDialogView';
 class AdminApplication extends React.Component {
 
   componentDidMount() {
-    this.props.actions.getCoursesDispatcher('server');
+    this.props.actions.getCoursesDispatcher();
+    this.props.actions.getImagesDispatcher();
   }
 
   render() {
@@ -35,6 +36,7 @@ class AdminApplication extends React.Component {
 AdminApplication.propTypes = {
   actions: React.PropTypes.shape({
     getCoursesDispatcher: React.PropTypes.func,
+    getImagesDispatcher: React.PropTypes.func,
   }),
   params: PropTypes.object.isRequired,
 };
@@ -48,6 +50,7 @@ const mapDispatchToProps = (dispatch) =>
   ({
     actions: {
       getCoursesDispatcher: bindActionCreators(Redux.getCoursesAction, dispatch),
+      getImagesDispatcher: bindActionCreators(Redux.getImagesAction, dispatch),
     },
   });
 

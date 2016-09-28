@@ -1,7 +1,24 @@
-export const getCoursesData = (type) => {
+export const getCoursesData = () => {
   const init = { method: 'get', cache: 'no-store',
     headers: { 'Cache-Control': 'no-cache' } };
-  return fetch(new Request(`http://localhost:3000/api/course/${type}/`, init), init).then((response) => {
+  return fetch(new Request('http://localhost:3000/api/course/', init), init).then((response) => {
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error(response.status);
+  })
+    .catch((error) => {
+      throw new Error(
+        'There has been a problem with fetch operation: ' & (error.message || 'unknown')
+      );
+    });
+};
+
+
+export const getImagesList = () => {
+  const init = { method: 'get', cache: 'no-store',
+    headers: { 'Cache-Control': 'no-cache' } };
+  return fetch(new Request('http://localhost:3000/api/image/', init), init).then((response) => {
     if (response.ok) {
       return response.json();
     }
@@ -19,7 +36,7 @@ const setHeaders = () =>
   new Headers({ 'Content-Type': 'application/json' });
 
 export const createCourse = (courseItem) => {
-  const init = { method: 'post', headers: setHeaders(),
+  const init = { method: 'post', headers: setHeaders(), credentials: 'include',
     body: JSON.stringify({ data: courseItem }) };
   return fetch(new Request('http://localhost:3000/api/course/', init)).then((res) => {
     if (res.status === 200) {
@@ -32,7 +49,8 @@ export const createCourse = (courseItem) => {
 
 
 export const saveCourse = (courseItem) => {
-  const init = { method: 'put', headers: setHeaders(), body: JSON.stringify({ courseItem }) };
+  const init = { method: 'put', headers: setHeaders(), credentials: 'include',
+    body: JSON.stringify({ courseItem }) };
   return fetch(new Request(`http://localhost:3000/api/course/${courseItem._id}`, init)).then((res) => {
     if (res.status === 200) {
       return { result: true, courseItem };
@@ -44,7 +62,8 @@ export const saveCourse = (courseItem) => {
 
 
 export const deleteCourse = (id) => {
-  const init = { method: 'delete', headers: setHeaders(), body: JSON.stringify({ id }) };
+  const init = { method: 'delete', headers: setHeaders(), credentials: 'include',
+    body: JSON.stringify({ id }) };
   return fetch(new Request(`http://localhost:3000/api/course/${id}`, init)).then((res) => {
     if (res.status === 200) {
       // delete successful
@@ -60,7 +79,7 @@ export const uploadImage = (file) => {
   const formData = new FormData();
   formData.append('type', 'file');
   formData.append('file', file);
-  return fetch('http://localhost:3000/api/course/image-upload', { method: 'POST', body: formData }).then(res => {
+  return fetch('http://localhost:3000/api/image/upload', { method: 'POST', credentials: 'include', body: formData }).then(res => {
     if (res.ok) {
       return res.json();
     }

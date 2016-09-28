@@ -4,6 +4,7 @@ import { createAction } from 'redux-actions';
 import * as WebAPI from './WebAPI';
 
 export const ACTION_FETCH_COURSES_DATA = 'ACTION_FETCH_COURSES_DATA';
+export const ACTION_FETCH_IMAGES_LIST = 'ACTION_FETCH_COURSES_DATA';
 export const ACTION_SET_ACTIVE_COURSE_ID = 'ACTION_SET_ACTIVE_COURSE_ID';
 export const ACTION_SHOW_DIALOG = 'ACTION_SHOW_DIALOG';
 export const ACTION_CLOSE_DIALOG = 'ACTION_CLOSE_DIALOG';
@@ -127,7 +128,7 @@ const activeCourseImage = (state = null, action) => {
 
 const imagesFiles = (state = [], action) => {
   switch (action.type) {
-    case ACTION_FETCH_COURSES_DATA:
+    case ACTION_FETCH_IMAGES_LIST:
       {
         return action.payload.imagesFiles ? action.payload.imagesFiles : state;
       }
@@ -152,6 +153,7 @@ const Reducers = combineReducers({
 export const store = createStore(Reducers, applyMiddleware(promiseMiddleware));
 
 export const getCoursesAction = createAction(ACTION_FETCH_COURSES_DATA, WebAPI.getCoursesData);
+export const getImagesAction = createAction(ACTION_FETCH_IMAGES_LIST, WebAPI.getImagesList);
 export const addCourseAction = createAction(ACTION_COURSE_ADD);
 export const createCourseAction = createAction(ACTION_COURSE_CREATE, WebAPI.createCourse);
 export const saveCourseAction = createAction(ACTION_COURSE_SAVE, WebAPI.saveCourse);
