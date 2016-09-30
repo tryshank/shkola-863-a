@@ -11,7 +11,7 @@ const configurePassportSettings = (app) => {
     store: new RedisStore({
       host: '127.0.0.1',
       port: 6379,
-    }), secret: 'hey you',
+    }), secret: process.env.ENV_REDIS_SECRET,
     resave: true,
     saveUninitialized: true,
   }));

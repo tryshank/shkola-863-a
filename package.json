@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack && cd server && NODE_ENV=production node app.js",
+    "dev-server": "sh set-env-vars.sh",
     "dev": "webpack-dev-server --hot --inline & cd server && NODE_ENV=development node app.js",
     "lint": "eslint src/ server/",
     "lint-fix": "eslint src/ server/ --fix"
@@ -20,6 +21,7 @@
   },
   "homepage": "https://github.com/vaukalak/shkola-863-a#readme",
   "devDependencies": {
+    "babel-core": "^6.16.0",
     "babel-eslint": "^6.1.0",
     "babel-loader": "^6.2.4",
     "babel-plugin-transform-runtime": "^6.9.0",
