@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack && cd server && NODE_ENV=production node app.js",
-    "dev-server": "sh set-env-vars.sh",
-    "dev": "webpack-dev-server --hot --inline & cd server && NODE_ENV=development node app.js",
+    "dev-server": "sh dev-server.sh",
+    "dev": "webpack-dev-server --hot --inline & . ./set-env-vars.sh && cd server && NODE_ENV=development node app.js",
     "lint": "eslint src/ server/",
     "lint-fix": "eslint src/ server/ --fix"
   },
