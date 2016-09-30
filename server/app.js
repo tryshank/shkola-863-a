@@ -59,8 +59,8 @@ app.get('*', (req, res) => {
 process.env.NODE_CONFIG_DIR = 'config';
 console.log(`RUNNING ON ENVIRONMENT: ${process.env.NODE_ENV}`);
 
-app.listen(3000, () => {
-  console.log('Listening on port 3000!');
+const server = app.listen(process.env.ENV_SERVER_PORT, () => {
+  console.log(`listening server on port ${server.address().port}`);
 });
 
 console.log('---');
