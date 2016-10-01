@@ -79,14 +79,15 @@ export const uploadImage = (file) => {
   const formData = new FormData();
   formData.append('type', 'file');
   formData.append('file', file);
-  return fetch('/api/image/upload', { method: 'POST', credentials: 'include', body: formData }).then(res => {
-    if (res.ok) {
-      return res.json();
-    }
-    throw new Error(res.status);
-  }).catch((error) => {
-    throw new Error(
-      'There has been a problem with fetch operation: ' & (error.message || 'unknown')
-    );
-  });
+  return fetch('/api/image/upload', { method: 'POST', credentials: 'include', body: formData }).
+    then(res => {
+      if (res.ok) {
+        return res.json();
+      }
+      throw new Error(res.status);
+    }).catch((error) => {
+      throw new Error(
+        'There has been a problem with fetch operation: ' & (error.message || 'unknown')
+      );
+    });
 };
