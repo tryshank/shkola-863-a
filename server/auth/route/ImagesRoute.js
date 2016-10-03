@@ -7,7 +7,7 @@ const formidable = require('formidable');
 const router = new Router();
 
 const mkdirp = require('mkdirp');
-const imagesPath = (`${__dirname}/../../imgx`);
+const imagesPath = (`${__dirname}/../../img`);
 
 mkdirp(imagesPath, (err) => {
   if (err) {
