@@ -6,7 +6,20 @@ const formidable = require('formidable');
 
 const router = new Router();
 
+const mkdirp = require('mkdirp');
 const imagesPath = (`${__dirname}/../../img`);
+
+mkdirp(imagesPath, (err) => {
+  if (err) {
+    throw new Error(`Unable read/create path ${imagesPath}`);
+  }
+  try {
+    fs.accessSync(imagesPath, fs.W_OK);
+  } catch (e) {
+    throw new Error(`No write access to ${imagesPath} `, e);
+  }
+});
+
 console.log('reading images in ', imagesPath, '...');
 const files = fs.readdirSync(imagesPath);
 // filter directories, etc.
