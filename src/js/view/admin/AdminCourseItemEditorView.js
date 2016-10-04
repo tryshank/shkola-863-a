@@ -61,7 +61,6 @@ class AdminCourseItemEditorView extends Component {
       activeCourseId: nextProps.activeCourseId,
       imagesFiles: nextProps.imagesFiles,
     };
-    console.log('AdminCourseItemEditorView componentWillReceiveProps state ', this.state);
   }
 
   txtFieldChange = (event) => {
@@ -153,7 +152,7 @@ class AdminCourseItemEditorView extends Component {
               label="Show course in courses list on the client page"
               style={checkbox}
               onCheck={this.checkVisible}
-              checked={(this.state.activeCourse && this.state.activeCourseId !== '0') ?
+              checked={(this.state.activeCourseId) ?
               this.state.activeCourse.visible : false}
             />
             <TextField

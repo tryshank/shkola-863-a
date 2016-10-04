@@ -17,11 +17,10 @@ export const activeCourseId = (state = null, action) => {
       }
     case ACTION_COURSE_ADD:
       {
-        return '';
+        return null;
       }
     case ACTION_COURSE_CREATE:
       {
-        // TODO: update activeCourseId
         return action.payload.data._id;
       }
     default:
