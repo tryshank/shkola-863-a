@@ -1,5 +1,5 @@
 import React from 'react';
-import * as Redux from '../common/Redux';
+import * as ActionCreators from '../../redux/actions/ActionCreators';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import { List, ListItem, MakeSelectable } from 'material-ui/List';
@@ -80,8 +80,8 @@ const mapStateToProps = (state, ownProps) =>
 const mapDispatchToProps = (dispatch) =>
   ({
     actions: {
-      onCourseListItemClick: bindActionCreators(Redux.setActiveCourseIdAction, dispatch),
-      onNewCourseClick: bindActionCreators(Redux.addCourseAction, dispatch),
+      onCourseListItemClick: bindActionCreators(ActionCreators.setActiveCourseIdAction, dispatch),
+      onNewCourseClick: bindActionCreators(ActionCreators.addCourseAction, dispatch),
     },
   });
 
