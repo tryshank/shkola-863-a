@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import * as Redux from '../common/Redux';
+import * as ActionCreators from '../../redux/actions/ActionCreators';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AdminCoursesListViewWrapper from './AdminCoursesListView';
@@ -49,8 +49,8 @@ const mapStateToProps = (state, ownProps) =>
 const mapDispatchToProps = (dispatch) =>
   ({
     actions: {
-      getCoursesDispatcher: bindActionCreators(Redux.getCoursesAction, dispatch),
-      getImagesDispatcher: bindActionCreators(Redux.getImagesAction, dispatch),
+      getCoursesDispatcher: bindActionCreators(ActionCreators.getCoursesAction, dispatch),
+      getImagesDispatcher: bindActionCreators(ActionCreators.getImagesAction, dispatch),
     },
   });
 

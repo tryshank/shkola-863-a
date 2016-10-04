@@ -5,7 +5,7 @@ import AdminMainWrapper from './view/admin/AdminApplication';
 import LoginView from './view/admin/LoginView';
 import Classie from 'classie';
 import { Provider } from 'react-redux';
-import * as Redux from './view/common/Redux';
+import * as Redux from './redux/Redux';
 import { Router, Route, browserHistory } from 'react-router';
 import auth from './utils/auth/auth';
 import injectTapEventPlugin from 'react-tap-event-plugin';

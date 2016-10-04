@@ -1,5 +1,5 @@
 import React from 'react';
-import * as Redux from '../common/Redux';
+import * as ActionCreators from '../../redux/actions/ActionCreators';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 
@@ -71,7 +71,7 @@ const mapStateToProps = (state) =>
   ({ coursesData: state.coursesData });
 
 const mapDispatchToProps = (dispatch) =>
-  ({ getCoursesDispatcher: (type) => dispatch(Redux.getCoursesAction(type)) });
+  ({ getCoursesDispatcher: (type) => dispatch(ActionCreators.getCoursesAction(type)) });
 
 const CoursesViewWrapper = connect(mapStateToProps, mapDispatchToProps)(CoursesView);
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import * as Redux from '../common/Redux';
+import * as ActionCreators from '../../redux/actions/ActionCreators';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -310,12 +310,12 @@ const mapStateToProps = (state, ownProps) =>
 const mapDispatchToProps = (dispatch) =>
   ({
     actions: {
-      openDeleteDialog: bindActionCreators(Redux.openDeleteDialogAction, dispatch),
-      closeDeleteDialog: bindActionCreators(Redux.closeDeleteDialogAction, dispatch),
-      createCourse: bindActionCreators(Redux.createCourseAction, dispatch),
-      saveCourse: bindActionCreators(Redux.saveCourseAction, dispatch),
-      deleteCourse: bindActionCreators(Redux.deleteCourseAction, dispatch),
-      imageUpload: bindActionCreators(Redux.imageUploadAction, dispatch),
+      openDeleteDialog: bindActionCreators(ActionCreators.openDeleteDialogAction, dispatch),
+      closeDeleteDialog: bindActionCreators(ActionCreators.closeDeleteDialogAction, dispatch),
+      createCourse: bindActionCreators(ActionCreators.createCourseAction, dispatch),
+      saveCourse: bindActionCreators(ActionCreators.saveCourseAction, dispatch),
+      deleteCourse: bindActionCreators(ActionCreators.deleteCourseAction, dispatch),
+      imageUpload: bindActionCreators(ActionCreators.imageUploadAction, dispatch),
     },
   });
 
