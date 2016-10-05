@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import * as ActionCreators from '../../redux/actions/ActionCreators';
-import TinyMCE from 'react-tinymce';
+import TinyMCE from '../../utils/TinyMCE';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -189,19 +189,18 @@ class AdminCourseItemEditorView extends Component {
               />
               <TinyMCE
                 content={(this.state.activeCourseId && this.state.activeCourse) ?
-                  `<p>${this.state.activeCourse.content}</p>` : '<p>123</p>'}
+                  this.state.activeCourse.content : ''}
                 config={{
                   plugins: 'autolink link image lists preview textcolor',
                   menubar: false,
-                  toolbar1: 'undo redo | cut copy paste | formatselect fontselect fontsizeselect ' +
+                  toolbar1: 'undo redo | cut copy paste | fontselect fontsizeselect ' +
                   '| forecolor | bold italic strikethrough | alignleft aligncenter alignright ' +
                   'alignjustify alignnone',
                   toolbar2: 'indent outdent | bullist numlist | subscript superscript | link ' +
                   'unlink | image | hr | removeformat ',
                 }}
-                // onChange={this.handleContentChange}
+                onChange={this.handleContentChange}
               />
-
               <div>
                 <Divider />
               </div>
@@ -210,7 +209,8 @@ class AdminCourseItemEditorView extends Component {
                 <div className="col-sm-12 col-md-8">
                   <div>
                     <SelectField
-                      value={this.state.activeCourseId ? this.state.activeCourse.image : ''}
+                      value={this.state.activeCourseId && this.state.activeCourse ?
+                        this.state.activeCourse.image : ''}
                       onChange={this.handleImageFileNameChanged}
                       maxHeight={200}
                       floatingLabelText="Image file name"
@@ -242,7 +242,7 @@ class AdminCourseItemEditorView extends Component {
                 <div className="col-sm-12 col-md-4">
                   {this.state.activeCourseId ?
                     <img
-                      src={this.state.activeCourse.image ?
+                      src={this.state.activeCourse && this.state.activeCourse.image ?
                       `/image/${this.state.activeCourse.image}` : ''}
                       style={{ height: '100px', display: 'inline-block',
                                float: 'none', overflow: 'hide',
@@ -257,7 +257,8 @@ class AdminCourseItemEditorView extends Component {
                 <Divider />
               </div>
               <TextField
-                value={this.state.activeCourseId ? this.state.activeCourse.client : ''}
+                value={this.state.activeCourseId && this.state.activeCourse ?
+                  this.state.activeCourse.client : ''}
                 id="txtClient"
                 onChange={this.txtFieldChange}
                 fullWidth
@@ -265,7 +266,8 @@ class AdminCourseItemEditorView extends Component {
                 floatingLabelFixed
               />
               <TextField
-                value={this.state.activeCourseId ? this.state.activeCourse.date : ''}
+                value={this.state.activeCourseId && this.state.activeCourse ?
+                  this.state.activeCourse.date : ''}
                 id="txtDate"
                 onChange={this.txtFieldChange}
                 fullWidth
@@ -273,7 +275,8 @@ class AdminCourseItemEditorView extends Component {
                 floatingLabelFixed
               />
               <TextField
-                value={this.state.activeCourseId ? this.state.activeCourse.service : ''}
+                value={this.state.activeCourseId && this.state.activeCourse ?
+                  this.state.activeCourse.service : ''}
                 id="txtService"
                 onChange={this.txtFieldChange}
                 fullWidth
@@ -281,7 +284,8 @@ class AdminCourseItemEditorView extends Component {
                 floatingLabelFixed
               />
               <TextField
-                value={this.state.activeCourseId ? this.state.activeCourse.link : ''}
+                value={this.state.activeCourseId && this.state.activeCourse ?
+                  this.state.activeCourse.link : ''}
                 id="txtLink"
                 onChange={this.txtFieldChange}
                 fullWidth
