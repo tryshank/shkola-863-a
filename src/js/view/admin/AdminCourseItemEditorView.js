@@ -80,7 +80,7 @@ class AdminCourseItemEditorView extends Component {
   handleContentChange = (event) => {
     this.setState({
       ...this.state, activeCourse: {
-        ...this.state.activeCourse, content: event.target.getContent({format: 'raw'}),
+        ...this.state.activeCourse, content: event.target.getContent({ format: 'raw' }),
       },
     });
     console.log(this.state);
@@ -311,7 +311,7 @@ class AdminCourseItemEditorView extends Component {
           </Paper>
         </MuiThemeProvider>
       </div>
-    )
+    );
   }
 }
 
