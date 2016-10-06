@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import * as ActionCreators from '../../redux/actions/ActionCreators';
+import TinyMCE from '../../utils/TinyMCE';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -13,6 +14,7 @@ import Divider from 'material-ui/Divider';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Checkbox from 'material-ui/Checkbox';
+
 
 const editor = {
   display: 'block',
@@ -41,6 +43,8 @@ const initialState = {
     link: '',
     visible: false,
   },
+  html: '',
+  htmlError: '',
 };
 
 
@@ -70,6 +74,16 @@ class AdminCourseItemEditorView extends Component {
         ...this.state.activeCourse, [event.target.id.substr(3).toLowerCase()]: event.target.value,
       },
     });
+    console.log(this.state);
+  };
+
+  handleContentChange = (event) => {
+    this.setState({
+      ...this.state, activeCourse: {
+        ...this.state.activeCourse, content: event.target.getContent({ format: 'raw' }),
+      },
+    });
+    console.log(this.state);
   };
 
   dialogHandleDeleteConfirm = () => {
@@ -142,140 +156,161 @@ class AdminCourseItemEditorView extends Component {
 
   render() {
     return (
-      <MuiThemeProvider>
-        <Paper
-          rounded={false}
-          style={editor}
-        >
-          <div>
-            <Checkbox
-              label="Show course in courses list on the client page"
-              style={checkbox}
-              onCheck={this.checkVisible}
-              checked={(this.state.activeCourseId) ?
-              this.state.activeCourse.visible : false}
-            />
-            <TextField
-              value={this.state.activeCourseId ? this.state.activeCourse.title : ''}
-              id="txtTitle"
-              onChange={this.txtFieldChange}
-              fullWidth
-              floatingLabelText="Title"
-              floatingLabelFixed
-            />
-            <TextField
-              value={this.state.activeCourseId ? this.state.activeCourse.content : ''}
-              id="txtContent"
-              onChange={this.txtFieldChange}
-              fullWidth
-              floatingLabelText="Content"
-              floatingLabelFixed
-              rows={3}
-              rowsMax={6}
-              multiLine
-            />
+      <div>
+        <MuiThemeProvider>
+          <Paper
+            rounded={false}
+            style={editor}
+          >
             <div>
-              <Divider />
-            </div>
-            <div className="row">
-              <div className="col-sm-12 col-md-8">
-                <div>
-                  <SelectField
-                    value={this.state.activeCourseId ? this.state.activeCourse.image : ''}
-                    onChange={this.handleImageFileNameChanged}
-                    maxHeight={200}
-                    floatingLabelText="Image file name"
-                    floatingLabelFixed
-                    fullWidth
-                  >
-                    {
-                      this.state.imagesFiles.length ?
-                        this.state.imagesFiles.map(item =>
-                          <MenuItem value={item} key={item} primaryText={item} />)
-                        : null
-                    }
-                  </SelectField>
-                </div>
-                <div>
-                  <FlatButton
-                    label="Upload image"
-                    onClick={this.openFileDialog}
-                    primary
-                  />
-                  <input
-                    ref="fileUpload"
-                    type="file"
-                    style={{ display: 'none' }}
-                    onChange={this.uploadFileNameChange}
-                  />
-                </div>
+              <Checkbox
+                label="Show course in courses list on the client page"
+                style={checkbox}
+                onCheck={this.checkVisible}
+                checked={(this.state.activeCourseId && this.state.activeCourse) ?
+                this.state.activeCourse.visible : false}
+              />
+              <TextField
+                value={(this.state.activeCourseId && this.state.activeCourse) ?
+                  this.state.activeCourse.title : '===='}
+                id="txtTitle"
+                onChange={this.txtFieldChange}
+                fullWidth
+                floatingLabelText="Title"
+                floatingLabelFixed
+              />
+              <TextField
+                id="txtUnVisible"
+                fullWidth
+                floatingLabelText="Content"
+                floatingLabelFixed
+                rows={0}
+                disabled
+              />
+              <TinyMCE
+                content={(this.state.activeCourseId && this.state.activeCourse) ?
+                  this.state.activeCourse.content : ''}
+                config={{
+                  plugins: 'autolink link image lists preview textcolor',
+                  menubar: false,
+                  toolbar1: 'undo redo | cut copy paste | fontselect fontsizeselect ' +
+                  '| forecolor | bold italic strikethrough | alignleft aligncenter alignright ' +
+                  'alignjustify alignnone',
+                  toolbar2: 'indent outdent | bullist numlist | subscript superscript | link ' +
+                  'unlink | image | hr | removeformat ',
+                }}
+                onChange={this.handleContentChange}
+              />
+              <div>
+                <Divider />
               </div>
-              <div className="col-sm-12 col-md-4">
-                {this.state.activeCourseId ?
-                  <img
-                    src={this.state.activeCourse.image ?
-                    `/image/${this.state.activeCourse.image}` : ''}
-                    style={{ height: '100px', display: 'inline-block',
-                             float: 'none', overflow: 'hide',
-                             position: 'relative', left: '-20px', top: '5px' }}
-                    alt="preview"
-                  /> : null
-                }
-              </div>
-            </div>
-            <div style={{ fontSize: '1px' }}>&nbsp;</div>
-            <div>
-              <Divider />
-            </div>
-            <TextField
-              value={this.state.activeCourseId ? this.state.activeCourse.client : ''}
-              id="txtClient"
-              onChange={this.txtFieldChange}
-              fullWidth
-              floatingLabelText="Client"
-              floatingLabelFixed
-            />
-            <TextField
-              value={this.state.activeCourseId ? this.state.activeCourse.date : ''}
-              id="txtDate"
-              onChange={this.txtFieldChange}
-              fullWidth
-              floatingLabelText="Date"
-              floatingLabelFixed
-            />
-            <TextField
-              value={this.state.activeCourseId ? this.state.activeCourse.service : ''}
-              id="txtService"
-              onChange={this.txtFieldChange}
-              fullWidth
-              floatingLabelText="Service"
-              floatingLabelFixed
-            />
-            <TextField
-              value={this.state.activeCourseId ? this.state.activeCourse.link : ''}
-              id="txtLink"
-              onChange={this.txtFieldChange}
-              fullWidth
-              floatingLabelText="Link"
-              floatingLabelFixed
-            />
-          </div>
-          <div>
-            <RaisedButton
-              label={this.state.activeCourseId !== '0' ? 'Save' : 'Add'}
-              primary
-              onTouchTap={() => this.saveClick()}
-            />
-            <RaisedButton
-              label={this.state.activeCourseId !== '0' ? 'Delete' : 'Cancel'}
-              secondary
-              style={{ margin: 12 }}
-              onTouchTap={() => this.deleteClick()}
-            />
 
-          </div>
-        </Paper>
-      </MuiThemeProvider>
+              <div className="row">
+                <div className="col-sm-12 col-md-8">
+                  <div>
+                    <SelectField
+                      value={this.state.activeCourseId && this.state.activeCourse ?
+                        this.state.activeCourse.image : ''}
+                      onChange={this.handleImageFileNameChanged}
+                      maxHeight={200}
+                      floatingLabelText="Image file name"
+                      floatingLabelFixed
+                      fullWidth
+                    >
+                      {
+                        this.state.imagesFiles.length ?
+                          this.state.imagesFiles.map(item =>
+                            <MenuItem value={item} key={item} primaryText={item} />)
+                          : null
+                      }
+                    </SelectField>
+                  </div>
+                  <div>
+                    <FlatButton
+                      label="Upload image"
+                      onClick={this.openFileDialog}
+                      primary
+                    />
+                    <input
+                      ref="fileUpload"
+                      type="file"
+                      style={{ display: 'none' }}
+                      onChange={this.uploadFileNameChange}
+                    />
+                  </div>
+                </div>
+                <div className="col-sm-12 col-md-4">
+                  {this.state.activeCourseId ?
+                    <img
+                      src={this.state.activeCourse && this.state.activeCourse.image ?
+                      `/image/${this.state.activeCourse.image}` : ''}
+                      style={{ height: '100px', display: 'inline-block',
+                               float: 'none', overflow: 'hide',
+                               position: 'relative', left: '-20px', top: '5px' }}
+                      alt="preview"
+                    /> : null
+                  }
+                </div>
+              </div>
+              <div style={{ fontSize: '1px' }}>&nbsp;</div>
+              <div>
+                <Divider />
+              </div>
+              <TextField
+                value={this.state.activeCourseId && this.state.activeCourse ?
+                  this.state.activeCourse.client : ''}
+                id="txtClient"
+                onChange={this.txtFieldChange}
+                fullWidth
+                floatingLabelText="Client"
+                floatingLabelFixed
+              />
+              <TextField
+                value={this.state.activeCourseId && this.state.activeCourse ?
+                  this.state.activeCourse.date : ''}
+                id="txtDate"
+                onChange={this.txtFieldChange}
+                fullWidth
+                floatingLabelText="Date"
+                floatingLabelFixed
+              />
+              <TextField
+                value={this.state.activeCourseId && this.state.activeCourse ?
+                  this.state.activeCourse.service : ''}
+                id="txtService"
+                onChange={this.txtFieldChange}
+                fullWidth
+                floatingLabelText="Service"
+                floatingLabelFixed
+              />
+              <TextField
+                value={this.state.activeCourseId && this.state.activeCourse ?
+                  this.state.activeCourse.link : ''}
+                id="txtLink"
+                onChange={this.txtFieldChange}
+                fullWidth
+                floatingLabelText="Link"
+                floatingLabelFixed
+              />
+            </div>
+
+            <div>
+              <RaisedButton
+                label={this.state.activeCourseId !== '0' ? 'Save' : 'Add'}
+                primary
+                onTouchTap={() => this.saveClick()}
+              />
+              <RaisedButton
+                label={this.state.activeCourseId !== '0' ? 'Delete' : 'Cancel'}
+                secondary
+                style={{ margin: 12 }}
+                onTouchTap={() => this.deleteClick()}
+              />
+            </div>
+
+          </Paper>
+        </MuiThemeProvider>
+      </div>
     );
   }
 }
