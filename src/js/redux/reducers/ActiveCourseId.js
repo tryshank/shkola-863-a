@@ -17,7 +17,8 @@ export const activeCourseId = (state = null, action) => {
       }
     case ACTION_COURSE_ADD:
       {
-        return null;
+        // to indicate 'new course' mode for editor
+        return '0';
       }
     case ACTION_COURSE_CREATE:
       {
