@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import * as ActionCreators from '../../redux/actions/ActionCreators';
+import TinyMCE from '../../utils/TinyMCE';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -41,6 +42,8 @@ const initialState = {
     link: '',
     visible: false,
   },
+  html: '',
+  htmlError: '',
 };
 
 
@@ -68,6 +71,14 @@ class AdminCourseItemEditorView extends Component {
     this.setState({
       ...this.state, activeCourse: {
         ...this.state.activeCourse, [event.target.id.substr(3).toLowerCase()]: event.target.value,
+      },
+    });
+  };
+
+  handleContentChange = (event) => {
+    this.setState({
+      ...this.state, activeCourse: {
+        ...this.state.activeCourse, content: event.target.getContent({ format: 'raw' }),
       },
     });
   };
@@ -165,16 +176,19 @@ class AdminCourseItemEditorView extends Component {
                   floatingLabelText="Title"
                   floatingLabelFixed
                 />
-                <TextField
-                  value={this.state.activeCourseId ? this.state.activeCourse.content : ''}
-                  id="txtContent"
-                  onChange={this.txtFieldChange}
-                  fullWidth
-                  floatingLabelText="Content"
-                  floatingLabelFixed
-                  rows={3}
-                  rowsMax={6}
-                  multiLine
+                <TinyMCE
+                  content={(this.state.activeCourseId && this.state.activeCourse) ?
+                  this.state.activeCourse.content : ''}
+                  config={{
+                    plugins: 'autolink link image lists preview textcolor',
+                    menubar: false,
+                    toolbar1: 'undo redo | cut copy paste | fontselect fontsizeselect ' +
+                    '| forecolor | bold italic strikethrough | alignleft aligncenter alignright ' +
+                    'alignjustify alignnone',
+                    toolbar2: 'indent outdent | bullist numlist | subscript superscript | link ' +
+                    'unlink | image | hr | removeformat ',
+                  }}
+                  onChange={this.handleContentChange}
                 />
                 <div>
                   <Divider />

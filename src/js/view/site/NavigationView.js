@@ -29,7 +29,7 @@ const NavigationView = () =>
           <li className="hidden">
             <a href="#page-top"></a>
           </li>
-          <li className="page-scroll">
+          <li className="page-scroll active">
             <a href="#courses">Courses</a>
           </li>
           <li className="page-scroll">
