@@ -91,3 +91,18 @@ export const uploadImage = (file) => {
       );
     });
 };
+
+export const orderCourses = (activeCourse, direction, swapCourse) => {
+  const init = { method: 'put', headers: setHeaders(), credentials: 'include',
+    body: JSON.stringify({ direction, position: activeCourse.position,
+      positionSwap: swapCourse.position }) };
+  return fetch(new Request(`/api/course/${activeCourse.id}/${swapCourse.id}`, init)).then((res) => {
+    if (res.status === 200) {
+      // ordering operation ok
+      return ({ result: true, original: activeCourse, swap: swapCourse });
+    }
+    return { result: false, err: null };
+  }, (err) =>
+    ({ result: false, err })
+  );
+};

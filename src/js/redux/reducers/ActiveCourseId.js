@@ -17,7 +17,7 @@ export const activeCourseId = (state = null, action) => {
       }
     case ACTION_COURSE_ADD:
       {
-        return null;
+        return '0';
       }
     case ACTION_COURSE_CREATE:
       {

@@ -4,6 +4,7 @@ import {
   ACTION_COURSE_DELETE,
   ACTION_COURSE_ADD,
   ACTION_COURSE_CREATE,
+  ACTION_COURSE_ORDER,
 } from './../constants/ActionTypes';
 
 export const coursesData = (state = [], action) => {
@@ -55,6 +56,26 @@ export const coursesData = (state = [], action) => {
         // append courses list with new item
         if (action.payload.data) {
           newData = [].concat(state, action.payload.data);
+        }
+        return newData;
+      }
+    case ACTION_COURSE_ORDER:
+      {
+        let newData = state;
+        if (action.payload && action.payload.result) {
+          newData = state.map((courseItem) => {
+            let courseItemModified = courseItem;
+            if (courseItem._id === action.payload.original.id) {
+              courseItemModified = { ...courseItem, ordering: action.payload.swap.position };
+            }
+            if (courseItem._id === action.payload.swap.id) {
+              courseItemModified = { ...courseItem, ordering: action.payload.original.position };
+            }
+            return courseItemModified;
+          });
+          const swapElement = newData[action.payload.swap.index];
+          newData[action.payload.swap.index] = newData[action.payload.original.index];
+          newData[action.payload.original.index] = swapElement;
         }
         return newData;
       }

@@ -14,3 +14,4 @@ export const setActiveCourseIdAction = createAction(Constants.ACTION_SET_ACTIVE_
 export const openDeleteDialogAction = createAction(Constants.ACTION_SHOW_DIALOG);
 export const closeDeleteDialogAction = createAction(Constants.ACTION_CLOSE_DIALOG);
 export const imageUploadAction = createAction(Constants.ACTION_IMAGE_UPLOAD, WebAPI.uploadImage);
+export const orderCourseAction = createAction(Constants.ACTION_COURSE_ORDER, WebAPI.orderCourses);
