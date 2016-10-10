@@ -65,6 +65,7 @@ class AdminCourseItemEditorView extends Component {
       activeCourseId: nextProps.activeCourseId,
       imagesFiles: nextProps.imagesFiles,
     };
+    console.log('activeCourseId = ', this.state.activeCourseId);
   }
 
   txtFieldChange = (event) => {
@@ -166,7 +167,7 @@ class AdminCourseItemEditorView extends Component {
                   label="Show course in courses list on the client page"
                   style={checkbox}
                   onCheck={this.checkVisible}
-                  checked={(this.state.activeCourseId) ?
+                  checked={(this.state.activeCourseId && this.state.activeCourse) ?
                 this.state.activeCourse.visible : false}
                 />
                 <TextField
@@ -176,6 +177,17 @@ class AdminCourseItemEditorView extends Component {
                   fullWidth
                   floatingLabelText="Title"
                   floatingLabelFixed
+                />
+                <TextField
+                  value={''}
+                  id="txtContent"
+                  fullWidth
+                  floatingLabelText="Content"
+                  floatingLabelFixed
+                  underlineShow={false}
+                  rows={0}
+                  style={{ paddingBottom: '20px', padding: '0', margin: '0' }}
+                  inputStyle={{ cursor: 'default', visibility: 'hidden' }}
                 />
                 <TinyMCE
                   content={(this.state.activeCourseId && this.state.activeCourse) ?
