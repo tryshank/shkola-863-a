@@ -14,6 +14,7 @@ import Divider from 'material-ui/Divider';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Checkbox from 'material-ui/Checkbox';
+import { EDITOR_STATE_NEW_COURSE } from '../../redux/reducers/ActiveCourseId';
 
 
 const editor = {
@@ -29,7 +30,7 @@ const checkbox = {
 };
 
 const initialState = {
-  activeCourseId: '0',
+  activeCourseId: '',
   activeCourseImage: null,
   imagesFiles: [],
   activeCourse: {
@@ -74,7 +75,6 @@ class AdminCourseItemEditorView extends Component {
         ...this.state.activeCourse, [event.target.id.substr(3).toLowerCase()]: event.target.value,
       },
     });
-    console.log(this.state);
   };
 
   handleContentChange = (event) => {
@@ -83,7 +83,6 @@ class AdminCourseItemEditorView extends Component {
         ...this.state.activeCourse, content: event.target.getContent({ format: 'raw' }),
       },
     });
-    console.log(this.state);
   };
 
   dialogHandleDeleteConfirm = () => {
@@ -99,7 +98,7 @@ class AdminCourseItemEditorView extends Component {
   };
 
   saveClick = () => {
-    if (this.props.activeCourseId !== '0') {
+    if (this.props.activeCourseId !== EDITOR_STATE_NEW_COURSE) {
       this.props.actions.saveCourse(this.state.activeCourse);
     } else {
       this.props.actions.createCourse(this.state.activeCourse);
@@ -156,161 +155,162 @@ class AdminCourseItemEditorView extends Component {
 
   render() {
     return (
-      <div>
-        <MuiThemeProvider>
-          <Paper
-            rounded={false}
-            style={editor}
-          >
+      <MuiThemeProvider>
+        <Paper
+          rounded={false}
+          style={editor}
+        >
+          {this.state.activeCourseId ?
             <div>
-              <Checkbox
-                label="Show course in courses list on the client page"
-                style={checkbox}
-                onCheck={this.checkVisible}
-                checked={(this.state.activeCourseId && this.state.activeCourse) ?
-                this.state.activeCourse.visible : false}
-              />
-              <TextField
-                value={(this.state.activeCourseId && this.state.activeCourse) ?
-                  this.state.activeCourse.title : '===='}
-                id="txtTitle"
-                onChange={this.txtFieldChange}
-                fullWidth
-                floatingLabelText="Title"
-                floatingLabelFixed
-              />
-              <TextField
-                id="txtUnVisible"
-                fullWidth
-                floatingLabelText="Content"
-                floatingLabelFixed
-                rows={0}
-                disabled
-              />
-              <TinyMCE
-                content={(this.state.activeCourseId && this.state.activeCourse) ?
-                  this.state.activeCourse.content : ''}
-                config={{
-                  plugins: 'autolink link image lists preview textcolor',
-                  menubar: false,
-                  toolbar1: 'undo redo | cut copy paste | fontselect fontsizeselect ' +
-                  '| forecolor | bold italic strikethrough | alignleft aligncenter alignright ' +
-                  'alignjustify alignnone',
-                  toolbar2: 'indent outdent | bullist numlist | subscript superscript | link ' +
-                  'unlink | image | hr | removeformat ',
-                }}
-                onChange={this.handleContentChange}
-              />
               <div>
-                <Divider />
-              </div>
-
-              <div className="row">
-                <div className="col-sm-12 col-md-8">
-                  <div>
-                    <SelectField
-                      value={this.state.activeCourseId && this.state.activeCourse ?
-                        this.state.activeCourse.image : ''}
-                      onChange={this.handleImageFileNameChanged}
-                      maxHeight={200}
-                      floatingLabelText="Image file name"
-                      floatingLabelFixed
-                      fullWidth
-                    >
-                      {
-                        this.state.imagesFiles.length ?
-                          this.state.imagesFiles.map(item =>
-                            <MenuItem value={item} key={item} primaryText={item} />)
-                          : null
-                      }
-                    </SelectField>
-                  </div>
-                  <div>
-                    <FlatButton
-                      label="Upload image"
-                      onClick={this.openFileDialog}
-                      primary
-                    />
-                    <input
-                      ref="fileUpload"
-                      type="file"
-                      style={{ display: 'none' }}
-                      onChange={this.uploadFileNameChange}
-                    />
-                  </div>
+                <Checkbox
+                  label="Show course in courses list on the client page"
+                  style={checkbox}
+                  onCheck={this.checkVisible}
+                  checked={(this.state.activeCourseId) ?
+                this.state.activeCourse.visible : false}
+                />
+                <TextField
+                  value={this.state.activeCourseId ? this.state.activeCourse.title : ''}
+                  id="txtTitle"
+                  onChange={this.txtFieldChange}
+                  fullWidth
+                  floatingLabelText="Title"
+                  floatingLabelFixed
+                />
+                <TinyMCE
+                  content={(this.state.activeCourseId && this.state.activeCourse) ?
+                  this.state.activeCourse.content : ''}
+                  config={{
+                    plugins: 'autolink link image lists preview textcolor',
+                    menubar: false,
+                    toolbar1: 'undo redo | cut copy paste | fontselect fontsizeselect ' +
+                    '| forecolor | bold italic strikethrough | alignleft aligncenter alignright ' +
+                    'alignjustify alignnone',
+                    toolbar2: 'indent outdent | bullist numlist | subscript superscript | link ' +
+                    'unlink | image | hr | removeformat ',
+                  }}
+                  onChange={this.handleContentChange}
+                />
+                <div>
+                  <Divider />
                 </div>
-                <div className="col-sm-12 col-md-4">
-                  {this.state.activeCourseId ?
-                    <img
-                      src={this.state.activeCourse && this.state.activeCourse.image ?
+                <div className="row">
+                  <div className="col-sm-12 col-md-8">
+                    <div>
+                      <SelectField
+                        value={this.state.activeCourseId ? this.state.activeCourse.image : ''}
+                        onChange={this.handleImageFileNameChanged}
+                        maxHeight={200}
+                        floatingLabelText="Image file name"
+                        floatingLabelFixed
+                        fullWidth
+                      >
+                        {
+                          this.state.imagesFiles.length ?
+                            this.state.imagesFiles.map(item =>
+                              <MenuItem
+                                value={item}
+                                key={item}
+                                primaryText={item}
+                              />)
+                            : null
+                        }
+                      </SelectField>
+                    </div>
+                    <div>
+                      <FlatButton
+                        label="Upload image"
+                        onClick={this.openFileDialog}
+                        primary
+                      />
+                      <input
+                        ref="fileUpload"
+                        type="file"
+                        style={{ display: 'none' }}
+                        onChange={this.uploadFileNameChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="col-sm-12 col-md-4">
+                    {this.state.activeCourseId && this.state.activeCourse.image ?
+                      <img
+                        src={this.state.activeCourse.image ?
                       `/image/${this.state.activeCourse.image}` : ''}
-                      style={{ height: '100px', display: 'inline-block',
+                        style={{ height: '100px', display: 'inline-block',
                                float: 'none', overflow: 'hide',
                                position: 'relative', left: '-20px', top: '5px' }}
-                      alt="preview"
-                    /> : null
-                  }
+                        alt="preview"
+                      /> : null
+                    }
+                  </div>
                 </div>
+                <div style={{ fontSize: '1px' }}>&nbsp;</div>
+                <div>
+                  <Divider />
+                </div>
+                <TextField
+                  value={this.state.activeCourseId ? this.state.activeCourse.client : ''}
+                  id="txtClient"
+                  onChange={this.txtFieldChange}
+                  fullWidth
+                  floatingLabelText="Client"
+                  floatingLabelFixed
+                />
+                <TextField
+                  value={this.state.activeCourseId ? this.state.activeCourse.date : ''}
+                  id="txtDate"
+                  onChange={this.txtFieldChange}
+                  fullWidth
+                  floatingLabelText="Date"
+                  floatingLabelFixed
+                />
+                <TextField
+                  value={this.state.activeCourseId ? this.state.activeCourse.service : ''}
+                  id="txtService"
+                  onChange={this.txtFieldChange}
+                  fullWidth
+                  floatingLabelText="Service"
+                  floatingLabelFixed
+                />
+                <TextField
+                  value={this.state.activeCourseId ? this.state.activeCourse.link : ''}
+                  id="txtLink"
+                  onChange={this.txtFieldChange}
+                  fullWidth
+                  floatingLabelText="Link"
+                  floatingLabelFixed
+                />
               </div>
-              <div style={{ fontSize: '1px' }}>&nbsp;</div>
               <div>
-                <Divider />
+                <RaisedButton
+                  label={this.state.activeCourseId !== EDITOR_STATE_NEW_COURSE ? 'Save' : 'Add'}
+                  primary
+                  onTouchTap={() => this.saveClick()}
+                />
+                <RaisedButton
+                  label={this.state.activeCourseId !== EDITOR_STATE_NEW_COURSE ?
+                    'Delete' : 'Cancel'}
+                  secondary
+                  style={{ margin: 12 }}
+                  onTouchTap={() => this.deleteClick()}
+                />
               </div>
+            </div>
+            :
+            <div style={{ textAlign: 'center' }}>
               <TextField
-                value={this.state.activeCourseId && this.state.activeCourse ?
-                  this.state.activeCourse.client : ''}
-                id="txtClient"
-                onChange={this.txtFieldChange}
+                value="Please select course in left menu"
+                id="txtSelectCourse"
                 fullWidth
-                floatingLabelText="Client"
-                floatingLabelFixed
-              />
-              <TextField
-                value={this.state.activeCourseId && this.state.activeCourse ?
-                  this.state.activeCourse.date : ''}
-                id="txtDate"
-                onChange={this.txtFieldChange}
-                fullWidth
-                floatingLabelText="Date"
-                floatingLabelFixed
-              />
-              <TextField
-                value={this.state.activeCourseId && this.state.activeCourse ?
-                  this.state.activeCourse.service : ''}
-                id="txtService"
-                onChange={this.txtFieldChange}
-                fullWidth
-                floatingLabelText="Service"
-                floatingLabelFixed
-              />
-              <TextField
-                value={this.state.activeCourseId && this.state.activeCourse ?
-                  this.state.activeCourse.link : ''}
-                id="txtLink"
-                onChange={this.txtFieldChange}
-                fullWidth
-                floatingLabelText="Link"
-                floatingLabelFixed
+                style={{ textAlign: 'center', cursor: 'none', fontSize: '32px' }}
+                underlineShow={false}
+                disabled
               />
             </div>
-
-            <div>
-              <RaisedButton
-                label={this.state.activeCourseId !== '0' ? 'Save' : 'Add'}
-                primary
-                onTouchTap={() => this.saveClick()}
-              />
-              <RaisedButton
-                label={this.state.activeCourseId !== '0' ? 'Delete' : 'Cancel'}
-                secondary
-                style={{ margin: 12 }}
-                onTouchTap={() => this.deleteClick()}
-              />
-            </div>
-
-          </Paper>
-        </MuiThemeProvider>
-      </div>
+          }
+        </Paper>
+      </MuiThemeProvider>
     );
   }
 }
@@ -332,14 +332,17 @@ AdminCourseItemEditorView.propTypes = {
   router: React.PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state, ownProps) =>
-  ({
-    activeCourseId: ownProps.activeCourseId ? ownProps.activeCourseId : '0',
+const mapStateToProps = (state, ownProps) => {
+  const activeCourseId = ownProps.activeCourseId || state.activeCourseId;
+  return ({
+    activeCourseId: ownProps.activeCourseId ? ownProps.activeCourseId : state.activeCourseId,
     activeCourseImage: state.activeCourseImage,
     imagesFiles: state.imagesFiles,
-    activeCourse: ownProps.activeCourseId ? state.coursesData.find(courseItem =>
-    courseItem._id === ownProps.activeCourseId) : initialState.activeCourse,
+    activeCourse: activeCourseId && activeCourseId !== EDITOR_STATE_NEW_COURSE ?
+        state.coursesData.find(courseItem => courseItem._id === activeCourseId)
+      : initialState.activeCourse,
   });
+};
 
 const mapDispatchToProps = (dispatch) =>
   ({
