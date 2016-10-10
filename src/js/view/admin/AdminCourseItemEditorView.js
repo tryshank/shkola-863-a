@@ -14,6 +14,8 @@ import Divider from 'material-ui/Divider';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Checkbox from 'material-ui/Checkbox';
+import { EDITOR_STATE_NEW_COURSE } from '../../redux/reducers/ActiveCourseId';
+
 
 const editor = {
   display: 'block',
@@ -96,7 +98,7 @@ class AdminCourseItemEditorView extends Component {
   };
 
   saveClick = () => {
-    if (this.props.activeCourseId !== '0') {
+    if (this.props.activeCourseId !== EDITOR_STATE_NEW_COURSE) {
       this.props.actions.saveCourse(this.state.activeCourse);
     } else {
       this.props.actions.createCourse(this.state.activeCourse);
@@ -282,12 +284,13 @@ class AdminCourseItemEditorView extends Component {
               </div>
               <div>
                 <RaisedButton
-                  label={this.state.activeCourseId !== '0' ? 'Save' : 'Add'}
+                  label={this.state.activeCourseId !== EDITOR_STATE_NEW_COURSE ? 'Save' : 'Add'}
                   primary
                   onTouchTap={() => this.saveClick()}
                 />
                 <RaisedButton
-                  label={this.state.activeCourseId !== '0' ? 'Delete' : 'Cancel'}
+                  label={this.state.activeCourseId !== EDITOR_STATE_NEW_COURSE ?
+                    'Delete' : 'Cancel'}
                   secondary
                   style={{ margin: 12 }}
                   onTouchTap={() => this.deleteClick()}
@@ -335,7 +338,7 @@ const mapStateToProps = (state, ownProps) => {
     activeCourseId: ownProps.activeCourseId ? ownProps.activeCourseId : state.activeCourseId,
     activeCourseImage: state.activeCourseImage,
     imagesFiles: state.imagesFiles,
-    activeCourse: activeCourseId && activeCourseId !== '0' ?
+    activeCourse: activeCourseId && activeCourseId !== EDITOR_STATE_NEW_COURSE ?
         state.coursesData.find(courseItem => courseItem._id === activeCourseId)
       : initialState.activeCourse,
   });
