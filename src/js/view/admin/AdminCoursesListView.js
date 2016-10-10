@@ -9,6 +9,7 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import ArrowUp from 'material-ui/svg-icons/navigation/arrow-upward';
 import ArrowDown from 'material-ui/svg-icons/navigation/arrow-downward';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { EDITOR_STATE_NEW_COURSE } from '../../redux/reducers/ActiveCourseId';
 
 const SelectableList = MakeSelectable(List);
 
@@ -108,7 +109,8 @@ class AdminCoursesListView extends React.Component {
                 /*
                   TODO: check this working after merge with pull #27
                 */
-                disabled={this.state.activeCourse.id === '0' || this.state.awaitingServerResponse}
+                disabled={this.state.activeCourse.id === EDITOR_STATE_NEW_COURSE ||
+                  this.state.awaitingServerResponse}
               >
                 <ContentAdd />
               </FloatingActionButton>

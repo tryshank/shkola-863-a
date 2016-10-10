@@ -40,7 +40,12 @@ router.post('/', ensureAuthenticated, (req, res) => {
     if (err) {
       send500(res, err);
     } else {
-      ordering = docs[0].ordering + 1;
+      if (docs) {
+        ordering = docs[0].ordering + 1;
+      } else {
+        // if this is first document to be added
+        ordering = 0;
+      }
       doc = new CoursesModel(doc);
       doc.ordering = ordering;
       doc.save((errSave, data) => {
@@ -88,59 +93,65 @@ router.put('/:courseItemId/:courseItemSwapId/', ensureAuthenticated, (req, res) 
     // direction: true - up (to left), false - down (to right)
     const { direction, position, positionSwap } = req.body;
     console.log('swap positions / ordering of items');
-    console.log('id: ', courseItemId, ', ordering: ', position);
-    console.log('id: ', courseItemSwapId, ', ordering: ', positionSwap);
-   // find current course and determine next/previous course to swap ordering numbers
+    console.log('id: ', courseItemId, ', position: ', position);
+    console.log('id: ', courseItemSwapId, ', position: ', positionSwap);
+    // find current course and determine next/previous course to swap ordering numbers
     CoursesModel.find({ ordering: direction ? { $lte: position } : { $gte: position } })
-      .limit(2).sort(`${direction ? '-' : ''}ordering`).
-    exec((err, docs) => {
-      if (err) {
-        send500(res, err);
-      } else {
-        // check db returned 2 docs
-        if (docs.length === 2) {
-          // check id and position of first doc equal id and position from request
-          if (docs[0]._id.toString() === courseItemId && docs[1]._id.toString() === courseItemSwapId
-            && docs[0].ordering === position && docs[1].ordering === positionSwap) {
-            // set new position for course user moving
-            CoursesModel.findOneAndUpdate({ _id: courseItemId },
-              { $set: { ordering: positionSwap } }, { new: true }, (errU, updatedDoc) => {
-                if (errU) {
-                  send500(res, errU);
-                } else {
-                  // check update successfully
-                  if (updatedDoc.ordering === positionSwap) {
-                    // set new position for swapped course
-                    CoursesModel.findOneAndUpdate({ _id: courseItemSwapId },
-                      { $set: { ordering: position } }, { new: true }, (errUS, updatedDocS) => {
-                        if (errUS) {
-                          send500(res, errUS);
-                        } else {
-                          // check update successfully
-                          if (updatedDocS.ordering === position) {
-                            res.status(200).json({ result: true,
-                              original: { id: courseItemId, newPosition: positionSwap },
-                              swap: { id: courseItemSwapId, newPosition: position },
-                            }).end();
-                          } else {
-                            send500(res, 'ordering failed');
-                          }
-                        }
-                      });
-                  } else {
-                    send500(res, 'ordering failed');
-                  }
-                }
-              });
-          } else {
-            const errSend = 'course(s) id or position(s) mismatch';
-            send500(res, errSend);
+      .limit(2).sort(`${direction ? '-' : ''}ordering`)
+      .then(
+        docs => {
+          if (docs.length === 2) {
+            // check id and position of first doc equal id and position from request
+            if (docs[0]._id.toString() === courseItemId && docs[0].ordering === position &&
+              docs[1]._id.toString() === courseItemSwapId && docs[1].ordering === positionSwap) {
+              // set new position for course user moving
+              return CoursesModel.findOneAndUpdate({ _id: courseItemId },
+                { $set: { ordering: positionSwap } }, { new: true });
+            }
           }
-        }
-      }
-    });
-  } else {
-    send404(res);
+          const err = 'course(s) id or position(s) mismatch';
+          console.log(err);
+          send500(res, err);
+          return null;
+        },
+        err => {
+          console.log(err);
+          send500(res, err);
+        })
+      .then(
+        updatedDoc => {
+          if (updatedDoc.ordering === positionSwap) {
+            // set new position for swapped course
+            return CoursesModel.findOneAndUpdate({ _id: courseItemSwapId },
+              { $set: { ordering: position } }, { new: true });
+          }
+          const err = ('ordering failed on updating 1st item position');
+          console.log(err);
+          send500(res, err);
+          return null;
+        },
+        err => {
+          console.log(err);
+          send500(res, err);
+        })
+      .then(
+        updatedDoc => {
+          // check update successfully
+          if (updatedDoc.ordering === position) {
+            res.status(200).json({ result: true,
+              original: { id: courseItemId, newPosition: positionSwap },
+              swap: { id: courseItemSwapId, newPosition: position },
+            }).end();
+          } else {
+            const err = ('ordering failed on updating 2nd item position');
+            console.log(err);
+            send500(res, err);
+          }
+        },
+        err => {
+          console.log(err);
+          send500(res, err);
+        });
   }
 });
 

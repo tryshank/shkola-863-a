@@ -5,6 +5,8 @@ import {
   ACTION_COURSE_CREATE,
 } from './../constants/ActionTypes';
 
+export const EDITOR_STATE_NEW_COURSE = '0';
+
 export const activeCourseId = (state = null, action) => {
   switch (action.type) {
     case ACTION_SET_ACTIVE_COURSE_ID:
@@ -17,7 +19,7 @@ export const activeCourseId = (state = null, action) => {
       }
     case ACTION_COURSE_ADD:
       {
-        return '0';
+        return EDITOR_STATE_NEW_COURSE;
       }
     case ACTION_COURSE_CREATE:
       {
