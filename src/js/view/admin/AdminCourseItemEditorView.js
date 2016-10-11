@@ -29,7 +29,7 @@ const checkbox = {
 };
 
 const initialState = {
-  activeCourseId: '',
+  activeCourseId: null,
   activeCourseImage: null,
   imagesFiles: [],
   activeCourse: {
@@ -65,7 +65,6 @@ class AdminCourseItemEditorView extends Component {
       activeCourseId: nextProps.activeCourseId,
       imagesFiles: nextProps.imagesFiles,
     };
-    console.log('activeCourseId = ', this.state.activeCourseId);
   }
 
   txtFieldChange = (event) => {

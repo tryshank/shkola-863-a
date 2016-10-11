@@ -1,6 +1,7 @@
 const Router = require('express');
 const { ensureAuthenticated } = require('../middleware/AuthMiddleware');
 const CoursesModel = require('../model/CoursesModel');
+const mongoose = require('mongoose');
 const router = new Router();
 
 const send404 = (res) => {
@@ -32,35 +33,41 @@ router.get('/', (req, res) => {
 router.post('/', ensureAuthenticated, (req, res) => {
   console.log('add new item');
   let doc = req.body.data;
-  let ordering = 0;
-  delete doc._id;
-  // determine maximum ordering
-  CoursesModel.find().limit(1).sort('-ordering').
-  exec((err, docs) => {
-    if (err) {
-      send500(res, err);
-    } else {
-      if (docs) {
-        ordering = docs[0].ordering + 1;
-      } else {
-        // if this is first document to be added
-        ordering = 0;
-      }
-      doc = new CoursesModel(doc);
-      doc.ordering = ordering;
-      doc.save((errSave, data) => {
-        if (err) {
-          send500(res, errSave);
+  if (doc) {
+    let ordering = 0;
+    delete doc._id;
+    // determine maximum ordering
+    CoursesModel.find().limit(1).sort('-ordering').
+    then(
+      docs => {
+        if (docs) {
+          ordering = docs[0].ordering + 1;
         } else {
-          if (data) {
-            res.status(200).send({ data }).end();
-          } else {
-            send500(res, 'item didn\'t saved');
-          }
+          // if this is first document to be added
+          ordering = 0;
         }
+        doc = new CoursesModel(doc);
+        doc.ordering = ordering;
+        doc.save((errSave, data) => {
+          if (errSave) {
+            send500(res, errSave);
+          } else {
+            if (data) {
+              res.status(200).send({ data }).end();
+            } else {
+              send500(res, 'item didn\'t saved');
+            }
+          }
+        });
+      },
+      err => {
+        send500(res, err);
       });
-    }
-  });
+  } else {
+    const err = 'no item id specified';
+    console.log(err);
+    send500(res, err);
+  }
 });
 
 // put-edit/update
@@ -68,22 +75,31 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
   if (req.params.id) {
     const courseItem = req.body.courseItem;
     if (courseItem) {
-      console.log('update item: ', courseItem);
+      console.log(`update item with id ${req.params.id}`);
       delete courseItem._id;
-      CoursesModel.update({ _id: req.params.id }, req.body.courseItem, (err) => {
-        if (err) {
+      CoursesModel.update({ _id: req.params.id }, req.body.courseItem)
+      .then(
+        doc =>
+          res.status(200).json({ id: req.params.id, item: req.body.courseItem }).end(),
+        err => {
+          console.log(err);
           send500(res, err);
-        } else {
-          res.status(200).json({ id: req.params.id, item: req.body.courseItem }).end();
-        }
-      });
+        });
     } else {
-      send404(res);
+      const err = 'no item data specified';
+      console.log(err);
+      send500(res, err);
     }
   } else {
-    send404(res);
+    const err = 'no item id specified';
+    console.log(err);
+    send500(res, err);
   }
 });
+
+
+const updateCoursePosition = (_id, ordering) =>
+  CoursesModel.findOneAndUpdate({ _id }, { $set: { ordering } }, { new: true });
 
 
 // put-sort
@@ -96,34 +112,34 @@ router.put('/:courseItemId/:courseItemSwapId/', ensureAuthenticated, (req, res) 
     console.log('id: ', courseItemId, ', position: ', position);
     console.log('id: ', courseItemSwapId, ', position: ', positionSwap);
     // find current course and determine next/previous course to swap ordering numbers
-    CoursesModel.find({ ordering: direction ? { $lte: position } : { $gte: position } })
+    CoursesModel.find({
+      _id: { $in: [courseItemId, courseItemSwapId].map(id => mongoose.Types.ObjectId(id)) } })
       .limit(2).sort(`${direction ? '-' : ''}ordering`)
       .then(
         docs => {
+          let err = 'can\'t find items with specified ID\'s';
           if (docs.length === 2) {
             // check id and position of first doc equal id and position from request
             if (docs[0]._id.toString() === courseItemId && docs[0].ordering === position &&
               docs[1]._id.toString() === courseItemSwapId && docs[1].ordering === positionSwap) {
               // set new position for course user moving
-              return CoursesModel.findOneAndUpdate({ _id: courseItemId },
-                { $set: { ordering: positionSwap } }, { new: true });
+              return updateCoursePosition(courseItemId, positionSwap);
             }
+            err = 'can\'t find items with specified ID\'s and positions';
           }
-          const err = 'course(s) id or position(s) mismatch';
           console.log(err);
           send500(res, err);
           return null;
         },
         err => {
-          console.log(err);
+          console.log('error occurred while finding items with specified ID\'s:\n', err);
           send500(res, err);
         })
       .then(
         updatedDoc => {
           if (updatedDoc.ordering === positionSwap) {
             // set new position for swapped course
-            return CoursesModel.findOneAndUpdate({ _id: courseItemSwapId },
-              { $set: { ordering: position } }, { new: true });
+            return updateCoursePosition(courseItemSwapId, position);
           }
           const err = ('ordering failed on updating 1st item position');
           console.log(err);
@@ -131,7 +147,7 @@ router.put('/:courseItemId/:courseItemSwapId/', ensureAuthenticated, (req, res) 
           return null;
         },
         err => {
-          console.log(err);
+          console.log('failed update 1st item:\n', err);
           send500(res, err);
         })
       .then(
@@ -152,6 +168,10 @@ router.put('/:courseItemId/:courseItemSwapId/', ensureAuthenticated, (req, res) 
           console.log(err);
           send500(res, err);
         });
+  } else {
+    const err = 'no items id\'s specified';
+    console.log(err);
+    send500(res, err);
   }
 });
 
@@ -159,26 +179,33 @@ router.put('/:courseItemId/:courseItemSwapId/', ensureAuthenticated, (req, res) 
 // delete
 router.delete('/:id', ensureAuthenticated, (req, res) => {
   if (req.params.id) {
-    CoursesModel.findById(req.params.id, (err, doc) => {
-      if (err) {
-        send500(res, err);
-      } else {
-        if (doc) {
-          CoursesModel.remove({ _id: req.params.id }, (error) => {
-            if (err) {
-              send500(res, error);
-            } else {
-              res.status(200).end();
-            }
-          });
-          res.status(200).end();
-        } else {
-          send404(res);
+    console.log(`delete item with id ${req.params.id}`);
+    CoursesModel.findById(req.params.id)
+    .then(
+      docs => {
+        if (docs) {
+          return CoursesModel.remove({ _id: req.params.id });
         }
+        send404(res);
+        return null;
+      },
+      err => {
+        console.log(err);
+        send500(res, err);
+      })
+    .then(
+      result =>
+        res.status(200).end()
+      ,
+      err => {
+        console.log(err);
+        send500(res, err);
       }
-    });
+    );
   } else {
-    send404(res, 'No course id specified');
+    const err = 'no item id specified';
+    console.log(err);
+    send500(res, err);
   }
 });
 
