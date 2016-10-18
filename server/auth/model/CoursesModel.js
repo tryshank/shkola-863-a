@@ -11,12 +11,9 @@ const schema = new mongoose.Schema({
   visible: Boolean,
 });
 
-
 schema.statics.findById = function (_id, cb) {
   return this.find('{_id}').sort('_id').limit(1).
   exec(cb);
 };
-
-// const CoursesModel = mongoose.model('courses', schema, 'courses');
 
 module.exports = mongoose.model('courses', schema, 'courses');

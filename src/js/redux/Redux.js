@@ -5,6 +5,8 @@ import activeCourseImage from './reducers/ActiveCourseImage';
 import coursesData from './reducers/CoursesData';
 import dialogState from './reducers/DialogState';
 import imagesFiles from './reducers/ImagesFiles';
+import contactFormState from './reducers/ContactForm';
+import adminSettings from './reducers/AdminSettings';
 
 const Reducers = combineReducers({
   activeCourseId,
@@ -12,6 +14,8 @@ const Reducers = combineReducers({
   coursesData,
   dialogState,
   imagesFiles,
+  contactFormState,
+  adminSettings,
 });
 
 export const store = createStore(Reducers, applyMiddleware(promiseMiddleware));

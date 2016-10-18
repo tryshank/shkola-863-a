@@ -14,3 +14,10 @@ export const setActiveCourseIdAction = createAction(Constants.ACTION_SET_ACTIVE_
 export const openDeleteDialogAction = createAction(Constants.ACTION_SHOW_DIALOG);
 export const closeDeleteDialogAction = createAction(Constants.ACTION_CLOSE_DIALOG);
 export const imageUploadAction = createAction(Constants.ACTION_IMAGE_UPLOAD, WebAPI.uploadImage);
+export const submitContactsForm = createAction(Constants.ACTION_SUBMIT_CONTACTS_FORM,
+  WebAPI.submitContactForm);
+export const getSettingsMail = createAction(Constants.ACTION_GET_SETTINGS_MAIL,
+  WebAPI.getSettingsMail);
+export const saveSettings = createAction(Constants.ACTION_SAVE_SETTINGS,
+  WebAPI.saveSettings);
+

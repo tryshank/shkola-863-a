@@ -18,10 +18,6 @@ require('font-awesome/less/font-awesome.less');
 require('../less/shkola.less');
 require('../less/admin.less');
 require('./freelancer');
-require('./jqBootstrapValidation');
-require('./contact_me');
-
-//
 
 (() => {
   const docElem = document.documentElement;

@@ -48,6 +48,13 @@ app.use('/api/image', ImageRoute);
 const AuthRoute = require('./auth/route/AuthRoute');
 app.use('/api/auth', AuthRoute);
 
+// Send email route (from client contact form)
+const EmailRoute = require('./auth/route/EmailRoute');
+app.use('/api/send-mail', EmailRoute);
+
+// Send email route (from client contact form)
+const AdminRoute = require('./auth/route/AdminRoute');
+app.use('/api/admin', AdminRoute);
 
 app.use('/image', express.static('img'));
 app.use(express.static(`${__dirname}/client`));
@@ -62,5 +69,21 @@ console.log(`RUNNING ON ENVIRONMENT: ${process.env.NODE_ENV}`);
 const server = app.listen(process.env.ENV_SERVER_PORT, () => {
   console.log(`listening server on port ${server.address().port}`);
 });
+
+if (!process.env.ENV_MAIL_PASSWORD) {
+  console.log('Warning! E-mail password is empty!');
+}
+
+if (!process.env.ENV_MAIL_USER) {
+  console.log('Warning! E-mail user is empty!');
+}
+
+if (!process.env.ENV_MAIL_SERVER) {
+  console.log('Warning! E-mail server is empty!');
+}
+
+if (!process.env.ENV_MAIL_ADMIN_EMAIL) {
+  console.log('Warning! Admin e-mail is empty!');
+}
 
 console.log('---');

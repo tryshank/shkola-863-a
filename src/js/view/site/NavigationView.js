@@ -38,6 +38,9 @@ const NavigationView = () =>
           <li className="page-scroll">
             <a href="#howtofind">HowToFind</a>
           </li>
+          <li className="page-scroll">
+            <a href="#contact">Contact</a>
+          </li>
         </ul>
       </div>
     </div>
