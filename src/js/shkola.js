@@ -69,7 +69,7 @@ ReactDOM.render((
   <Provider store={Redux.store}>
     <Router history={browserHistory}>
       <Route path="/admin/login" component={LoginView} />
-      <Route path="/admin(/:course)" component={AdminMainWrapper} onEnter={requireAuth} />
+      <Route path="/admin(/:courseId)" component={AdminMainWrapper} onEnter={requireAuth} />
       <Route path="/(:course)" component={SiteApplication} />
     </Router>
   </Provider>

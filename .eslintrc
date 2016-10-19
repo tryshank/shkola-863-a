@@ -12,7 +12,7 @@
     "no-console": "off",
     "no-unused-vars": ["error", { "args": "none" }],
     "no-underscore-dangle": ["error",{ "allow": ["_id"] }],
-    "new-cap": ["error", { "capIsNewExceptions": ["MakeSelectable"] }]
+    "new-cap": ["error", { "capIsNewExceptions": ["MakeSelectable", "ObjectId"] }]
   },
   "ignorePath": ".eslintignore"
 }

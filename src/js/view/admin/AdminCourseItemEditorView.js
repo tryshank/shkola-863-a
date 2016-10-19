@@ -16,7 +16,6 @@ import MenuItem from 'material-ui/MenuItem';
 import Checkbox from 'material-ui/Checkbox';
 import { EDITOR_STATE_NEW_COURSE } from '../../redux/reducers/ActiveCourseId';
 
-
 const editor = {
   display: 'block',
   margin: '3px',
@@ -30,7 +29,7 @@ const checkbox = {
 };
 
 const initialState = {
-  activeCourseId: '',
+  activeCourseId: null,
   activeCourseImage: null,
   imagesFiles: [],
   activeCourse: {
@@ -167,7 +166,7 @@ class AdminCourseItemEditorView extends Component {
                   label="Show course in courses list on the client page"
                   style={checkbox}
                   onCheck={this.checkVisible}
-                  checked={(this.state.activeCourseId) ?
+                  checked={(this.state.activeCourseId && this.state.activeCourse) ?
                 this.state.activeCourse.visible : false}
                 />
                 <TextField
@@ -177,6 +176,17 @@ class AdminCourseItemEditorView extends Component {
                   fullWidth
                   floatingLabelText="Title"
                   floatingLabelFixed
+                />
+                <TextField
+                  value={''}
+                  id="txtContent"
+                  fullWidth
+                  floatingLabelText="Content"
+                  floatingLabelFixed
+                  underlineShow={false}
+                  rows={0}
+                  style={{ paddingBottom: '20px', padding: '0', margin: '0' }}
+                  inputStyle={{ cursor: 'default', visibility: 'hidden' }}
                 />
                 <TinyMCE
                   content={(this.state.activeCourseId && this.state.activeCourse) ?

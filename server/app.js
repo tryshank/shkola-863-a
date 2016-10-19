@@ -5,7 +5,6 @@ const morgan = require('morgan');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 
-
 // Auth config
 const loginConfig = require('./auth/config/AuthConfig');
 loginConfig.configure(app);
@@ -13,7 +12,6 @@ loginConfig.configure(app);
 // MongoDB config
 const mongoConfig = require('./auth/config/MongoConfig');
 mongoConfig.configure();
-
 
 app.use(cookieParser());
 app.use(morgan('dev'));

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
+  ordering: { type: Number, index: true },
   image: String,
   title: String,
   content: String,
