@@ -15,17 +15,20 @@ class AdminApplication extends React.Component {
 
   render() {
     const { params } = this.props;
-    const { course } = params;
+    const { courseId } = params;
+    const actualCourse = (this.props.coursesData.find(courseItem => courseItem._id === courseId));
+    const actualCourseId = actualCourse ? actualCourse._id : null;
+    console.log('actualCourseId = ', actualCourseId);
     return (
       <div>
         <div className="container-fluid">
           <div className="row">
             <AdminCourseDeleteDialogWrapper />
             <div className="col-md-3">
-              <AdminCoursesListViewWrapper activeCourseId={course} />
+              <AdminCoursesListViewWrapper activeCourseId={actualCourseId} />
             </div>
             <div className="col-md-9">
-              <AdminCourseItemEditorView activeCourseId={course} />
+              <AdminCourseItemEditorView activeCourseId={actualCourseId} />
             </div>
           </div>
         </div>
@@ -39,6 +42,7 @@ AdminApplication.propTypes = {
     getImagesDispatcher: React.PropTypes.func,
   }),
   params: PropTypes.object.isRequired,
+  coursesData: React.PropTypes.array,
 };
 
 const mapStateToProps = (state, ownProps) =>
