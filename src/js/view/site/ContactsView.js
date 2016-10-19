@@ -4,7 +4,7 @@ import * as ActionCreators from '../../redux/actions/ActionCreators';
 import { bindActionCreators } from 'redux';
 import * as Contacts from '../../redux/constants/Constants';
 
-const emailCheckRegex = `[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\\.[A-Za-z]{2,4}${''}`;
+const emailCheckRegex = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/;
 
 class ContactsView extends React.Component {
 
@@ -59,9 +59,9 @@ class ContactsView extends React.Component {
     if (name.indexOf(' ') >= 0) {
       name = name.split(' ').slice(0, -1).join(' ');
     }
-    if (!(new RegExp(emailCheckRegex).test(email))) {
+    if (!(emailCheckRegex.test(email))) {
       if (errorFields.indexOf('email') === -1) {
-        errorFields = errorFields.push('email');
+        errorFields.push('email');
       }
     }
     if (errorFields.length === 0) {
