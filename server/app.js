@@ -82,8 +82,4 @@ if (!process.env.ENV_MAIL_SERVER) {
   console.log('Warning! E-mail server is empty!');
 }
 
-if (!process.env.ENV_MAIL_ADMIN_EMAIL) {
-  console.log('Warning! Admin e-mail is empty!');
-}
-
 console.log('---');

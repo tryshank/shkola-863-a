@@ -1,25 +1,16 @@
 const Router = require('express');
 const router = new Router();
-const AdminModel = require('../model/AdminModel');
 const { ensureAuthenticated } = require('../middleware/AuthMiddleware');
+const AdminModel = require('../model/AdminModel');
+const { readSettings } = require('../ReadSettings');
 
 router.get('/email', ensureAuthenticated, (req, res) => {
-  AdminModel.findOne({}, { _id: 0 })
-    .then(
-      mail =>
-        res.status(200).send({ result: true, mail }).end()
-      ,
-      err => {
-        console.log(err);
-        res.status(500).send({ result: false, err }).end();
-      }
-    );
+  const result = readSettings();
+  res.status(result.err ? 500 : 200).send(result).end();
 });
 
-
-// put-edit/update
+// save settings
 router.put('/email', ensureAuthenticated, (req, res) => {
-  console.log(req.body.adminEmail);
   if (req.body && req.body.adminEmail) {
     const { adminEmail } = req.body;
     console.log('set admin email to: ', adminEmail);

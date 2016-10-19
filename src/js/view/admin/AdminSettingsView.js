@@ -20,13 +20,12 @@ const initial = {
   mail: {
     adminEmail: '',
   },
-}
+};
 
 class AdminSettingsView extends Component {
 
   constructor(props) {
     // TODO: make state globally after merge pull #28
-    console.log('constructor');
     super(props);
     this.state = {
       state: null,
@@ -37,54 +36,18 @@ class AdminSettingsView extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps nextProps', nextProps);
-    switch (nextProps.state) {
-      case Constants.SUCCESS:
-        {
-          this.state = {
-            ...this.state,
-            state: Constants.EMPTY,
-            initial: {
-              ...this.state.initial,
-              mail: this.state.mail,
-            },
-          };
-        }
-        break;
-      case Constants.EMPTY:
-        {
-          this.state = {
-            ...this.state,
-            mail: nextProps.mail,
-            initial: {
-              ...this.state.initial,
-              mail: nextProps.mail,
-            },
-          };
-        }
-        break;
-      case Constants.FAILED:
-        {
-          this.state = {
-            ...this.state,
-            state: Constants.EMPTY,
-          };
-        }
-        break;
-      default:
-        break;
-    }
-    console.log('componentWillReceiveProps state', this.state);
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    console.log('componentWillUpdate nextProps', nextProps);
-    console.log('componentWillUpdate nextState', nextState);
+    this.state = {
+      ...this.state,
+      mail: nextProps.mail,
+      initial: {
+        ...this.state.initial,
+        mail: nextProps.initial.mail,
+      },
+    };
   }
 
   saveClick = () => {
-    console.log('save');
-    this.props.actions.saveSettings(this.state.mail);
+    this.props.actions.saveSettings(this.state.mail, this.state.initial);
   };
 
   resetClick = () => {
@@ -92,11 +55,9 @@ class AdminSettingsView extends Component {
       ...this.state,
       mail: this.state.initial.mail,
     });
-    console.log('resetClick ', this.state);
   };
 
   txtFieldChange = (event) => {
-    console.log('txtFieldChange ', event);
     event.stopPropagation();
     this.setState({
       ...this.state, mail: {
@@ -108,7 +69,6 @@ class AdminSettingsView extends Component {
   };
 
   render() {
-    console.log('render state ', this.state);
     return (
       <MuiThemeProvider>
         <Paper
@@ -151,21 +111,12 @@ AdminSettingsView.propTypes = {
   }),
 };
 
-const mapStateToProps = (state, ownProps) => {
-  console.log('mapStateToProps state ', state);
-  console.log('mapStateToProps ownProps ', ownProps);
-  let mail;
-  if (state.adminSettings && state.adminSettings.state === Constants.SUCCESS) {
-    mail = this.state.mail;
-  } else {
-    mail = state.adminSettings ? state.adminSettings.mail : initial.mail;
-  }
-  return ({
+const mapStateToProps = (state, ownProps) =>
+  ({
     state: state.adminSettings ? state.adminSettings.state : Constants.EMPTY,
-    mail,
-    initial: state.adminSettings ? { mail: state.adminSettings.mail } : initial,
+    mail: state.adminSettings ? state.adminSettings.mail : initial.mail,
+    initial: state.adminSettings ? state.adminSettings.initial : initial,
   });
-};
 
 const mapDispatchToProps = (dispatch) =>
   ({

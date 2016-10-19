@@ -25,10 +25,8 @@ class ContactsView extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps ', nextProps);
     if (nextProps.submitStatus) {
       if (nextProps.submitStatus === Contacts.SUCCESS) {
-        console.log('form submit success');
         this.state = {
           ...this.state,
           name: '',
@@ -52,44 +50,34 @@ class ContactsView extends React.Component {
   onSubmit = (e) => {
     e.stopPropagation();
     e.preventDefault();
+
     let errorFields = ['name', 'email', 'phone', 'message'];
     errorFields = errorFields.filter(f => !this.state[f]);
-    console.log('error fields: ', errorFields);
-    console.log('state ', this.state);
-
     const { email, phone, message } = this.state;
     let name = this.state.name;
+
     if (name.indexOf(' ') >= 0) {
       name = name.split(' ').slice(0, -1).join(' ');
     }
-
     if (!(new RegExp(emailCheckRegex).test(email))) {
       if (errorFields.indexOf('email') === -1) {
         errorFields = errorFields.push('email');
       }
     }
-
-    console.log('error fields: ', errorFields);
-
     if (errorFields.length === 0) {
-      console.log('form can be submited');
       // disable submit button and submit form
       this.setState({
         ...this.state,
         disableSubmit: true,
       });
-
       this.props.actions.submitForm({ name, email, phone, message });
-      console.log('state: ', this.state);
     } else {
-      console.log('form not complete');
       this.setState({
         ...this.state,
         errorFields,
         submitStatus: Contacts.EMPTY,
       });
     }
-    console.log('errorFields state: ', this.state.errorFields);
   };
 
   txtFieldChange = (event) => {
@@ -113,7 +101,7 @@ class ContactsView extends React.Component {
             </div>
           </div>
           <div className="row">
-            <div className="col-lg-8 col-lg-offset-2">
+            <div key={this.state.timestamp} className="col-lg-8 col-lg-offset-2">
               <form
                 name="sentMessage"
                 id="contactForm"

@@ -6,14 +6,12 @@ const transporter = nodemailer.createTransport(
 
 exports.send = (to, from, subject, text) => {
   const mailOptions = { to, from, subject, text };
-  console.log('mail options, ', mailOptions);
   return new Promise((resolve, reject) => {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.log(error);
         reject(error);
       } else {
-        console.log(info);
         resolve(info);
       }
     });

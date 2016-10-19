@@ -3,7 +3,7 @@ import * as ActionCreators from '../../redux/actions/ActionCreators';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AdminCoursesListViewWrapper from './AdminCoursesListView';
-import AdminCourseItemEditorView from './AdminCourseItemEditorView';
+// import AdminCourseItemEditorView from './AdminCourseItemEditorView';
 import AdminSettingsView from './AdminSettingsView';
 import AdminCourseDeleteDialogWrapper from './AdminCourseDeleteDialogView';
 

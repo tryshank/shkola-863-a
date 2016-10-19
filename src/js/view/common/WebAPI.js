@@ -111,7 +111,6 @@ export const submitContactForm = (formData) =>
 export const getSettingsMail = () => {
   const init = { method: 'get', credentials: 'include', cache: 'no-store',
     headers: { 'Cache-Control': 'no-cache' } };
-  console.log('getSettingsMail webapi');
   return fetch(new Request('/api/admin/email', init), init).then((response) => {
     if (response.ok) {
       return response.json();
@@ -126,14 +125,13 @@ export const getSettingsMail = () => {
 };
 
 
-export const saveSettings = (settings) => {
-  console.log('saveSettings ', settings);
+export const saveSettings = (settings, initialState) => {
   const { adminEmail } = settings;
   const init = { method: 'put', headers: setHeaders(), credentials: 'include',
     body: JSON.stringify({ adminEmail }) };
   return fetch(new Request('/api/admin/email', init)).then((res) => {
     if (res.status === 200) {
-      return { result: true };
+      return { result: true, settings, initialState };
     }
     return { result: false, err: null };
   }, (err) =>
