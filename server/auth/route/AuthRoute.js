@@ -11,24 +11,26 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-  const userModel = new UserModel({ username: req.body.username });
-  UserModel.register(
-    userModel,
-    req.body.password,
-    (err, account) => {
-      if (err) {
-        res.status(401).send(err);
-      } else {
-        passport.authenticate('local')(
-          req,
-          res,
-          () => {
-            res.redirect('/admin');
-          }
-        );
+  if (req.body.adminPassword === process.env.REGISTRATION_ADMIN_PASSWORD) {
+    const userModel = new UserModel({ username: req.body.username });
+    UserModel.register(
+      userModel,
+      req.body.password,
+      (err, account) => {
+        if (err) {
+          res.status(401).send(err);
+        } else {
+          passport.authenticate('local')(
+            req,
+            res,
+            () => {
+              res.redirect('/admin');
+            }
+          );
+        }
       }
-    }
-  );
+    );
+  }
 });
 
 router.get('/isLoggedIn', ensureAuthenticated);
