@@ -17,7 +17,7 @@ const editor = {
 };
 
 const initial = {
-  mail: {
+  email: {
     adminEmail: '',
   },
 };
@@ -25,43 +25,47 @@ const initial = {
 class AdminSettingsView extends Component {
 
   constructor(props) {
-    // TODO: make state globally after merge pull #28
+    // TODO: make state globally
     super(props);
     this.state = {
       state: null,
-      mail: initial.mail,
+      email: initial.email,
       initial,
     };
     this.txtFieldChange = this.txtFieldChange.bind(this);
   }
 
+  componentDidMount() {
+    this.props.actions.getSettingsMail();
+  }
+
   componentWillReceiveProps(nextProps) {
     this.state = {
       ...this.state,
-      mail: nextProps.mail,
+      email: nextProps.email,
       initial: {
         ...this.state.initial,
-        mail: nextProps.initial.mail,
+        email: nextProps.initial.email,
       },
     };
   }
 
   saveClick = () => {
-    this.props.actions.saveSettings(this.state.mail, this.state.initial);
+    this.props.actions.saveSettings(this.state.email, this.state.initial);
   };
 
   resetClick = () => {
     this.setState({
       ...this.state,
-      mail: this.state.initial.mail,
+      email: this.state.initial.email,
     });
   };
 
   txtFieldChange = (event) => {
     event.stopPropagation();
     this.setState({
-      ...this.state, mail: {
-        ...this.state.mail, [event.target.id.substr(3, 1).toLocaleLowerCase() +
+      ...this.state, email: {
+        ...this.state.email, [event.target.id.substr(3, 1).toLocaleLowerCase() +
         event.target.id.substr(4)]:
           event.target.value,
       },
@@ -77,7 +81,7 @@ class AdminSettingsView extends Component {
         >
           <div>
             <TextField
-              value={this.state.mail.adminEmail}
+              value={this.state.email.adminEmail}
               id="txtAdminEmail"
               onChange={this.txtFieldChange}
               fullWidth
@@ -108,13 +112,14 @@ class AdminSettingsView extends Component {
 AdminSettingsView.propTypes = {
   actions: React.PropTypes.shape({
     saveSettings: React.PropTypes.func.isRequired,
+    getSettingsMail: React.PropTypes.func.isRequired,
   }),
 };
 
 const mapStateToProps = (state, ownProps) =>
   ({
     state: state.adminSettings ? state.adminSettings.state : Constants.EMPTY,
-    mail: state.adminSettings ? state.adminSettings.mail : initial.mail,
+    email: state.adminSettings ? state.adminSettings.email : initial.email,
     initial: state.adminSettings ? state.adminSettings.initial : initial,
   });
 
@@ -122,6 +127,7 @@ const mapDispatchToProps = (dispatch) =>
   ({
     actions: {
       saveSettings: bindActionCreators(ActionCreators.saveSettings, dispatch),
+      getSettingsMail: bindActionCreators(ActionCreators.getSettingsMail, dispatch),
     },
   });
 

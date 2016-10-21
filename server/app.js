@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
+const assert = require('assert');
 
 // Auth config
 const loginConfig = require('./auth/config/AuthConfig');
@@ -68,16 +69,13 @@ const server = app.listen(process.env.ENV_SERVER_PORT, () => {
   console.log(`listening server on port ${server.address().port}`);
 });
 
-if (!process.env.ENV_MAIL_PASSWORD) {
-  console.log('Warning! E-mail password is empty!');
-}
+assert(process.env.ENV_MAIL_PASSWORD,
+  'Warning! E-mail password is empty!');
 
-if (!process.env.ENV_MAIL_USER) {
-  console.log('Warning! E-mail user is empty!');
-}
+assert(process.env.ENV_MAIL_USER,
+  'Warning! E-mail user is empty!');
 
-if (!process.env.ENV_MAIL_SERVER) {
-  console.log('Warning! E-mail server is empty!');
-}
+assert(process.env.ENV_MAIL_SERVER,
+  'Warning! E-mail server is empty!');
 
 console.log('---');

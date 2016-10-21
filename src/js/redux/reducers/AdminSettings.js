@@ -8,13 +8,13 @@ export const adminSettings = (state = null, action) => {
   switch (action.type) {
     case ACTION_GET_SETTINGS_MAIL:
       {
-        if (action.payload.result) {
+        if (action.payload.email) {
           return {
             ...state,
             state: Constants.EMPTY,
-            mail: action.payload.mail,
+            email: action.payload.email,
             initial: {
-              mail: action.payload.mail,
+              email: action.payload.email,
             },
           };
         }
@@ -26,10 +26,10 @@ export const adminSettings = (state = null, action) => {
           const newData = {
             ...state,
             state: action.payload.result.toString(),
-            mail: action.payload.settings,
+            email: action.payload.settings,
             initial: {
               ...state.initial,
-              mail: action.payload.settings,
+              email: action.payload.settings,
             },
           };
           return newData;

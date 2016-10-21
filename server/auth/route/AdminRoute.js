@@ -5,8 +5,14 @@ const AdminModel = require('../model/AdminModel');
 const { readSettings } = require('../ReadSettings');
 
 router.get('/email', ensureAuthenticated, (req, res) => {
-  const result = readSettings();
-  res.status(result.err ? 500 : 200).send(result).end();
+  const settings = readSettings();
+  settings.then(
+    result =>
+      res.status(200).send(result).end()
+  ).catch(
+    err =>
+      res.status(500).send(err).end()
+  );
 });
 
 // save settings
@@ -17,12 +23,7 @@ router.put('/email', ensureAuthenticated, (req, res) => {
     AdminModel.findOneAndUpdate({}, { $set: { adminEmail } }, { new: true })
       .then(
         result => {
-          if (result.adminEmail === adminEmail) {
-            res.status(200).send({ result: true }).end();
-          } else {
-            const err = 'update failed';
-            res.status(500).send({ result: false, err }).end();
-          }
+          res.status(200).send({ result: true }).end();
         },
         err => {
           console.log(err);
@@ -30,7 +31,7 @@ router.put('/email', ensureAuthenticated, (req, res) => {
         }
       );
   } else {
-    res.status(500).send({ result: false, err: 'no data received' }).end();
+    res.status(400).send({ result: false, err: 'no data received' }).end();
   }
 });
 
