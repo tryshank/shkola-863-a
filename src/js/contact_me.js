@@ -6,7 +6,7 @@ $(function () {
     },
     submitSuccess($form, event) {
             // Prevent spam click and default submit behaviour
-      $('#btnSubmit').attr('disabled', true);
+      $('#disableSubmit').attr('disabled', true);
       event.preventDefault();
 
             // get values from FORM
@@ -31,7 +31,7 @@ $(function () {
         cache: false,
         success() {
                     // Enable button & show success message
-          $('#btnSubmit').attr('disabled', false);
+          $('#disableSubmit').attr('disabled', false);
           $('#success').html("<div class='alert alert-success'>");
           $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
                         .append('</button>');

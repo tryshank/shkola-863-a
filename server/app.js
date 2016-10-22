@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
+const assert = require('assert');
 
 // Auth config
 const loginConfig = require('./auth/config/AuthConfig');
@@ -46,6 +47,13 @@ app.use('/api/image', ImageRoute);
 const AuthRoute = require('./auth/route/AuthRoute');
 app.use('/api/auth', AuthRoute);
 
+// Send email route (from client contact form)
+const EmailRoute = require('./auth/route/EmailRoute');
+app.use('/api/send-mail', EmailRoute);
+
+// Send email route (from client contact form)
+const AdminRoute = require('./auth/route/AdminRoute');
+app.use('/api/admin', AdminRoute);
 
 app.use('/image', express.static('img'));
 app.use(express.static(`${__dirname}/client`));
@@ -60,5 +68,14 @@ console.log(`RUNNING ON ENVIRONMENT: ${process.env.NODE_ENV}`);
 const server = app.listen(process.env.ENV_SERVER_PORT, () => {
   console.log(`listening server on port ${server.address().port}`);
 });
+
+assert(process.env.ENV_MAIL_PASSWORD,
+  'Warning! E-mail password is empty!');
+
+assert(process.env.ENV_MAIL_USER,
+  'Warning! E-mail user is empty!');
+
+assert(process.env.ENV_MAIL_SERVER,
+  'Warning! E-mail server is empty!');
 
 console.log('---');

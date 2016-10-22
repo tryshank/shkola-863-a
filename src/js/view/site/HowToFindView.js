@@ -7,7 +7,7 @@ const initialCenter = { lng: 27.583746, lat: 53.916212 };
 const zoom = 16;
 const marker = [{
   position: initialCenter,
-  key: 'Imaguru',
+  key: 'Shkola-A',
   defaultAnimation: 2,
 }];
 

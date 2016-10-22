@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SiteApplication from './view/site/SiteApplication';
-import AdminMainWrapper from './view/admin/AdminApplication';
+import AdminApplication from './view/admin/AdminApplication';
+import AdminSettingsWrapper from './view/admin/AdminSettingsView';
+import AdminCoursesViewWrapper from './view/admin/courses/AdminCoursesView';
 import LoginView from './view/admin/LoginView';
 import Classie from 'classie';
 import { Provider } from 'react-redux';
@@ -18,10 +20,6 @@ require('font-awesome/less/font-awesome.less');
 require('../less/shkola.less');
 require('../less/admin.less');
 require('./freelancer');
-require('./jqBootstrapValidation');
-require('./contact_me');
-
-//
 
 (() => {
   const docElem = document.documentElement;
@@ -73,7 +71,14 @@ ReactDOM.render((
   <Provider store={Redux.store}>
     <Router history={browserHistory}>
       <Route path="/admin/login" component={LoginView} />
-      <Route path="/admin(/:courseId)" component={AdminMainWrapper} onEnter={requireAuth} />
+      <Route path="/admin" component={AdminApplication} onEnter={requireAuth}>
+        <Route
+          path="course(/:courseId)"
+          component={AdminCoursesViewWrapper}
+          onEnter={requireAuth}
+        />
+        <Route path="settings" component={AdminSettingsWrapper} onEnter={requireAuth} />
+      </Route>
       <Route path="/(:course)" component={SiteApplication} />
     </Router>
   </Provider>
