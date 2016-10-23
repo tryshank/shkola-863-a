@@ -1,3 +1,4 @@
+var webpack = require('webpack');
 var myArgs = process.argv.slice(2);
 var isHot = myArgs.indexOf('--hot') !== -1;
 console.log('is hot: ' + isHot);
@@ -19,10 +20,16 @@ module.exports = [
       path: __dirname + '/server/client'
     },
     plugins: [
+      new webpack.optimize.UglifyJsPlugin(),
       new HandlebarsPlugin({
         entry: path.join(process.cwd(), "src", "index.hbs"),
         output: path.join(process.cwd(), "server", "client", "index.html"),
         data: { bundleHost: isHot ? 'http://localhost:8080/assets/' : ''},
+      }),
+      new webpack.DefinePlugin({
+        'process.env': {
+          'NODE_ENV': JSON.stringify('production')
+        }
       }),
     ],
     module: {
