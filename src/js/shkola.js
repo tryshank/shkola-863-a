@@ -78,7 +78,7 @@ export const loadModule = (path, subModules = []) =>
       });
     });
 
-export const loadRoute = (path, { scripts = [], subModules = []} = {}) =>
+export const loadRoute = (path, { scripts = [], subModules = [] } = {}) =>
   (location, callback) =>
     Promise.all(
       scripts.map(uri => loadScript(uri))
