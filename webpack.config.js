@@ -6,6 +6,15 @@ var additionalPlugins = isHot ? [ 'react-hmre' ] : [];
 var path = require("path");
 var HandlebarsPlugin = require('handlebars-webpack-plugin');
 
+var productionModules = isHot ? [] : [
+  new webpack.optimize.UglifyJsPlugin(),
+  new webpack.DefinePlugin({
+    'process.env': {
+      'NODE_ENV': JSON.stringify('production')
+    }
+  }),
+];
+
 module.exports = [
   {
     name: 'client side, output to ./server/client',
@@ -20,20 +29,14 @@ module.exports = [
       path: __dirname + '/server/client'
     },
     plugins: [
-      new webpack.optimize.UglifyJsPlugin(),
       new HandlebarsPlugin({
         entry: path.join(process.cwd(), "src", "index.hbs"),
         output: path.join(process.cwd(), "server", "client", "index.html"),
         data: { bundleHost: isHot ? 'http://localhost:8080/assets/' : ''},
       }),
-      new webpack.DefinePlugin({
-        'process.env': {
-          'NODE_ENV': JSON.stringify('production')
-        }
-      }),
     ],
     module: {
-      loaders: [
+      loaders: productionModules.concat([
         {
           loader: 'babel-loader',
           test: /\.jsx?$/,
@@ -58,7 +61,7 @@ module.exports = [
         },
         { test: /\.hbs$/, loader: "handlebars" },
         {test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader"}
-      ]
+      ]),
     }
   }
 ];
