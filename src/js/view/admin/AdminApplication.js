@@ -3,7 +3,7 @@ import * as ActionCreators from '../../redux/actions/ActionCreators';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AdminCoursesListViewWrapper from './AdminCoursesListView';
-import AdminCourseItemEditorView from './AdminCourseItemEditorView';
+import AdminCoursesItemPanel from './AdminCoursesItemPanel';
 import AdminCourseDeleteDialogWrapper from './AdminCourseDeleteDialogView';
 
 class AdminApplication extends React.Component {
@@ -18,7 +18,7 @@ class AdminApplication extends React.Component {
     const { courseId } = params;
     const actualCourse = (this.props.coursesData.find(courseItem => courseItem._id === courseId));
     const actualCourseId = actualCourse ? actualCourse._id : null;
-    console.log('actualCourseId = ', actualCourseId);
+    console.log('AdminApplication actualCourseId = ', actualCourseId);
     return (
       <div>
         <div className="container-fluid">
@@ -28,7 +28,7 @@ class AdminApplication extends React.Component {
               <AdminCoursesListViewWrapper activeCourseId={actualCourseId} />
             </div>
             <div className="col-md-9">
-              <AdminCourseItemEditorView activeCourseId={actualCourseId} />
+              <AdminCoursesItemPanel activeCourseId={actualCourseId} />
             </div>
           </div>
         </div>
