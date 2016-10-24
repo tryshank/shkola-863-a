@@ -7,6 +7,9 @@ import Tutors from 'material-ui/svg-icons/social/people';
 import Settings from 'material-ui/svg-icons/action/settings';
 import { Link } from 'react-router';
 
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
+
 const style = {
   margin: 12,
   color: '#8AA62F',
