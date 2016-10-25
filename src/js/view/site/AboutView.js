@@ -28,14 +28,6 @@ const AboutView = () =>
             is the perfect starting point!
           </p>
         </div>
-        <div className="col-lg-8 col-lg-offset-2 text-center">
-          <a
-            href="#"
-            className="btn btn-lg btn-outline"
-          >
-            <i className="fa fa-download"></i> Download Theme
-          </a>
-        </div>
       </div>
     </div>
   </section>;

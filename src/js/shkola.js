@@ -1,15 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SiteApplication from './view/site/SiteApplication';
-import AdminMainWrapper from './view/admin/AdminApplication';
-import LoginView from './view/admin/LoginView';
 import Classie from 'classie';
 import { Provider } from 'react-redux';
 import * as Redux from './redux/Redux';
 import { Router, Route, browserHistory } from 'react-router';
 import auth from './utils/auth/auth';
-import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
+import $scripts from 'scriptjs';
 
 require('../less/variables.less');
 require('../less/freelancer.less');
@@ -18,10 +15,6 @@ require('font-awesome/less/font-awesome.less');
 require('../less/shkola.less');
 require('../less/admin.less');
 require('./freelancer');
-require('./jqBootstrapValidation');
-require('./contact_me');
-
-//
 
 (() => {
   const docElem = document.documentElement;
@@ -55,7 +48,6 @@ require('./contact_me');
   init();
 })();
 
-
 function requireAuth(nextState, replace, next) {
   auth.ensureAuthenticated()
     .then((res) => {
@@ -69,11 +61,60 @@ function requireAuth(nextState, replace, next) {
     });
 }
 
+
+export const loadScript = (uri) =>
+  new Promise((res) => {
+    $scripts(uri, () => {
+      res();
+    });
+  });
+
+export const loadModule = (path, subModules = []) =>
+  (location, callback) =>
+    new Promise(res => {
+      require.ensure([], require => {
+        callback(null, require(path).default);
+        res();
+      });
+    });
+
+export const loadRoute = (path, { scripts = [], subModules = [] } = {}) =>
+  (location, callback) =>
+    Promise.all(
+      scripts.map(uri => loadScript(uri))
+    ).then(
+      () => loadModule(path, subModules)(location, callback)
+    );
+
+
 ReactDOM.render((
   <Provider store={Redux.store}>
     <Router history={browserHistory}>
-      <Route path="/admin/login" component={LoginView} />
-      <Route path="/admin(/:courseId)" component={AdminMainWrapper} onEnter={requireAuth} />
+      <Route
+        path="/admin/login"
+        getComponent={loadRoute('./view/admin/LoginView.js')}
+      />
+      <Route
+        path="/admin"
+        getComponent={loadRoute('./view/admin/AdminApplication.js')}
+        onEnter={requireAuth}
+      >
+        <Route
+          path="course(/:courseId)"
+          getComponent={
+            loadRoute(
+              './view/admin/courses/AdminCoursesView.js',
+              { scripts: ['//cdn.tinymce.com/4/tinymce.min.js'] }
+            )
+          }
+          onEnter={requireAuth}
+        />
+        <Route
+          path="settings"
+          getComponent={loadRoute('./view/admin/AdminSettingsView.js')}
+          onEnter={requireAuth}
+        />
+      </Route>
       <Route path="/(:course)" component={SiteApplication} />
     </Router>
   </Provider>

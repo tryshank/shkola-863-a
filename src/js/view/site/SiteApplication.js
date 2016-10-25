@@ -3,6 +3,7 @@ import AboutView from './AboutView';
 import FooterView from './FooterView';
 import NavigationView from './NavigationView';
 import HowToFindView from './HowToFindView';
+import ContactView from './ContactsView';
 import CoursesViewWrapper from './CoursesView';
 import CourseModal from './CourseModal';
 
@@ -20,6 +21,7 @@ const SiteApplication = props => {
               <CoursesViewWrapper />
               <AboutView />
               <HowToFindView />
+              <ContactView />
               <FooterView />
               {/* Scroll to Top Button (Only visible on small and extra-small screen sizes) */}
               <div className="scroll-top page-scroll visible-xs visible-sm">

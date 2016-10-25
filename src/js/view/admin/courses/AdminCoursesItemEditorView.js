@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import * as ActionCreators from '../../redux/actions/ActionCreators';
-import TinyMCE from '../../utils/TinyMCE';
+import * as ActionCreators from '../../../redux/actions/ActionCreators';
+import TinyMCE from '../../../utils/TinyMCE';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -14,7 +14,7 @@ import Divider from 'material-ui/Divider';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Checkbox from 'material-ui/Checkbox';
-import { EDITOR_STATE_NEW_COURSE } from '../../redux/reducers/ActiveCourseId';
+import { EDITOR_STATE_NEW_COURSE } from '../../../redux/reducers/ActiveCourseId';
 
 const editor = {
   display: 'block',
