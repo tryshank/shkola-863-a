@@ -61,6 +61,7 @@ class AdminCoursesItemEditorView extends Component {
       activeCourseId: nextProps.activeCourseId,
       imagesFiles: nextProps.imagesFiles,
     };
+    console.log('componentWillReceiveProps state ', this.state);
   }
 
   txtFieldChange = (event) => {

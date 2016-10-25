@@ -1,13 +1,14 @@
 const Router = require('express');
-const path = require('path');
 const { ensureAuthenticated } = require('../middleware/AuthMiddleware');
 const fs = require('fs');
+const path = require('path');
 const formidable = require('formidable');
 
 const router = new Router();
 
 const mkdirp = require('mkdirp');
-const imagesPath = (`${__dirname}/../../img`);
+const imagesPath = path.join(__dirname, '/../../img');
+console.log('try reading images @ ', imagesPath);
 
 mkdirp(imagesPath, (err) => {
   if (err) {
