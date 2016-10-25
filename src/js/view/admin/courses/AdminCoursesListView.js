@@ -1,5 +1,5 @@
 import React from 'react';
-import * as ActionCreators from '../../redux/actions/ActionCreators';
+import * as ActionCreators from '../../../redux/actions/ActionCreators';
 import { bindActionCreators } from 'redux';
 import { Link } from 'react-router';
 import { List, ListItem, MakeSelectable } from 'material-ui/List';
@@ -8,8 +8,9 @@ import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ArrowUp from 'material-ui/svg-icons/navigation/arrow-upward';
 import ArrowDown from 'material-ui/svg-icons/navigation/arrow-downward';
+
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { EDITOR_STATE_NEW_COURSE } from '../../redux/reducers/ActiveCourseId';
+import { EDITOR_STATE_NEW_COURSE } from '../../../redux/reducers/ActiveCourseId';
 
 const SelectableList = MakeSelectable(List);
 
@@ -78,11 +79,6 @@ class AdminCoursesListView extends React.Component {
   };
 
   addCourseClick = () => {
-    /*
-    this.setState({
-      awaitingServerResponse: true,
-    });
-    */
     this.props.actions.onNewCourseClick();
   };
 
@@ -104,19 +100,18 @@ class AdminCoursesListView extends React.Component {
             <div style={{ margin: '10px 0px 20px 0px' }}>
               <FloatingActionButton
                 onTouchTap={this.addCourseClick}
-                containerElement={<Link to={'/admin'} />}
+                containerElement={<Link to={'/admin/course'} />}
                 style={styleAdd}
-                /*
-                  TODO: check this working after merge with pull #27
-                */
-                disabled={this.state.activeCourse.id === EDITOR_STATE_NEW_COURSE ||
-                  this.state.awaitingServerResponse}
+                mini
+                disabled={(this.state.activeCourse.id === EDITOR_STATE_NEW_COURSE ||
+                  this.state.awaitingServerResponse)}
               >
                 <ContentAdd />
               </FloatingActionButton>
               <FloatingActionButton
                 onTouchTap={() => this.orderCourseClick(true)}
                 style={styleMove}
+                mini
                 disabled={!(this.state.prevCourse && this.state.prevCourse.id &&
                   !this.state.awaitingServerResponse)}
               >
@@ -127,6 +122,7 @@ class AdminCoursesListView extends React.Component {
                 disabled={!(this.state.nextCourse && this.state.nextCourse.id &&
                   !this.state.awaitingServerResponse)}
                 style={styleMove}
+                mini
               >
                 <ArrowDown />
               </FloatingActionButton>
@@ -138,7 +134,7 @@ class AdminCoursesListView extends React.Component {
                     value={course._id}
                     key={course._id}
                     primaryText={course.title}
-                    containerElement={<Link to={`/admin/${course._id}`} />}
+                    containerElement={<Link to={`/admin/course/${course._id}`} />}
                   />)
               }
             </SelectableList>

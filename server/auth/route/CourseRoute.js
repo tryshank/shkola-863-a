@@ -4,23 +4,40 @@ const CoursesModel = require('../model/CoursesModel');
 const mongoose = require('mongoose');
 const router = new Router();
 
-const send404 = (res) => {
+const sendErrorStatus = (code, res, errText) => {
+  let err;
+  switch (code) {
+    case 400:
+      {
+        err = errText || 'not enough data specified';
+      }
+      break;
+    case 404:
+      {
+        err = errText || 'id not found';
+      }
+      break;
+    case 500:
+      {
+        err = errText || 'server or database error';
+      }
+      break;
+    default:
+      err = errText;
+      break;
+  }
   if (!res.headersSent) {
-    res.status(404).send({ err: 'id not found' }).end();
+    console.log('Error: ', err);
+    res.status(code).send({ errText }).end();
   }
 };
 
-const send500 = (res, err) => {
-  if (!res.headersSent) {
-    res.status(500).send({ err }).end();
-  }
-};
 
 // read courses at client
 router.get('/', (req, res) => {
   CoursesModel.find().sort('ordering').exec((err, docs) => {
     if (err) {
-      send500(res, err);
+      sendErrorStatus(500, res, err);
     } else {
       res.status(200).json({ docs }).end();
     }
@@ -50,23 +67,21 @@ router.post('/', ensureAuthenticated, (req, res) => {
         doc.ordering = ordering;
         doc.save((errSave, data) => {
           if (errSave) {
-            send500(res, errSave);
+            sendErrorStatus(500, res, errSave);
           } else {
             if (data) {
               res.status(200).send({ data }).end();
             } else {
-              send500(res, 'item didn\'t saved');
+              sendErrorStatus(500, res, 'item didn\'t saved');
             }
           }
         });
       },
       err => {
-        send500(res, err);
+        sendErrorStatus(500, res, err);
       });
   } else {
-    const err = 'no item id specified';
-    console.log(err);
-    send500(res, err);
+    sendErrorStatus(400, res, 'no item id specified');
   }
 });
 
@@ -82,18 +97,13 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
         doc =>
           res.status(200).json({ id: req.params.id, item: req.body.courseItem }).end(),
         err => {
-          console.log(err);
-          send500(res, err);
+          sendErrorStatus(500, res, err);
         });
     } else {
-      const err = 'no item data specified';
-      console.log(err);
-      send500(res, err);
+      sendErrorStatus(400, res, 'no item data specified');
     }
   } else {
-    const err = 'no item id specified';
-    console.log(err);
-    send500(res, err);
+    sendErrorStatus(400, res, 'no item id specified');
   }
 });
 
@@ -127,13 +137,12 @@ router.put('/:courseItemId/:courseItemSwapId/', ensureAuthenticated, (req, res) 
             }
             err = 'can\'t find items with specified ID\'s and positions';
           }
-          console.log(err);
-          send500(res, err);
+          sendErrorStatus(500, res, err);
           return null;
         },
         err => {
-          console.log('error occurred while finding items with specified ID\'s:\n', err);
-          send500(res, err);
+          sendErrorStatus(500, res,
+            'error occurred while finding items with specified ID\'s:\n', err);
         })
       .then(
         updatedDoc => {
@@ -141,14 +150,11 @@ router.put('/:courseItemId/:courseItemSwapId/', ensureAuthenticated, (req, res) 
             // set new position for swapped course
             return updateCoursePosition(courseItemSwapId, position);
           }
-          const err = ('ordering failed on updating 1st item position');
-          console.log(err);
-          send500(res, err);
+          sendErrorStatus(500, res, 'ordering failed on updating 1st item position');
           return null;
         },
         err => {
-          console.log('failed update 1st item:\n', err);
-          send500(res, err);
+          sendErrorStatus(500, res, 'failed update 1st item:\n', err);
         })
       .then(
         updatedDoc => {
@@ -159,19 +165,14 @@ router.put('/:courseItemId/:courseItemSwapId/', ensureAuthenticated, (req, res) 
               swap: { id: courseItemSwapId, newPosition: position },
             }).end();
           } else {
-            const err = ('ordering failed on updating 2nd item position');
-            console.log(err);
-            send500(res, err);
+            sendErrorStatus(500, res, 'ordering failed on updating 2nd item position');
           }
         },
         err => {
-          console.log(err);
-          send500(res, err);
+          sendErrorStatus(500, res, err);
         });
   } else {
-    const err = 'no items id\'s specified';
-    console.log(err);
-    send500(res, err);
+    sendErrorStatus(400, res, 'no items id\'s specified');
   }
 });
 
@@ -186,26 +187,22 @@ router.delete('/:id', ensureAuthenticated, (req, res) => {
         if (docs) {
           return CoursesModel.remove({ _id: req.params.id });
         }
-        send404(res);
+        sendErrorStatus(500, res, 'failed to delete');
         return null;
       },
       err => {
-        console.log(err);
-        send500(res, err);
+        sendErrorStatus(500, res, err);
       })
     .then(
       result =>
         res.status(200).end()
       ,
       err => {
-        console.log(err);
-        send500(res, err);
+        sendErrorStatus(500, res, err);
       }
     );
   } else {
-    const err = 'no item id specified';
-    console.log(err);
-    send500(res, err);
+    sendErrorStatus(400, res, 'no item id specified');
   }
 });
 

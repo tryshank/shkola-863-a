@@ -4,7 +4,7 @@
   "description": "sajt shkoly",
   "main": "index.js",
   "scripts": {
-    "start": "webpack && cd server && NODE_ENV=production node app.js",
+    "start": "webpack && cd server && NODE_ENV=production pm2 restart app.js",
     "dev-server": "sh dev-server.sh",
     "dev": "webpack-dev-server --hot --inline & . ./set-env-vars.sh && cd server && NODE_ENV=development node app.js",
     "lint": "eslint src/ server/",
@@ -71,6 +71,7 @@
     "mkdirp": "^0.5.1",
     "mongoose": "^4.5.10",
     "morgan": "^1.7.0",
+    "nodemailer": "^2.6.4",
     "passport": "^0.3.2",
     "passport-local-mongoose": "^4.0.0",
     "react": "^15.1.0",
@@ -84,6 +85,7 @@
     "redux": "^3.5.2",
     "redux-actions": "^0.10.1",
     "redux-promise": "^0.5.3",
+    "scriptjs": "^2.5.8",
     "webpack": "^1.13.2"
   }
 }

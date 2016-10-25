@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import * as ActionCreators from '../../redux/actions/ActionCreators';
-import TinyMCE from '../../utils/TinyMCE';
+import * as ActionCreators from '../../../redux/actions/ActionCreators';
+import TinyMCE from '../../../utils/TinyMCE';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
@@ -10,7 +10,7 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import Divider from 'material-ui/Divider';
 import Checkbox from 'material-ui/Checkbox';
-import { EDITOR_STATE_NEW_COURSE } from '../../redux/reducers/ActiveCourseId';
+import { EDITOR_STATE_NEW_COURSE } from '../../../redux/reducers/ActiveCourseId';
 import AdminCourseItemEditorImageView from './AdminCourseItemEditorImageView';
 
 const checkbox = {
@@ -53,7 +53,7 @@ class AdminCoursesItemEditorView extends Component {
 
   componentWillReceiveProps(nextProps) {
     const activeCourse = nextProps.activeCourseImage ?
-      { ...nextProps.activeCourse, image: nextProps.activeCourseImage } :
+    { ...nextProps.activeCourse, image: nextProps.activeCourseImage } :
       nextProps.activeCourse;
     this.state = {
       ...this.state,
