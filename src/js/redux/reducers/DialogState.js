@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   ACTION_SHOW_DIALOG,
   ACTION_CLOSE_DIALOG,
