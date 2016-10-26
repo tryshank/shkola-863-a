@@ -70,12 +70,15 @@ const server = app.listen(process.env.ENV_SERVER_PORT, () => {
 });
 
 assert(process.env.ENV_MAIL_PASSWORD,
-  'Warning! E-mail password is empty!');
+  'Error! E-mail password is empty!');
 
 assert(process.env.ENV_MAIL_USER,
-  'Warning! E-mail user is empty!');
+  'Error! E-mail user is empty!');
 
 assert(process.env.ENV_MAIL_SERVER,
-  'Warning! E-mail server is empty!');
+  'Error! E-mail server is empty!');
+
+assert(process.env.ENV_REGISTRATION_ADMIN_PASSWORD,
+  'Error! Registration admin password is empty!');
 
 console.log('---');

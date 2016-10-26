@@ -10,7 +10,15 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
   res.status(200).send('logged in');
 });
 
-router.post('/register', (req, res) => {
+const checkPassword = (req, res, next) => {
+  if (req.body.adminPassword === process.env.ENV_REGISTRATION_ADMIN_PASSWORD) {
+    next();
+  } else {
+    res.status(401).end();
+  }
+};
+
+router.post('/register', checkPassword, (req, res) => {
   const userModel = new UserModel({ username: req.body.username });
   UserModel.register(
     userModel,
