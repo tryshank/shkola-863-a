@@ -12,7 +12,7 @@ export const dialogState = (state = { open: false }, action) => {
   switch (action.type) {
     case ACTION_SHOW_DIALOG:
       {
-        return { open: true, actions: action.payload.actions, text: action.payload.text };
+        return { open: true, ...action.payload };
       }
     case ACTION_CLOSE_DIALOG:
       console.log('action ', action);
@@ -30,7 +30,8 @@ export const dialogState = (state = { open: false }, action) => {
               label: 'Close',
               primary: true,
             }],
-            text: ['Error:', <br key="br" />, `${action.payload.err}`],
+            caption: 'Error',
+            text: `${action.payload.err}`,
           });
         }
         return state;

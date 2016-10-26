@@ -18,6 +18,11 @@ class AdminCourseDeleteDialog extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.dialogState.open) {
       const actions = [];
+      const text = [];
+      if (nextProps.dialogState.caption) {
+        text.push(<b key="b_tag">{nextProps.dialogState.caption}</b>, <br key="br_tag" />);
+      }
+      text.push(nextProps.dialogState.text);
       nextProps.dialogState.actions.forEach(item => {
         if (item.action && item.action === DIALOG_CLOSE_ACTION) {
           actions.push(
@@ -34,6 +39,7 @@ class AdminCourseDeleteDialog extends React.Component {
       this.state = {
         ...nextProps.dialogState,
         actions,
+        text,
       };
     } else {
       this.state = nextProps.dialogState;

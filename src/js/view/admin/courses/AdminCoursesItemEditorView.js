@@ -103,6 +103,7 @@ class AdminCoursesItemEditorView extends Component {
 
   deleteClick = () => {
     this.props.actions.openDeleteDialog({
+      caption: 'Warning',
       text: 'Are you sure delete selected course?',
       actions: [
         <FlatButton
