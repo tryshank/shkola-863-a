@@ -91,7 +91,6 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
     const courseItem = req.body.courseItem;
     if (courseItem) {
       console.log(`update item with id ${req.params.id}`);
-      console.log(courseItem);
       CoursesModel.update({ _id: req.params.id }, req.body.courseItem)
       .then(
         doc =>
