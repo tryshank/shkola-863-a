@@ -9,6 +9,7 @@
   },
   "extends": "airbnb",
   "rules": {
+    "max-lines": ["error", 300],
     "no-console": "off",
     "no-unused-vars": ["error", { "args": "none" }],
     "no-underscore-dangle": ["error",{ "allow": ["_id"] }],

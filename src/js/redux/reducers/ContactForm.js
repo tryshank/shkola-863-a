@@ -3,7 +3,6 @@ import {
 } from './../constants/ActionTypes';
 
 export const contactFormState = (state = null, action) => {
-  console.log('contactFormState action: ', action);
   switch (action.type) {
     case ACTION_SUBMIT_CONTACTS_FORM:
       {
