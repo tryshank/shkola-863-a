@@ -12,6 +12,9 @@ import Divider from 'material-ui/Divider';
 import Checkbox from 'material-ui/Checkbox';
 import { EDITOR_STATE_NEW_COURSE } from '../../../redux/reducers/ActiveCourseId';
 import AdminCourseItemEditorImageView from './AdminCourseItemEditorImageView';
+// temp:
+import { DIALOG_CLOSE_ACTION } from '../../../redux/constants/Constants';
+
 
 const checkbox = {
   marginTop: 8,
@@ -82,14 +85,12 @@ class AdminCoursesItemEditorView extends Component {
 
   dialogHandleDeleteConfirm = () => {
     const { router } = this.props;
+    // TODO:
+    // close dialog at Dialog reducer ?
     this.props.actions.closeDeleteDialog();
     this.props.actions.deleteCourse(this.props.activeCourse._id);
-    // TODO : check it works
-    router.replace('/admin');
-  };
-
-  dialogHandleClose = () => {
-    this.props.actions.closeDeleteDialog();
+    // TODO : need to be fixed and show 'select course' label
+    router.replace('/admin/course');
   };
 
   saveClick = () => {
@@ -109,11 +110,12 @@ class AdminCoursesItemEditorView extends Component {
           secondary
           onTouchTap={this.dialogHandleDeleteConfirm}
         />,
-        <FlatButton
-          label="Discard"
-          primary
-          onTouchTap={this.dialogHandleClose}
-        />],
+        {
+          action: DIALOG_CLOSE_ACTION,
+          label: 'Discard',
+          primary: true,
+        },
+      ],
     });
   };
 

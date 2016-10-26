@@ -28,7 +28,7 @@ const sendErrorStatus = (code, res, errText) => {
   }
   if (!res.headersSent) {
     console.log('Error: ', err);
-    res.status(code).send({ errText }).end();
+    res.status(code).send({ err }).end();
   }
 };
 
@@ -91,7 +91,7 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
     const courseItem = req.body.courseItem;
     if (courseItem) {
       console.log(`update item with id ${req.params.id}`);
-      delete courseItem._id;
+      console.log(courseItem);
       CoursesModel.update({ _id: req.params.id }, req.body.courseItem)
       .then(
         doc =>
@@ -103,7 +103,7 @@ router.put('/:id', ensureAuthenticated, (req, res) => {
       sendErrorStatus(400, res, 'no item data specified');
     }
   } else {
-    sendErrorStatus(400, res, 'no item id specified');
+    sendErrorStatus(400, res, 'no id specified');
   }
 });
 

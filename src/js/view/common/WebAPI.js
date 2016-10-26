@@ -49,13 +49,24 @@ export const createCourse = (courseItem) => {
 
 
 export const saveCourse = (courseItem) => {
+  const courseItemSend = { ...courseItem };
+  delete courseItemSend._id;
   const init = { method: 'put', headers: setHeaders(), credentials: 'include',
-    body: JSON.stringify({ courseItem }) };
+    body: JSON.stringify({ courseItem: courseItemSend }) };
   return fetch(new Request(`/api/course/${courseItem._id}`, init)).then((res) => {
     if (res.status === 200) {
       return { result: true, courseItem };
     }
-    return { result: false, err: null };
+    return res.json().then(
+      data => {
+        console.log('saving error ', data.err);
+        return { result: false, err: data.err };
+      },
+      error => {
+        console.log('saving error ', error.err);
+        return { result: false, err: error.err };
+      }
+    );
   }, (err) =>
       ({ result: false, err }));
 };
