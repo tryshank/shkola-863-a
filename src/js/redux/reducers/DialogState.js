@@ -14,7 +14,6 @@ export const dialogState = (state = { open: false }, action) => {
         return { open: true, ...action.payload };
       }
     case ACTION_CLOSE_DIALOG:
-      console.log('action ', action);
       {
         return { open: false };
       }

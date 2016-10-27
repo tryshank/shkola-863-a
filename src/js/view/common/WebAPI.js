@@ -50,7 +50,7 @@ export const createCourse = (courseItem) => {
 
 const saveFailedHandler = data => {
   console.log('saving error ', data.err);
-  return { result: false, err: data.err };
+  return { result: false, err: data.err.message || data.err };
 };
 
 export const saveCourse = (courseItem) => {
@@ -67,7 +67,7 @@ export const saveCourse = (courseItem) => {
       saveFailedHandler
     );
   }, (err) =>
-      ({ result: false, err }));
+      ({ result: false, err: err.message }));
 };
 
 
@@ -75,7 +75,7 @@ export const deleteCourse = (id) => {
   const init = { method: 'delete', headers: setHeaders(), credentials: 'include',
     body: JSON.stringify({ id }) };
   return fetch(new Request(`/api/course/${id}`, init)).then((res) => {
-    if (res.status === 200) {
+    if (res.ok) {
       // delete successful
       return { result: true, id };
     }
