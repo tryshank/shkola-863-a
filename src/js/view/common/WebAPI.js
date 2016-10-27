@@ -39,7 +39,7 @@ export const createCourse = (courseItem) => {
   const init = { method: 'post', headers: setHeaders(), credentials: 'include',
     body: JSON.stringify({ data: courseItem }) };
   return fetch(new Request('/api/course/', init)).then((res) => {
-    if (res.status === 200) {
+    if (res.ok) {
       return res.json();
     }
     return { result: false, err: null };
@@ -48,24 +48,23 @@ export const createCourse = (courseItem) => {
 };
 
 
+const saveFailedHandler = data => {
+  console.log('saving error ', data.err);
+  return { result: false, err: data.err };
+};
+
 export const saveCourse = (courseItem) => {
   const courseItemSend = { ...courseItem };
   delete courseItemSend._id;
   const init = { method: 'put', headers: setHeaders(), credentials: 'include',
     body: JSON.stringify({ courseItem: courseItemSend }) };
   return fetch(new Request(`/api/course/${courseItem._id}`, init)).then((res) => {
-    if (res.status === 200) {
+    if (res.ok) {
       return { result: true, courseItem };
     }
     return res.json().then(
-      data => {
-        console.log('saving error ', data.err);
-        return { result: false, err: data.err };
-      },
-      error => {
-        console.log('saving error ', error.err);
-        return { result: false, err: error.err };
-      }
+      saveFailedHandler,
+      saveFailedHandler
     );
   }, (err) =>
       ({ result: false, err }));
@@ -108,7 +107,7 @@ export const orderCourses = (activeCourse, direction, swapCourse) => {
     body: JSON.stringify({ direction, position: activeCourse.position,
       positionSwap: swapCourse.position }) };
   return fetch(new Request(`/api/course/${activeCourse.id}/${swapCourse.id}`, init)).then((res) => {
-    if (res.status === 200) {
+    if (res.ok) {
       // ordering operation ok
       return ({ result: true, original: activeCourse, swap: swapCourse });
     }
@@ -156,7 +155,7 @@ export const saveSettings = (settings, initialState) => {
   const init = { method: 'put', headers: setHeaders(), credentials: 'include',
     body: JSON.stringify({ adminEmail }) };
   return fetch(new Request('/api/admin/email', init)).then((res) => {
-    if (res.status === 200) {
+    if (res.ok) {
       return { result: true, settings, initialState };
     }
     return { result: false, err: null };

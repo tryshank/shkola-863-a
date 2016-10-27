@@ -30,7 +30,7 @@ export const dialogState = (state = { open: false }, action) => {
               primary: true,
             }],
             caption: 'Error',
-            text: `${action.payload.err}`,
+            text: action.payload.err,
           });
         }
         return state;
