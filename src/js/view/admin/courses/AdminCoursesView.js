@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AdminCoursesListViewWrapper from './AdminCoursesListView';
 import AdminCourseItemEditorView from './AdminCoursesItemEditorView';
-import AdminCourseDeleteDialogWrapper from './AdminCoursesDeleteDialogView';
 
 class AdminCoursesEditorView extends React.Component {
 
@@ -22,7 +21,6 @@ class AdminCoursesEditorView extends React.Component {
       <div>
         <div className="container-fluid">
           <div className="row">
-            <AdminCourseDeleteDialogWrapper />
             <div className="col-md-3">
               <AdminCoursesListViewWrapper activeCourseId={actualCourseId} />
             </div>

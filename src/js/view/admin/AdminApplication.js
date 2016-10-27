@@ -6,6 +6,7 @@ import Courses from 'material-ui/svg-icons/communication/import-contacts';
 import Tutors from 'material-ui/svg-icons/social/people';
 import Settings from 'material-ui/svg-icons/action/settings';
 import { Link } from 'react-router';
+import AdminCoursesDialogWrapper from './courses/AdminCoursesDialogView';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
@@ -24,6 +25,7 @@ const AdminApplication = props => {
         <div className="row">
           <MuiThemeProvider>
             <div>
+              <AdminCoursesDialogWrapper />
               <div>
                 <RaisedButton
                   label={pathname.indexOf('course') >= 0 ? '> Courses <' : 'Courses'}
@@ -55,14 +57,14 @@ const AdminApplication = props => {
           </MuiThemeProvider>
         </div>
         <div className="row">
-          {props.children}
+          {props.children || null}
         </div>
       </div>
     </div>);
 };
 
 AdminApplication.propTypes = {
-  children: React.PropTypes.object.isRequired,
+  children: React.PropTypes.object,
   location: React.PropTypes.object.isRequired,
 };
 
