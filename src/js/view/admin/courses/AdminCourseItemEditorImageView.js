@@ -94,8 +94,8 @@ class AdminCourseItemEditorImageView extends Component {
                 src={this.state.activeCourseImage ?
                     `/image/${this.state.activeCourseImage}` : ''}
                 style={{ height: '100px', display: 'inline-block',
-                 float: 'none', overflow: 'hide',
-                 position: 'relative', left: '-20px', top: '5px' }}
+                  float: 'none', overflow: 'hide',
+                  position: 'relative', left: '-20px', top: '5px' }}
                 alt="preview"
               /> : null
             }
