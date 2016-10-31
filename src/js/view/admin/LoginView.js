@@ -6,9 +6,7 @@ import { setIn } from '../../utils/immutable';
 import auth from '../../utils/auth/auth';
 import AdminDialogWrapper from './AdminDialogView';
 import { DIALOG_CLOSE_ACTION } from '../../redux/constants/Constants';
-import {
-  ACTION_SHOW_DIALOG,
-} from '../../redux/constants/ActionTypes';
+import { ACTION_SHOW_DIALOG } from '../../redux/constants/ActionTypes';
 import { store } from '../../redux/Redux';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
