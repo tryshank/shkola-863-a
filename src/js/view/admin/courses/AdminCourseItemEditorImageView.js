@@ -65,11 +65,11 @@ class AdminCourseItemEditorImageView extends Component {
                 {
                   this.state.imagesFiles.length ?
                     this.state.imagesFiles.map(item =>
-                      <MenuItem
-                        value={item}
-                        key={item}
-                        primaryText={item}
-                      />)
+                      (<MenuItem
+                        value={item.small}
+                        key={item.small}
+                        primaryText={item.small}
+                      />))
                     : null
                 }
               </SelectField>
@@ -94,8 +94,8 @@ class AdminCourseItemEditorImageView extends Component {
                 src={this.state.activeCourseImage ?
                     `/image/${this.state.activeCourseImage}` : ''}
                 style={{ height: '100px', display: 'inline-block',
-                           float: 'none', overflow: 'hide',
-                           position: 'relative', left: '-20px', top: '5px' }}
+                  float: 'none', overflow: 'hide',
+                  position: 'relative', left: '-20px', top: '5px' }}
                 alt="preview"
               /> : null
             }

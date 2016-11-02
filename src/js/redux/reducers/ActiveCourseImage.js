@@ -7,6 +7,9 @@ import {
 export const activeCourseImage = (state = null, action) => {
   switch (action.type) {
     case ACTION_IMAGE_UPLOAD:
+      {
+        return action.payload.data.small;
+      }
     case ACTION_IMAGE_CHANGE:
       {
         return action.payload.filename;
