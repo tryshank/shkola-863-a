@@ -33,7 +33,7 @@ module.exports = [
       new HandlebarsPlugin({
         entry: path.join(process.cwd(), "src", "index.hbs"),
         output: path.join(process.cwd(), "server", "client", "index.html"),
-        data: { bundleHost: isHot ? 'http://localhost:8080/assets/' : ''},
+        data: { bundleHost: isHot ? 'http://localhost:8080/assets/' : 'http://localhost:3000/assets/'},
       }),
       new ExtractTextPlugin('bundle.css'),
     ]),
