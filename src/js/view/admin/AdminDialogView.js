@@ -2,12 +2,12 @@ import React from 'react';
 import Dialog from 'material-ui/Dialog';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { connect } from 'react-redux';
-import { store } from '../../../redux/Redux';
+import { store } from '../../redux/Redux';
 import FlatButton from 'material-ui/FlatButton';
-import { ACTION_CLOSE_DIALOG } from '../../../redux/constants/ActionTypes';
-import { DIALOG_CLOSE_ACTION } from '../../../redux/constants/Constants';
+import { ACTION_CLOSE_DIALOG } from '../../redux/constants/ActionTypes';
+import { DIALOG_CLOSE_ACTION } from '../../redux/constants/Constants';
 
-class AdminCourseDeleteDialog extends React.Component {
+class AdminDialogView extends React.Component {
 
   state = {
     open: false,
@@ -73,7 +73,7 @@ const mapStateToProps = (state) =>
     dialogState: state.dialogState,
   });
 
-const AdminCourseDeleteDialogWrapper =
-  connect(mapStateToProps)(AdminCourseDeleteDialog);
+const AdminDialogWrapper =
+  connect(mapStateToProps)(AdminDialogView);
 
-export default AdminCourseDeleteDialogWrapper;
+export default AdminDialogWrapper;
