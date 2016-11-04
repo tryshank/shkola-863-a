@@ -6,10 +6,16 @@ import Courses from 'material-ui/svg-icons/communication/import-contacts';
 import Tutors from 'material-ui/svg-icons/social/people';
 import Settings from 'material-ui/svg-icons/action/settings';
 import { Link } from 'react-router';
-import AdminCoursesDialogWrapper from './courses/AdminCoursesDialogView';
+import AdminDialogWrapper from './AdminDialogView';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
-injectTapEventPlugin();
+
+try {
+  injectTapEventPlugin();
+} catch (err) {
+  console.log(err);
+}
+
 
 const style = {
   margin: 12,
@@ -25,7 +31,7 @@ const AdminApplication = props => {
         <div className="row">
           <MuiThemeProvider>
             <div>
-              <AdminCoursesDialogWrapper />
+              <AdminDialogWrapper />
               <div>
                 <RaisedButton
                   label={pathname.indexOf('course') >= 0 ? '> Courses <' : 'Courses'}

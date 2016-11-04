@@ -4,6 +4,13 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { RaisedButton, TextField } from 'material-ui';
 import { setIn } from '../../utils/immutable';
 import auth from '../../utils/auth/auth';
+import AdminDialogWrapper from './AdminDialogView';
+import { DIALOG_CLOSE_ACTION } from '../../redux/constants/Constants';
+import { ACTION_SHOW_DIALOG } from '../../redux/constants/ActionTypes';
+import { store } from '../../redux/Redux';
+
+import injectTapEventPlugin from 'react-tap-event-plugin';
+console.log(injectTapEventPlugin());
 
 const styles = {
   margin: { marginRight: 12 },
@@ -28,6 +35,22 @@ const checkProperty = (state, property, errorProvider) => {
   }
   return [true, state];
 };
+
+const showLoginFailedMessage = () => {
+  store.dispatch({ type: ACTION_SHOW_DIALOG, payload: {
+    caption: 'Error',
+    text: 'Invalid name/password. Please, try again',
+    actions: [
+      {
+        action: DIALOG_CLOSE_ACTION,
+        label: 'OK',
+        primary: true,
+      },
+    ],
+  },
+  });
+};
+
 
 // export default class LoginView extends React.Component {
 class LoginView extends React.Component {
@@ -87,10 +110,15 @@ class LoginView extends React.Component {
 
     // const { location, router } = this.props;
     const { router } = this.props;
-
     auth.login(email, pass)
       .then(
-        () => {
+        (result) => {
+          if (!result.ok) {
+            console.log('login failed!');
+            showLoginFailedMessage();
+          } else {
+            console.log('login success');
+          }
           console.log('location ', location);
           /*
           if (location.state && location.state.nextPathname) {
@@ -100,6 +128,7 @@ class LoginView extends React.Component {
           router.replace('/admin');
         },
         () => {
+          console.log('login failed');
           router.replace('/');
         }
       );
@@ -108,6 +137,7 @@ class LoginView extends React.Component {
   createLoginView() {
     return (
       <div>
+        <AdminDialogWrapper />
         <div style={styles.inputsContainer}>
           {this.createTextField('nameOrEmail', 'Імя або эмэйл')}
           <br />
