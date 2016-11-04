@@ -11,7 +11,7 @@ export const imagesFiles = (state = [], action) => {
       }
     case ACTION_IMAGE_UPLOAD:
       {
-        return [].concat(state).concat(action.payload.filename);
+        return [].concat(state).concat(action.payload.data);
       }
     default:
       return state;

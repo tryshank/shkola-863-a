@@ -65,11 +65,11 @@ class AdminCourseItemEditorImageView extends Component {
                 {
                   this.state.imagesFiles.length ?
                     this.state.imagesFiles.map(item =>
-                      <MenuItem
-                        value={item}
-                        key={item}
-                        primaryText={item}
-                      />)
+                      (<MenuItem
+                        value={item.small}
+                        key={item.small}
+                        primaryText={item.small}
+                      />))
                     : null
                 }
               </SelectField>
