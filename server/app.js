@@ -34,6 +34,9 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use('/admin', (req, res, next) => {
+  next();
+});
 
 // Client routes
 const CourseRoute = require('./auth/route/CourseRoute');
@@ -57,6 +60,8 @@ app.use('/api/admin', AdminRoute);
 
 app.use('/image', express.static('img'));
 app.use(express.static(`${__dirname}/client`));
+
+app.use('/assets', express.static(`${__dirname}/client`));
 
 app.get('*', (req, res) => {
   res.sendFile(`${__dirname}/client/index.html`);
