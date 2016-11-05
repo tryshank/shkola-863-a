@@ -4,6 +4,7 @@ var isHot = myArgs.indexOf('--hot') !== -1;
 console.log('is hot: ' + isHot);
 var additionalPlugins = isHot ? [ 'react-hmre' ] : [];
 var path = require("path");
+const assert = require('assert');
 var HandlebarsPlugin = require('handlebars-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
