@@ -6,6 +6,7 @@ var additionalPlugins = isHot ? [ 'react-hmre' ] : [];
 var path = require("path");
 var HandlebarsPlugin = require('handlebars-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+const port = isHot ? '8080' : process.env.ENV_SERVER_PORT;
 
 var productionPlugins = isHot ? [] : [
   new webpack.optimize.UglifyJsPlugin(),
@@ -26,14 +27,14 @@ module.exports = [
 
     output: {
       filename: 'bundle.js',
-      publicPath: `http://localhost:${isHot ? '8080' : '3000'}/assets/`,
+      publicPath: `http://localhost:${port}/assets/`,
       path: __dirname + '/server/client',
     },
     plugins: productionPlugins.concat([
       new HandlebarsPlugin({
         entry: path.join(process.cwd(), "src", "index.hbs"),
         output: path.join(process.cwd(), "server", "client", "index.html"),
-        data: { bundleHost: isHot ? 'http://localhost:8080/assets/' : 'http://localhost:3000/assets/'},
+        data: { bundleHost: `http://localhost:${port}/assets/` },
       }),
       new ExtractTextPlugin('bundle.css'),
     ]),
