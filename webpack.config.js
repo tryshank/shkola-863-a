@@ -4,10 +4,16 @@ var isHot = myArgs.indexOf('--hot') !== -1;
 console.log('is hot: ' + isHot);
 var additionalPlugins = isHot ? [ 'react-hmre' ] : [];
 var path = require("path");
+const assert = require('assert');
 var HandlebarsPlugin = require('handlebars-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
-const port = isHot ? '8080' : process.env.ENV_SERVER_PORT;
 
+assert(process.env.ENV_SERVER_PORT, 'Error! ENV_SERVER_PORT is empty!');
+
+assert(process.env.ENV_SERVER_HOST, 'Error! ENV_SERVER_HOST is empty!');
+
+const port = isHot ? '8080' : process.env.ENV_SERVER_PORT;
+const host = process.env.ENV_SERVER_HOST;
 var productionPlugins = isHot ? [] : [
   new webpack.optimize.UglifyJsPlugin(),
   new webpack.DefinePlugin({
@@ -27,14 +33,14 @@ module.exports = [
 
     output: {
       filename: 'bundle.js',
-      publicPath: `http://localhost:${port}/assets/`,
+      publicPath: `${host}:${port}/assets/`,
       path: __dirname + '/server/client',
     },
     plugins: productionPlugins.concat([
       new HandlebarsPlugin({
         entry: path.join(process.cwd(), "src", "index.hbs"),
         output: path.join(process.cwd(), "server", "client", "index.html"),
-        data: { bundleHost: `http://localhost:${port}/assets/` },
+        data: { bundleHost: `${host}:${port}/assets/` },
       }),
       new ExtractTextPlugin('bundle.css'),
     ]),
