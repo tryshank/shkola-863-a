@@ -5,6 +5,7 @@ console.log('is hot: ' + isHot);
 var additionalPlugins = isHot ? [ 'react-hmre' ] : [];
 var path = require("path");
 var HandlebarsPlugin = require('handlebars-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 var productionPlugins = isHot ? [] : [
   new webpack.optimize.UglifyJsPlugin(),
@@ -25,16 +26,26 @@ module.exports = [
 
     output: {
       filename: 'bundle.js',
-      publicPath: 'http://localhost:8080/assets/',
-      path: __dirname + '/server/client'
+      publicPath: `http://localhost:${isHot ? '8080' : '3000'}/assets/`,
+      path: __dirname + '/server/client',
     },
     plugins: productionPlugins.concat([
       new HandlebarsPlugin({
         entry: path.join(process.cwd(), "src", "index.hbs"),
         output: path.join(process.cwd(), "server", "client", "index.html"),
-        data: { bundleHost: isHot ? 'http://localhost:8080/assets/' : ''},
+        data: { bundleHost: isHot ? 'http://localhost:8080/assets/' : 'http://localhost:3000/assets/'},
       }),
+      new ExtractTextPlugin('bundle.css'),
     ]),
+    styleLoader:
+      require('extract-text-webpack-plugin').extract('style-loader', 'css-loader!less-loader'),
+    styles: {
+      "mixins": true,
+      "core": true,
+      "icons": true,
+      "larger": true,
+      "path": true,
+    },
     module: {
       loaders: [
         {
@@ -45,23 +56,24 @@ module.exports = [
           query: {
             'plugins': [ 'transform-runtime' ],
             'presets': [ 'es2015', 'stage-0', 'react' ].concat(additionalPlugins)
-          }
+          },
         },
         {
-          test: /\.(less|css$)$/,
-          loader: "style!css!less-loader"
+          test: /\.(css|less$)$/,
+          loader: ExtractTextPlugin.extract('style-loader', 'css-loader!less-loader'),
         },
         {
           test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-          loader: "url-loader?limit=10000&mimetype=application/font-woff"
-        },
+          loader: "url-loader?limit=10000&mimetype=application/font-woff" },
         {
-          test: /\.(png|jpg|jpeg|gif|woff)$/,
-          loader: 'url-loader?limit=8192'
+          test: /\.(png|jpg|jpeg|gif)$/,
+          loader: 'url-loader?limit=8192',
         },
         { test: /\.hbs$/, loader: "handlebars" },
-        {test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader"}
+        {
+          test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          loader: "file-loader"}
       ],
-    }
-  }
+    },
+  },
 ];
