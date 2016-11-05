@@ -57,11 +57,8 @@ router.post('/', ensureAuthenticated, (req, res) => {
     CoursesModel.find().limit(1).sort('-ordering').
     then(
       docs => {
-        if (docs) {
+        if (docs.length > 0) {
           ordering = docs[0].ordering + 1;
-        } else {
-          // if this is first document to be added
-          ordering = 0;
         }
         doc = new CoursesModel(doc);
         doc.ordering = ordering;
