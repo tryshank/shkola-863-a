@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+
 const CloseModal = () => (
   <Link to="/">
     <div
@@ -17,7 +18,6 @@ const CloseModal = () => (
 );
 
 const CourseModal = ({ courseItem }) => {
-  // console.log('courseItem', courseItem);
   if (!courseItem) {
     return <div />;
   }
@@ -82,11 +82,13 @@ const CourseModal = ({ courseItem }) => {
 };
 
 CourseModal.propTypes = {
-  courseItem: PropTypes.object.isRequired,
+  courseItem: PropTypes.object,
+  courseId: PropTypes.string,
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  courseItem: state.coursesData.find(c => c._id === ownProps.course),
-});
+const mapStateToProps = (state, ownProps) =>
+  ({
+    courseItem: state.coursesData.find(c => c._id === ownProps.courseId),
+  });
 
 export default connect(mapStateToProps)(CourseModal);

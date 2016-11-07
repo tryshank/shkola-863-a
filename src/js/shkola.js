@@ -115,7 +115,7 @@ ReactDOM.render((
           onEnter={requireAuth}
         />
       </Route>
-      <Route path="/(:course)" component={SiteApplication} />
+      <Route path="/(:courseId)" component={SiteApplication} />
     </Router>
   </Provider>
 ), document.getElementById('root'));
