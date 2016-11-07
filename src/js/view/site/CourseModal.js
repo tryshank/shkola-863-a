@@ -18,7 +18,6 @@ const CloseModal = () => (
 );
 
 const CourseModal = ({ courseItem }) => {
-
   if (!courseItem) {
     return <div />;
   }
