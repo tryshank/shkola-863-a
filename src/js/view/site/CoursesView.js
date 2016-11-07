@@ -31,8 +31,13 @@ CourseItemView.propTypes = {
 
 class CoursesView extends React.Component {
 
+  constructor(props) {
+    console.log('CoursesView constructor');
+    super(props);
+  }
+
   componentDidMount() {
-    this.props.getCoursesDispatcher();
+    console.log('CoursesView componentDidMount');
   }
 
   render() {

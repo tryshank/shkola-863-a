@@ -6,16 +6,36 @@ import HowToFindView from './HowToFindView';
 import ContactView from './ContactsView';
 import CoursesViewWrapper from './CoursesView';
 import CourseModal from './CourseModal';
+import * as ActionCreators from '../../redux/actions/ActionCreators';
+import { connect } from 'react-redux';
 
-const SiteApplication = props => {
-  {
+class SiteApplication extends React.Component {
+
+  constructor(props) {
     const { params } = props;
-    const { course } = params;
+    const { courseId } = params;
+    super(props);
+    this.state = {
+      ...this.state, courseId,
+    };
+  }
+
+  componentDidMount() {
+    this.props.getCoursesDispatcher();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.state = {
+      ...this.state, courseId: nextProps.params.courseId,
+    };
+  }
+
+  render() {
     return (
       <div>
         <div>
-          {course ?
-            <CourseModal course={course} /> :
+          {this.state.courseId ?
+            <CourseModal courseId={this.state.courseId} /> :
             <div>
               <NavigationView />
               <CoursesViewWrapper />
@@ -38,10 +58,20 @@ const SiteApplication = props => {
       </div>
     );
   }
-};
+
+}
 
 SiteApplication.propTypes = {
   params: PropTypes.object.isRequired,
+  getCoursesDispatcher: React.PropTypes.func,
 };
 
-export default SiteApplication;
+const mapStateToProps = (state) =>
+  ({ coursesData: state.coursesData });
+
+const mapDispatchToProps = (dispatch) =>
+  ({ getCoursesDispatcher: (type) => dispatch(ActionCreators.getCoursesAction(type)) });
+
+const SiteApplicationWrapper = connect(mapStateToProps, mapDispatchToProps)(SiteApplication);
+
+export default SiteApplicationWrapper;
