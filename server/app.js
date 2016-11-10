@@ -59,6 +59,9 @@ app.use(express.static(`${__dirname}/client`));
 
 app.use('/assets', express.static(`${__dirname}/client`));
 
+app.get('/api/auth/isLoggedIn', (req, res) => {
+  res.end();
+});
 
 app.get('*', (req, res) => {
   res.sendFile(`${__dirname}/client/index.html`);

@@ -10,7 +10,7 @@ import { ACTION_SHOW_DIALOG } from '../../redux/constants/ActionTypes';
 import { store } from '../../redux/Redux';
 
 import injectTapEventPlugin from 'react-tap-event-plugin';
-console.log(injectTapEventPlugin());
+injectTapEventPlugin();
 
 const styles = {
   margin: { marginRight: 12 },
@@ -61,6 +61,17 @@ class LoginView extends React.Component {
   };
 
   componentWillMount() {
+    const { router } = this.props;
+    auth.ensureAuthenticated().then(
+      r => {
+        if (r.status === 200) {
+          console.log('Already logged in, redirecting');
+          router.replace('/admin');
+          return;
+        }
+      },
+      e => console.log('Error: ', e)
+    );
     this.setState({
       remindMode: false,
       nameOrEmail: '',
@@ -119,7 +130,6 @@ class LoginView extends React.Component {
           } else {
             console.log('login success');
           }
-          console.log('location ', location);
           /*
           if (location.state && location.state.nextPathname) {
             router.replace(location.state.nextPathname);
