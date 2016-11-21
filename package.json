@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack && cd server && NODE_ENV=production pm2 restart app.js",
+    "dev-no-debug": "source set-env-vars.sh && webpack && cd server && NODE_ENV=production node app.js",
     "dev-server": "sh dev-server.sh",
-    "dev": "webpack-dev-server --hot --inline & . ./set-env-vars.sh && cd server && NODE_ENV=development node app.js",
+    "dev": ". ./set-env-vars.sh && webpack-dev-server --hot --inline & . ./set-env-vars.sh && cd server && NODE_ENV=development node app.js",
     "lint": "eslint src/ server/",
     "lint-fix": "eslint src/ server/ --fix"
   },
@@ -53,6 +54,7 @@
     "bootstrap": "^3.3.7",
     "bootstrap-less": "^3.3.8",
     "classie": "^1.0.0",
+    "compression": "^1.6.2",
     "config": "^1.21.0",
     "connect-flash": "^0.1.1",
     "connect-redis": "^3.1.0",
