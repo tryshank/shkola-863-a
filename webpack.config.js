@@ -5,9 +5,8 @@ console.log('is hot: ' + isHot);
 var additionalPlugins = isHot ? [ 'react-hmre' ] : [];
 var path = require("path");
 const assert = require('assert');
-var HandlebarsPlugin = require('handlebars-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-
+const HandlebarsPlugin = require('handlebars-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 assert(process.env.ENV_SERVER_PORT, 'Error! ENV_SERVER_PORT is empty!');
 
 assert(process.env.ENV_SERVER_HOST, 'Error! ENV_SERVER_HOST is empty!');

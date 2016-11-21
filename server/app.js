@@ -5,6 +5,22 @@ const morgan = require('morgan');
 const flash = require('connect-flash');
 const cookieParser = require('cookie-parser');
 const assert = require('assert');
+const compress = require('compression');
+
+assert(process.env.ENV_SERVER_PORT,
+  'Error! ENV_SERVER_PORT password is empty!');
+
+assert(process.env.ENV_MAIL_PASSWORD,
+  'Error! E-mail password is empty!');
+
+assert(process.env.ENV_MAIL_USER,
+  'Error! E-mail user is empty!');
+
+assert(process.env.ENV_MAIL_SERVER,
+  'Error! E-mail server is empty!');
+
+assert(process.env.ENV_REGISTRATION_ADMIN_PASSWORD,
+  'Error! Registration admin password is empty!');
 
 // Auth config
 const loginConfig = require('./auth/config/AuthConfig');
@@ -19,6 +35,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(flash());
+app.use(compress());
 
 const sendHeaders = (res) => {
   res.header('Access-Control-Allow-Origin', '*');
@@ -71,16 +88,3 @@ const server = app.listen(process.env.ENV_SERVER_PORT, () => {
   console.log(`listening server on port ${server.address().port}`);
 });
 
-assert(process.env.ENV_MAIL_PASSWORD,
-  'Error! E-mail password is empty!');
-
-assert(process.env.ENV_MAIL_USER,
-  'Error! E-mail user is empty!');
-
-assert(process.env.ENV_MAIL_SERVER,
-  'Error! E-mail server is empty!');
-
-assert(process.env.ENV_REGISTRATION_ADMIN_PASSWORD,
-  'Error! Registration admin password is empty!');
-
-console.log('---');
