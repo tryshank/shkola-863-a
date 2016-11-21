@@ -2,6 +2,9 @@ import React from 'react';
 import * as ActionCreators from '../../redux/actions/ActionCreators';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import Localization from '../common/Localization';
+
+const locale = Localization.courses;
 
 const CourseItemView = ({ courseItem }) =>
   <div className="col-sm-4 course-item">
@@ -47,7 +50,7 @@ class CoursesView extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col-lg-12 text-center">
-              <h2>Courses</h2>
+              <h2>{locale.title}</h2>
               <hr
                 className="star-primary"
               />
