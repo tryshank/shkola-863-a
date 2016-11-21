@@ -62,7 +62,7 @@ const localization = new LocalizedStrings({
       send: 'адправіць',
     },
     footer: {
-      aroundTheWeb: 'мы  сац. сетках',
+      aroundTheWeb: 'мы ў сац. сетках',
     },
   },
 });
