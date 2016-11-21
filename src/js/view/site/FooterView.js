@@ -1,16 +1,17 @@
 import React from 'react';
 
+import Localization from '../common/Localization';
+
+const locale = Localization.footer;
+
 const FooterView = () =>
   <footer className="text-center">
     <div className="footer-above">
       <div className="container">
         <div className="row">
+          <div className="footer-col col-md-4" />
           <div className="footer-col col-md-4">
-            <h3>Location</h3>
-            <p>г. Мінск<br />ст. метро пл. Я. Коласа.</p>
-          </div>
-          <div className="footer-col col-md-4">
-            <h3>Around the Web</h3>
+            <h3>{locale.aroundTheWeb}</h3>
             <ul className="list-inline">
               <li>
                 <a
@@ -38,12 +39,7 @@ const FooterView = () =>
               </li>
             </ul>
           </div>
-          <div className="footer-col col-md-4">
-            <h3>About Freelancer</h3>
-            <p>Freelance is a free to use, open source Bootstrap theme created by <a
-              href="http://startbootstrap.com"
-            >Start Bootstrap</a>.</p>
-          </div>
+          <div className="footer-col col-md-4" />
         </div>
       </div>
     </div>
@@ -51,7 +47,7 @@ const FooterView = () =>
       <div className="container">
         <div className="row">
           <div className="col-lg-12">
-            Copyright &copy; Your Website 2014
+            Copyright &copy; shkola-a.by 2016
           </div>
         </div>
       </div>

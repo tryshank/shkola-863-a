@@ -1,4 +1,7 @@
 import React from 'react';
+import Localization from '../common/Localization';
+
+const locale = Localization.navBar;
 
 const NavigationView = () =>
 
@@ -19,7 +22,9 @@ const NavigationView = () =>
         <a
           className="navbar-brand"
           href="#page-top"
-        >Start Bootstrap</a>
+        >
+          SHKOLA-A
+        </a>
       </div>
       <div
         className="collapse navbar-collapse"
@@ -30,16 +35,16 @@ const NavigationView = () =>
             <a href="#page-top"></a>
           </li>
           <li className="page-scroll active">
-            <a href="#courses">Courses</a>
+            <a href="#courses">{locale.courses}</a>
           </li>
           <li className="page-scroll">
-            <a href="#about">About</a>
+            <a href="#about">{locale.about}</a>
           </li>
           <li className="page-scroll">
-            <a href="#howtofind">HowToFind</a>
+            <a href="#howtofind">{locale.howtofind}</a>
           </li>
           <li className="page-scroll">
-            <a href="#contact">Contact</a>
+            <a href="#contact">{locale.contact}</a>
           </li>
         </ul>
       </div>

@@ -1,4 +1,7 @@
 import React from 'react';
+import Localization from '../common/Localization';
+
+const locale = Localization.about;
 
 const AboutView = () =>
   <section
@@ -8,7 +11,7 @@ const AboutView = () =>
     <div className="container">
       <div className="row">
         <div className="col-lg-12 text-center">
-          <h2>About</h2>
+          <h2>{locale.title}</h2>
           <hr
             className="star-light"
           />

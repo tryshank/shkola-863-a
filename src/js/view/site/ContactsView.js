@@ -3,8 +3,10 @@ import { connect } from 'react-redux';
 import * as ActionCreators from '../../redux/actions/ActionCreators';
 import { bindActionCreators } from 'redux';
 import * as Contacts from '../../redux/constants/Constants';
+import Localization from '../common/Localization';
 
 const emailCheckRegex = /[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}/;
+const locale = Localization.contactMe;
 
 class ContactsView extends React.Component {
 
@@ -94,7 +96,7 @@ class ContactsView extends React.Component {
         <div className="container">
           <div className="row">
             <div className="col-lg-12 text-center">
-              <h2>Contact Me</h2>
+              <h2>{locale.title}</h2>
               <hr
                 className="star-primary"
               />
@@ -115,7 +117,7 @@ class ContactsView extends React.Component {
                       type="text"
                       value={this.state.name}
                       className="form-control"
-                      placeholder="Name"
+                      placeholder={locale.name}
                       id="name"
                       required
                       data-validation-required-message="Please enter your name."
@@ -123,7 +125,7 @@ class ContactsView extends React.Component {
                     />
                     <p className="help-block text-danger">
                       {this.state.errorFields.find(f => f === 'name') ?
-                        <ul role="alert"><li>Please enter your name.</li></ul> : null}
+                        <ul role="alert"><li>{locale.hintName}</li></ul> : null}
                     </p>
                   </div>
                 </div>
@@ -134,7 +136,7 @@ class ContactsView extends React.Component {
                       type="email"
                       value={this.state.email}
                       className="form-control"
-                      placeholder="Email Address"
+                      placeholder={locale.email}
                       id="email"
                       required
                       data-validation-required-message="Please enter your valid email address."
@@ -142,7 +144,7 @@ class ContactsView extends React.Component {
                     />
                     <p className="help-block text-danger">
                       {this.state.errorFields.find(f => f === 'email') ?
-                        <ul role="alert"><li>Please enter your email address.</li></ul> : null}
+                        <ul role="alert"><li>{locale.email}</li></ul> : null}
                     </p>
                   </div>
                 </div>
@@ -153,7 +155,7 @@ class ContactsView extends React.Component {
                       type="tel"
                       value={this.state.phone}
                       className="form-control"
-                      placeholder="Phone Number"
+                      placeholder={locale.phone}
                       id="phone"
                       required
                       data-validation-required-message="Please enter your phone number."
@@ -161,7 +163,7 @@ class ContactsView extends React.Component {
                     />
                     <p className="help-block text-danger">
                       {this.state.errorFields.find(f => f === 'phone') ?
-                        <ul role="alert"><li>Please enter your phone number.</li></ul> : null}
+                        <ul role="alert"><li>{locale.hintPhone}</li></ul> : null}
                     </p>
                   </div>
                 </div>
@@ -171,7 +173,7 @@ class ContactsView extends React.Component {
                     <textarea
                       rows="5"
                       className="form-control"
-                      placeholder="Message"
+                      placeholder={locale.message}
                       id="message"
                       value={this.state.message}
                       required
@@ -180,7 +182,7 @@ class ContactsView extends React.Component {
                     ></textarea>
                     <p className="help-block text-danger">
                       {this.state.errorFields.find(f => f === 'message') ?
-                        <ul role="alert"><li>Please enter a message.</li></ul> : null}
+                        <ul role="alert"><li>{locale.hintMessage}</li></ul> : null}
                     </p>
                   </div>
                 </div>
@@ -214,7 +216,8 @@ class ContactsView extends React.Component {
                       type="submit"
                       className="btn btn-success btn-lg"
                       disabled={this.state.disableSubmit}
-                    >Send
+                    >
+                      {locale.send}
                     </button>
                   </div>
                 </div>
