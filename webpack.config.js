@@ -17,8 +17,8 @@ var productionPlugins = isHot ? [] : [
   new webpack.optimize.UglifyJsPlugin(),
   new webpack.DefinePlugin({
     'process.env': {
-      'NODE_ENV': JSON.stringify('production')
-    }
+      'NODE_ENV': JSON.stringify('production'),
+    },
   }),
 ];
 
@@ -26,14 +26,19 @@ module.exports = [
   {
     name: 'client side, output to ./server/client',
     context: __dirname + '/src',
-    entry: [ './js/shkola.js',
-      'webpack/hot/dev-server'
-    ],
-
+    entry: {
+      home: './js/shkola.js',
+      vendor: [
+        'bootstrap', 'bootstrap-less', 'jquery', 'classie',
+        'react', 'react-dom', 'react-redux', 'react-modal', 'react-router', 'react-google-maps',
+        'redux',
+      ],
+      // webpack: 'webpack/hot/dev-server',
+    },
     output: {
+      path: __dirname + '/server/client',
       filename: 'bundle.js',
       publicPath: `${host}:${port}/assets/`,
-      path: __dirname + '/server/client',
     },
     plugins: productionPlugins.concat([
       new HandlebarsPlugin({
@@ -42,6 +47,7 @@ module.exports = [
         data: { bundleHost: `${host}:${port}/assets/` },
       }),
       new ExtractTextPlugin('bundle.css'),
+      new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js'),
     ]),
     styleLoader:
       require('extract-text-webpack-plugin').extract('style-loader', 'css-loader!less-loader'),
