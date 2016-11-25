@@ -130,6 +130,10 @@ class AdminCoursesItemEditorView extends Component {
   };
 
   render() {
+    const activeCourse = this.state.activeCourseId && this.state.activeCourse;
+    if (!activeCourse) {
+      return (<div />);
+    }
     return (
       <MuiThemeProvider>
         <div>
@@ -138,7 +142,7 @@ class AdminCoursesItemEditorView extends Component {
               label="Show course in courses list on the client page"
               style={checkbox}
               onCheck={this.checkVisible}
-              checked={(this.state.activeCourseId && this.state.activeCourse) ?
+              checked={(activeCourse) ?
             this.state.activeCourse.visible : false}
             />
             <TextField
@@ -161,7 +165,7 @@ class AdminCoursesItemEditorView extends Component {
               inputStyle={{ cursor: 'default', visibility: 'hidden' }}
             />
             <TinyMCE
-              content={(this.state.activeCourseId && this.state.activeCourse) ?
+              content={(activeCourse) ?
               this.state.activeCourse.content : ''}
               config={{
                 plugins: 'autolink link image lists preview textcolor',
