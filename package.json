@@ -84,7 +84,7 @@
     "react-modal": "^1.4.0",
     "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
-    "react-tap-event-plugin": "^1.0.0",
+    "react-tap-event-plugin": "^2.0.0",
     "react-tinymce": "git+https://github.com/JasonTolliver/react-tinymce.git#cc24267d45c2ba106c036a5f65893bea66fb30ec",
     "redux": "^3.5.2",
     "redux-actions": "^0.10.1",
