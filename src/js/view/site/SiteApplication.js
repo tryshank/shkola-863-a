@@ -6,6 +6,7 @@ import HowToFindView from './HowToFindView';
 import ContactView from './ContactsView';
 import CoursesViewWrapper from './CoursesView';
 import CourseModal from './CourseModal';
+import CTCoursesViewWrapper from './CTCoursesView';
 import * as ActionCreators from '../../redux/actions/ActionCreators';
 import { connect } from 'react-redux';
 
@@ -39,6 +40,7 @@ class SiteApplication extends React.Component {
             <div>
               <NavigationView />
               <CoursesViewWrapper />
+              <CTCoursesViewWrapper />
               <AboutView />
               <HowToFindView />
               <ContactView />
@@ -69,8 +71,9 @@ SiteApplication.propTypes = {
 const mapStateToProps = (state) =>
   ({ coursesData: state.coursesData });
 
+
 const mapDispatchToProps = (dispatch) =>
-  ({ getCoursesDispatcher: (type) => dispatch(ActionCreators.getCoursesAction(type)) });
+  ({ getCoursesDispatcher: (type) => dispatch(ActionCreators.getCoursesAction(type))});
 
 const SiteApplicationWrapper = connect(mapStateToProps, mapDispatchToProps)(SiteApplication);
 

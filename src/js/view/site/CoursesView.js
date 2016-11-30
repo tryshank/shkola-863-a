@@ -44,7 +44,7 @@ class CoursesView extends React.Component {
   }
 
   render() {
-    const coursesData = this.props.coursesData.filter(courseItem => courseItem.visible);
+    const coursesData = this.props.coursesData.filter(courseItem => courseItem.visible && !courseItem.isCT);
     return (
       <section id="courses">
         <div className="container">

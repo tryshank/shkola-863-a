@@ -38,6 +38,9 @@ const NavigationView = () =>
             <a href="#courses">{locale.courses}</a>
           </li>
           <li className="page-scroll">
+            <a href="#ctcourses">{locale.ctcourses}</a>
+          </li>
+          <li className="page-scroll">
             <a href="#about">{locale.about}</a>
           </li>
           <li className="page-scroll">

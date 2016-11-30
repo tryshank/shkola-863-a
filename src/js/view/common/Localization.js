@@ -4,12 +4,16 @@ const localization = new LocalizedStrings({
   en: {
     navBar: {
       courses: 'courses',
+      ctcourses: 'CT Preparation',
       about: 'about',
       howtofind: 'howtofind',
       contact: 'contact',
     },
     courses: {
       title: 'courses',
+    },
+    ctcourses: {
+      title: 'CT Preparation',
     },
     about: {
       title: 'about',
@@ -36,12 +40,16 @@ const localization = new LocalizedStrings({
   by: {
     navBar: {
       courses: 'курсы',
+      ctcourses: 'падрыхтоўка да ЦТ',
       about: 'пра нас',
       howtofind: 'як дабрацца',
       contact: 'кантакты',
     },
     courses: {
       title: 'курсы',
+    },
+    ctcourses: {
+      title: 'падрыхтоўка да ЦТ',
     },
     about: {
       title: 'пра нас',
