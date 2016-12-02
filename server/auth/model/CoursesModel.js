@@ -10,7 +10,7 @@ const schema = new mongoose.Schema({
   service: String,
   link: String,
   visible: Boolean,
-  isCT: Boolean
+  isCT: Boolean,
 });
 
 schema.statics.findById = function findById(_id, cb) {

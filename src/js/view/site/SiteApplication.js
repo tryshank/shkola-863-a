@@ -6,9 +6,11 @@ import HowToFindView from './HowToFindView';
 import ContactView from './ContactsView';
 import CoursesViewWrapper from './CoursesView';
 import CourseModal from './CourseModal';
-import CTCoursesViewWrapper from './CTCoursesView';
 import * as ActionCreators from '../../redux/actions/ActionCreators';
 import { connect } from 'react-redux';
+import Localization from '../common/Localization';
+
+const locale = Localization;
 
 class SiteApplication extends React.Component {
 
@@ -39,8 +41,16 @@ class SiteApplication extends React.Component {
             <CourseModal courseId={this.state.courseId} /> :
             <div>
               <NavigationView />
-              <CoursesViewWrapper />
-              <CTCoursesViewWrapper />
+              <CoursesViewWrapper
+                id="courses"
+                title={locale.courses.title}
+                filter={coursesData => !coursesData.isCT}
+              />
+              <CoursesViewWrapper
+                id="ctcourses"
+                title={locale.ctcourses.title}
+                filter={coursesData => coursesData.isCT}
+              />
               <AboutView />
               <HowToFindView />
               <ContactView />
@@ -71,9 +81,8 @@ SiteApplication.propTypes = {
 const mapStateToProps = (state) =>
   ({ coursesData: state.coursesData });
 
-
 const mapDispatchToProps = (dispatch) =>
-  ({ getCoursesDispatcher: (type) => dispatch(ActionCreators.getCoursesAction(type))});
+  ({ getCoursesDispatcher: (type) => dispatch(ActionCreators.getCoursesAction(type)) });
 
 const SiteApplicationWrapper = connect(mapStateToProps, mapDispatchToProps)(SiteApplication);
 

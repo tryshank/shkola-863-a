@@ -2,9 +2,6 @@ import React from 'react';
 import * as ActionCreators from '../../redux/actions/ActionCreators';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import Localization from '../common/Localization';
-
-const locale = Localization.courses;
 
 const CourseItemView = ({ courseItem }) =>
   <div className="col-sm-4 course-item">
@@ -27,10 +24,10 @@ const CourseItemView = ({ courseItem }) =>
     </Link>
   </div>;
 
+
 CourseItemView.propTypes = {
   courseItem: React.PropTypes.object.isRequired,
 };
-
 
 class CoursesView extends React.Component {
 
@@ -44,13 +41,14 @@ class CoursesView extends React.Component {
   }
 
   render() {
-    const coursesData = this.props.coursesData.filter(courseItem => courseItem.visible && !courseItem.isCT);
+    const coursesData = this.props.coursesData.filter(courseItem => courseItem.visible);
+
     return (
-      <section id="courses">
+      <section id={this.props.id}>
         <div className="container">
           <div className="row">
             <div className="col-lg-12 text-center">
-              <h2>{locale.title}</h2>
+              <h2>{this.props.title.toUpperCase()}</h2>
               <hr
                 className="star-primary"
               />
@@ -61,7 +59,9 @@ class CoursesView extends React.Component {
               <CourseItemView
                 key={itemData._id}
                 courseItem={itemData}
+                filter=""
               />)
+
           }
           </div>
         </div>
@@ -73,10 +73,12 @@ class CoursesView extends React.Component {
 CoursesView.propTypes = {
   coursesData: React.PropTypes.array.isRequired,
   getCoursesDispatcher: React.PropTypes.func,
+  id: React.PropTypes.string,
+  title: React.PropTypes.string,
 };
 
-const mapStateToProps = (state) =>
-  ({ coursesData: state.coursesData });
+const mapStateToProps = (state, ownProps) =>
+  ({ coursesData: state.coursesData.filter(ownProps.filter) });
 
 const mapDispatchToProps = (dispatch) =>
   ({ getCoursesDispatcher: (type) => dispatch(ActionCreators.getCoursesAction(type)) });

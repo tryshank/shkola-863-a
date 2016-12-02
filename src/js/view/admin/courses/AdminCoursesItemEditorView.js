@@ -124,45 +124,35 @@ class AdminCoursesItemEditorView extends Component {
   checkVisible = (e, checked) => {
     this.setState({
       ...this.state,
-      activeCourse: {
-        ...this.state.activeCourse, visible: checked,
-      },
+      activeCourse: { ...this.state.activeCourse, visible: checked },
     });
   };
 
   checkIsCT = (e, checked) => {
     this.setState({
       ...this.state,
-      activeCourse: {
-        ...this.state.activeCourse, isCT: checked,
-      },
+      activeCourse: { ...this.state.activeCourse, isCT: checked },
     });
   };
 
   render() {
     const activeCourse = this.state.activeCourseId && this.state.activeCourse;
-    if (!activeCourse) {
-      return (<div />);
-    }
+    if (!activeCourse) { return (<div />); }
     return (
       <MuiThemeProvider>
         <div>
           <div>
             <Checkbox
               label="Show course in courses list on the client page"
-              id="visible"
               style={checkbox}
               onCheck={this.checkVisible}
-              checked={(activeCourse) ?
-            this.state.activeCourse.visible : false}
+              checked={(activeCourse) ? this.state.activeCourse.visible : false}
             />
             <Checkbox
-                label="Is this course for CT?"
-                id="isCT"
-                style={checkbox}
-                onCheck={this.checkIsCT}
-                checked={(activeCourse) ?
-             this.state.activeCourse.isCT : false}
+              label="Is this course for CT?"
+              style={checkbox}
+              onCheck={this.checkIsCT}
+              checked={(activeCourse) ? this.state.activeCourse.isCT : false}
             />
             <TextField
               value={this.state.activeCourseId ? this.state.activeCourse.title : ''}
@@ -261,7 +251,6 @@ class AdminCoursesItemEditorView extends Component {
     );
   }
 }
-
 
 AdminCoursesItemEditorView.propTypes = {
   actions: React.PropTypes.shape({
