@@ -162,3 +162,35 @@ export const saveSettings = (settings, initialState) => {
   }, (err) =>
     ({ result: false, err }));
 };
+
+
+export const getAboutText = () => {
+  const init = { method: 'get', cache: 'no-store',
+    headers: { 'Cache-Control': 'no-cache' } };
+  return fetch(new Request('/api/about', init), init).then((response) => {
+    console.log(response.json);
+    if (response.ok) {
+      return response.json();
+    }
+    throw new Error(response.status);
+  })
+      .catch((error) => {
+        throw new Error(
+            'There has been a problem with fetch operation: ' & (error.message || 'unknown')
+        );
+      });
+};
+
+
+export const saveAbout = (about) => {
+  const init = { method: 'post', headers: setHeaders(), credentials: 'include',
+    body: JSON.stringify(about),
+  };
+  return fetch(new Request('/api/about', init)).then((res) => {
+    if (res.ok) {
+      return res.json();
+    }
+    return { result: false, err: null };
+  }, (err) =>
+      ({ result: false, err }));
+};

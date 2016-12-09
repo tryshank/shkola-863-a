@@ -36,6 +36,10 @@ const localization = new LocalizedStrings({
     footer: {
       aroundTheWeb: 'around the web',
     },
+    buttons: {
+      closeBtn: 'Close',
+    },
+
   },
   by: {
     navBar: {
@@ -71,6 +75,9 @@ const localization = new LocalizedStrings({
     },
     footer: {
       aroundTheWeb: 'мы ў сац. сетках',
+    },
+    buttons: {
+      closeBtn: 'Закрыць',
     },
   },
 });

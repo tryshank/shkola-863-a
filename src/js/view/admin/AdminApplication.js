@@ -5,6 +5,7 @@ import Divider from 'material-ui/Divider';
 import Courses from 'material-ui/svg-icons/communication/import-contacts';
 import Tutors from 'material-ui/svg-icons/social/people';
 import Settings from 'material-ui/svg-icons/action/settings';
+import About from 'material-ui/svg-icons/editor/short-text';
 import { Link } from 'react-router';
 import AdminDialogWrapper from './AdminDialogView';
 
@@ -39,6 +40,14 @@ const AdminApplication = props => {
                   icon={<Courses />}
                   style={style}
                   containerElement={<Link to={'/admin/course/'} />}
+                />
+                <RaisedButton
+                  label={pathname.indexOf('about') >= 0 ? '> About <' : 'About'}
+                  icon={<About />}
+                  style={style}
+                  backgroundColor="#197e50"
+                  labelColor="#ffffff"
+                  containerElement={<Link to={'/admin/about/'} />}
                 />
                 <RaisedButton
                   label="Tutors"

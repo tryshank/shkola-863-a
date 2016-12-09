@@ -29,9 +29,11 @@ class SiteApplication extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     this.state = {
-      ...this.state, courseId: nextProps.params.courseId,
+      ...this.state,
+      courseId: nextProps.params.courseId,
     };
   }
+
 
   render() {
     return (
@@ -79,10 +81,14 @@ SiteApplication.propTypes = {
 };
 
 const mapStateToProps = (state) =>
-  ({ coursesData: state.coursesData });
+  ({
+    coursesData: state.coursesData,
+  });
 
 const mapDispatchToProps = (dispatch) =>
-  ({ getCoursesDispatcher: (type) => dispatch(ActionCreators.getCoursesAction(type)) });
+  ({
+    getCoursesDispatcher: (type) => dispatch(ActionCreators.getCoursesAction(type)),
+  });
 
 const SiteApplicationWrapper = connect(mapStateToProps, mapDispatchToProps)(SiteApplication);
 

@@ -2,6 +2,9 @@ import React, { PropTypes } from 'react';
 import Modal from 'react-modal';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
+import Localization from '../common/Localization';
+
+const locale = Localization;
 
 const CloseModal = () => (
   <Link to="/">
@@ -49,26 +52,14 @@ const CourseModal = ({ courseItem }) => {
                     alt=""
                   />
                   <p dangerouslySetInnerHTML={{ __html: courseItem.content }}></p>
-                  <ul className="list-inline item-details">
-                    <li>Client:
-                      <strong><a href={courseItem.link}>{courseItem.client}</a>
-                      </strong>
-                    </li>
-                    <li>Date:
-                      <strong><a href={courseItem.link}>{courseItem.date}</a>
-                      </strong>
-                    </li>
-                    <li>Service:&nbsp;
-                      <strong><a href={courseItem.link}>{courseItem.service}</a>
-                      </strong>
-                    </li>
-                  </ul>
                   <Link to="/">
                     <button
                       type="button"
                       className="btn btn-default"
                       data-dismiss="modal"
-                    ><i className="fa fa-times"></i> Close
+                    >
+                      <i className="fa fa-times"></i>
+                      {locale.buttons.closeBtn}
                     </button>
                   </Link>
                 </div>

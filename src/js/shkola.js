@@ -114,6 +114,11 @@ ReactDOM.render((
           getComponent={loadRoute('./view/admin/AdminSettingsView.js')}
           onEnter={requireAuth}
         />
+        <Route
+          path="about"
+          getComponent={loadRoute('./view/admin/AdminAboutView.js')}
+          onEnter={requireAuth}
+        />
       </Route>
       <Route path="/(:courseId)" component={SiteApplication} />
     </Router>

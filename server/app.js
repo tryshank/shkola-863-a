@@ -51,6 +51,10 @@ app.use((req, res, next) => {
   next();
 });
 
+// About routes
+const AboutRoute = require('./auth/route/AboutRoute');
+app.use('/api/about', AboutRoute);
+
 // Client routes
 const CourseRoute = require('./auth/route/CourseRoute');
 app.use('/api/course', CourseRoute);

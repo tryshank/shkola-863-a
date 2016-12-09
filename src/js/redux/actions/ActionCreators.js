@@ -20,5 +20,9 @@ export const getSettingsMail = createAction(Constants.ACTION_GET_SETTINGS_MAIL,
   WebAPI.getSettingsMail);
 export const saveSettings = createAction(Constants.ACTION_SAVE_SETTINGS,
   WebAPI.saveSettings);
+export const getAboutText = createAction(Constants.ACTION_GET_ABOUT_TEXT,
+  WebAPI.getAboutText);
+export const saveAbout = createAction(Constants.ACTION_SAVE_ABOUT,
+  WebAPI.saveAbout);
 
 export const orderCourseAction = createAction(Constants.ACTION_COURSE_ORDER, WebAPI.orderCourses);
